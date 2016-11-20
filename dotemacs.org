@@ -1,0 +1,95 @@
+* About
+  This is my emacs config file.
+  Writing it in a .org file makes it easier to organize, and gives me a +20% bonus in coolness.
+  Here is a useful link : [[http://thewanderingcoder.com/2015/02/literate-emacs-configuration/][Literate Emacs Configuration]]
+* Theme
+  #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/theme-config.el
+  (custom-set-variables
+    '(ansi-color-faces-vector
+    [default default default italic underline success warning error])
+    '(custom-enabled-themes (quote (tango-dark))))
+  (custom-set-faces)
+#+END_SRC
+* Display settings
+  #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/display-config.el
+  ;; (set-language-environment "UTF-8")
+  (setq inhibit-startup-message t)
+  (column-number-mode t)
+  (display-time-mode t)
+  #+END_SRC
+* Window moves
+  #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/windmove-config.el
+  (global-set-key (kbd "C-x <up>") 'windmove-up)
+  (global-set-key (kbd "C-x <down>") 'windmove-down)
+  (global-set-key (kbd "C-x <right>") 'windmove-right)
+  (global-set-key (kbd "C-x <left>") 'windmove-left)
+  #+END_SRC
+* Orgmode
+  - Ajouter date lors de la l'achèvement d'une tâche
+    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
+    (setq org-log-done 'time)
+    #+END_SRC
+
+
+# ;; Fichier de configuration géré par customize
+# ;; (setq custom-file "~/.emacs-custom.el")
+# ;; ;; (setq custom-file "~/.emacs.d/ob-plantuml.el")
+# ;; (load custom-file)
+
+# ;; ;; Chargement du mode Ino
+# ;; (autoload 'arduino-mode "arduino-mode" "Arduino editing mode." t)
+# ;; (add-to-list 'auto-mode-alist '("\.ino$" . arduino-mode))
+
+# ;; ;; Chargement du mode AucTex
+# ;; (load "auctex.el" nil t t)
+
+# ;; Chargement du mode PHP
+# ;; (autoload 'php-mode "php-mode" "Major mode for editing php code." t)
+# ;; (add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
+# ;; (add-to-list 'auto-mode-alist '("\\.inc$" . php-mode))
+# ;; Instructions given after update (yaourt -Syua)
+# ;; (autoload 'php-mode "php-mode.el" "Php mode." t)
+# ;; (setq auto-mode-alist (append '(("/.*\.php[345]?\'" . php-mode)) auto-mode-alist))
+
+# ;; Affichage
+# ;;(menu-bar-mode -1) enlever barre de menu
+# ;;(tool-bar-mode -1) envelever barre d'outils
+# ;;(scroll-bar-mode -1) enlever la barre de défilement
+
+# ;;(setq truncate-partial-width-windows nil) pour les probleme de troncature lors du split vertical en mode plein écran
+# ;;(setq ring-bell-function 'ignore) pour désactiver la sonnette
+# p
+# ;; Raccourcis
+# ;;(global-set-key (kbd "C-c h") 'replace-string) placer une chaine depuis un buffer
+# ;;(global-set-key (kbd "C-c j") 'replace-regexp) pareil, mais avec les regexp
+# ;; (global-set-key (kbd "C-c o") 'bury-buffer)
+# ;; (global-set-key (kbd "C-c k") 'kill-this-buffer)
+# ;;(global-set-key (kbd "C-c c") 'compile) compile avec make
+# ;;(global-set-key (kbd "C-c g") 'gdb) lance le débogueur gdb
+
+# ;; (load-library "iso-transl")		;Permet d'utiliser les accents circonflexe entre autres
+
+# ;; ;; Auto Completion
+# ;; (add-to-list 'load-path "/usr/share/emacs/site-lisp/auto-complete")
+# ;; (require 'auto-complete-config)
+# ;; (add-to-list 'ac-dictionary-directories "/usr/share/emacs/site-lisp/auto-complete/ac-dict")
+# ;; (ac-config-default)
+ 
+# ;; ;; scroll one line at a time (less "jumpy" than defaults)
+# ;; (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
+# ;; (setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
+# ;; (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
+# ;; (setq scroll-step 1) ;; keyboard scroll one line at a time
+* Init
+  The content of the init.el file.
+  This is at the end of this document so that all other .el files are created before trying to load them.
+  #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
+  (package-initialize)
+  (load-file "~/.emacs.d/theme-config.el")
+  (load-file "~/.emacs.d/display-config.el")
+  (load-file "~/.emacs.d/orgmode-config.el")
+  (load-file "~/.emacs.d/windmove-config.el")
+  #+END_SRC
+
+
+  
