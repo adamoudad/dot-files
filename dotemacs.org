@@ -2,6 +2,27 @@
   This is my emacs config file.
   Writing it in a .org file makes it easier to organize, and gives me a +20% bonus in coolness.
   Here is a useful link : [[http://thewanderingcoder.com/2015/02/literate-emacs-configuration/][Literate Emacs Configuration]]
+* Packages
+** Package repositories
+   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/package-config.el
+   (require 'package)
+   (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+   #+END_SRC
+** Default packages
+   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/package-config.el
+   (defvar adam/packages '(ox-reveal auctex) "Default packages")
+   #+END_SRC
+** Install packages
+   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/package-config.el
+   (defun adam/packages-installed-p ()
+     (cl-every 'package-installed-p adam/packages))
+   (unless (adam/packages-installed-p)
+     (message "%s" "Refreshing package database...")
+     (package-refresh-contents)
+     (dolist (pkg adam/packages)
+        (when (not (package-installed-p pkg))
+          (package-install pkg))))
+   #+END_SRC
 * Theme
   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/theme-config.el
   (custom-set-variables
@@ -85,6 +106,7 @@
   This is at the end of this document so that all other .el files are created before trying to load them.
   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (package-initialize)
+  (load-file "~/.emacs.d/package-config.el")
   (load-file "~/.emacs.d/theme-config.el")
   (load-file "~/.emacs.d/display-config.el")
   (load-file "~/.emacs.d/orgmode-config.el")
