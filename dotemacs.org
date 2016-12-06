@@ -50,7 +50,10 @@
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
     (setq org-log-done 'time)
     #+END_SRC
-
+  - Ajouter export vers reveal.js
+    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
+    (require 'ox-reveal)
+    #+END_SRC
 
 # ;; Fichier de configuration géré par customize
 # ;; (setq custom-file "~/.emacs-custom.el")
