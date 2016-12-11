@@ -54,6 +54,10 @@
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
     (require 'ox-reveal)
     #+END_SRC
+  - Line Wrapping même dans orgmode
+    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
+    (setq org-startup-truncated nil)
+    #+END_SRC
 
 # ;; Fichier de configuration géré par customize
 # ;; (setq custom-file "~/.emacs-custom.el")
