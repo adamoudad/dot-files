@@ -1,0 +1,11 @@
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Python
+*.pyc
+
+# Sphinx documentation
+docs/_build/
+
+# Emacs
+*~
