@@ -53,6 +53,7 @@
   - Ajouter export vers reveal.js
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
     (require 'ox-reveal)
+    (require 'ox-beamer)
     #+END_SRC
   - Line Wrapping même dans orgmode
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el

@@ -9,3 +9,21 @@ docs/_build/
 
 # Emacs
 *~
+
+# LaTeX
+*.log
+*.toc
+*.aux
+*.snm
+*.out
+
+# Bibliography
+*.blg
+*.bbl
+*.bcf
+*.run.xml
+*-blx.bib
+
+# Beamer
+*.nav
+*.vrb
