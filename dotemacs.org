@@ -25,12 +25,30 @@
    #+END_SRC
 * Theme
   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/theme-config.el
-  (custom-set-variables
-    '(ansi-color-faces-vector
-    [default default default italic underline success warning error])
-    '(custom-enabled-themes (quote (tango-dark))))
-  (custom-set-faces)
-#+END_SRC
+    (custom-set-variables
+     '(ansi-color-faces-vector
+       [default default default italic underline success warning error])
+     '(custom-enabled-themes (quote (tango-dark))))
+    (custom-set-faces)
+  #+END_SRC
+  Fonts (http://www.xiangji.me/2015/07/13/a-few-of-my-org-mode-customizations/)
+  #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/theme-config.el
+    '(variable-pitch ((t (:family "DejaVu Sans Mono" :height 160))))
+    (defun set-buffer-variable-pitch ()
+      (interactive)
+      (variable-pitch-mode t)
+      (setq line-spacing 2)
+      (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
+      (set-face-attribute 'org-code nil :inherit 'fixed-pitch)
+      (set-face-attribute 'org-block nil :inherit 'fixed-pitch)
+      (set-face-attribute 'org-block-background nil :inherit 'fixed-pitch)
+      )
+
+    (add-hook 'org-mode-hook 'set-buffer-variable-pitch)
+    (add-hook 'eww-mode-hook 'set-buffer-variable-pitch)
+    (add-hook 'markdown-mode-hook 'set-buffer-variable-pitch)
+    (add-hook 'Info-mode-hook 'set-buffer-variable-pitch)
+  #+END_SRC
 * Display settings
   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/display-config.el
   ;; (set-language-environment "UTF-8")
