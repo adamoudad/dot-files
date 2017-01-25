@@ -10,7 +10,7 @@
    #+END_SRC
 ** Default packages
    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/package-config.el
-   (defvar adam/packages '(ox-reveal auctex) "Default packages")
+   (defvar adam/packages '(ox-reveal auctex markdown-mode) "Default packages")
    #+END_SRC
 ** Install packages
    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/package-config.el
@@ -31,7 +31,7 @@
      '(custom-enabled-themes (quote (tango-dark))))
     (custom-set-faces)
   #+END_SRC
-  Fonts (http://www.xiangji.me/2015/07/13/a-few-of-my-org-mode-customizations/)
+  Fonts [fn:fonts]
   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/theme-config.el
     '(variable-pitch ((t (:family "DejaVu Sans Mono" :height 160))))
     (defun set-buffer-variable-pitch ()
@@ -138,6 +138,10 @@
   (load-file "~/.emacs.d/orgmode-config.el")
   (load-file "~/.emacs.d/windmove-config.el")
   #+END_SRC
+
+* Footnotes
+
+[fn:fonts] http://www.xiangji.me/2015/07/13/a-few-of-my-org-mode-customizations/
 
 
   
