@@ -27,3 +27,8 @@ docs/_build/
 # Beamer
 *.nav
 *.vrb
+
+# Jekyll
+_site/
+.sass-cache/
+_posts/
