@@ -77,7 +77,12 @@
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
     (setq org-startup-truncated nil)
     #+END_SRC
-
+  - TODO states
+    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
+    (setq org-todo-keywords
+    '((sequence "TODO(t)" "|" "DONE(d)")
+    (sequence "|" "CANCELED(c)")))
+    #+END_SRC
 # ;; Fichier de configuration géré par customize
 # ;; (setq custom-file "~/.emacs-custom.el")
 # ;; ;; (setq custom-file "~/.emacs.d/ob-plantuml.el")
