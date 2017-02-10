@@ -10,7 +10,7 @@
    #+END_SRC
 ** Default packages
    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/package-config.el
-   (defvar adam/packages '(ox-reveal auctex markdown-mode) "Default packages")
+   (defvar adam/packages '(ox-reveal auctex markdown-mode ledger-mode) "Default packages")
    #+END_SRC
 ** Install packages
    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/package-config.el
