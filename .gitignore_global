@@ -31,4 +31,4 @@ docs/_build/
 # Jekyll
 _site/
 .sass-cache/
-_posts/
+Gemfile.lock
