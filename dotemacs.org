@@ -74,6 +74,7 @@
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
     (require 'ox-reveal)
     (require 'ox-beamer)
+    (require 'ox-bibtex)
     #+END_SRC
   - Line Wrapping même dans orgmode
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
