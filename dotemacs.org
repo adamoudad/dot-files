@@ -134,6 +134,19 @@
 # ;; (setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
 # ;; (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
 # ;; (setq scroll-step 1) ;; keyboard scroll one line at a time
+** LaTeX
+   Custom classes latex
+   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
+   (add-to-list 'org-latex-classes
+   '("keiothesis"
+   "\\documentclass{keiothesis}"
+   ;; ("\\part{%s}" . "\\part*{%s}")
+   ("\\chapter{%s}" . "\\chapter*{%s}")
+   ("\\section{%s}" . "\\section*{%s}")
+   ("\\subsection{%s}" . "\\subsection*{%s}")
+   ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+   )
+   #+END_SRC
 * Init
   The content of the init.el file.
   This is at the end of this document so that all other .el files are created before trying to load them.
