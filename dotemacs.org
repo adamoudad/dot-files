@@ -167,7 +167,7 @@
   - autopep8 :: Formattage automatique aux PEP8
   - yapf :: Formattage du code
   #+BEGIN_SRC python
-  pip install jedi flake8 importmagic autopep8
+  pip install --user jedi flake8 importmagic autopep8
   #+END_SRC
   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/python-config.el
   (elpy-enable)
