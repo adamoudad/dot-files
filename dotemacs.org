@@ -1,16 +1,22 @@
 * About
   This is my emacs config file.
+  
   Writing it in a .org file makes it easier to organize, and gives me a +20% bonus in coolness.
   Here is a useful link : [[http://thewanderingcoder.com/2015/02/literate-emacs-configuration/][Literate Emacs Configuration]]
+  
+  If you want to use it, just open it in emacs and do ~C-c C-v t~. This will export (/tangle/)) all the code blocks of this file in your =~/.emacs.d/= .
+  
+  Pay attention to some additional things to do, like for python ([[#python]]), you will need python packages that can be installed via ~pip~.
 * Packages
 ** Package repositories
    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/package-config.el
    (require 'package)
    (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+   (add-to-list 'package-archives '("elpy" . "http://jorgenschaefer.github.io/packages/"))
    #+END_SRC
 ** Default packages
    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/package-config.el
-   (defvar adam/packages '(ox-reveal auctex markdown-mode ledger-mode) "Default packages")
+   (defvar adam/packages '(ox-reveal auctex markdown-mode ledger-mode elpy) "Default packages")
    #+END_SRC
 ** Install packages
    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/package-config.el
@@ -150,6 +156,22 @@
    ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
    )
    #+END_SRC
+* Python
+  :PROPERTIES:
+  :CUSTOM_ID: python
+  :END:
+  Utiliser Elpy[fn:1]. Il faut installer les paquets python suivants.
+  - jedi :: Autocompletion et analyse statique
+  - flake8 :: Vérification du code
+  - importmagic :: Imports automatiques
+  - autopep8 :: Formattage automatique aux PEP8
+  - yapf :: Formattage du code
+  #+BEGIN_SRC python
+  pip install --user jedi flake8 importmagic autopep8
+  #+END_SRC
+  #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/python-config.el
+  (elpy-enable)
+  #+END_SRC
 * Init
   The content of the init.el file.
   This is at the end of this document so that all other .el files are created before trying to load them.
@@ -160,9 +182,12 @@
   (load-file "~/.emacs.d/display-config.el")
   (load-file "~/.emacs.d/orgmode-config.el")
   (load-file "~/.emacs.d/windmove-config.el")
+  (load-file "~/.emacs.d/python-config.el")
   #+END_SRC
 
 * Footnotes
+
+[fn:1] https://github.com/jorgenschaefer/elpy
 
 [fn:fonts] http://www.xiangji.me/2015/07/13/a-few-of-my-org-mode-customizations/
 
