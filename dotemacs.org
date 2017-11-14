@@ -11,7 +11,7 @@
 ** Package repositories
    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/package-config.el
    (require 'package)
-   (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
    (add-to-list 'package-archives '("elpy" . "http://jorgenschaefer.github.io/packages/"))
    #+END_SRC
 ** Default packages
