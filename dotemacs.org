@@ -184,7 +184,12 @@
   (load-file "~/.emacs.d/windmove-config.el")
   (load-file "~/.emacs.d/python-config.el")
   #+END_SRC
-
+* More
+  More information on orgmode.
+  - http://mescal.imag.fr/membres/arnaud.legrand/misc/init.php
+  - https://www.emacswiki.org/emacs/OrgDotemacs
+  - http://doc.norang.ca/org-mode.html
+  - http://kychoi.org/blog/2014/07/09/Dotemacs-In-Org
 * Footnotes
 
 [fn:1] https://github.com/jorgenschaefer/elpy
