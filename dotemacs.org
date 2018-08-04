@@ -94,6 +94,12 @@
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
     (setq org-latex-pdf-process (list "latexmk -pdf %f"))
     #+END_SRC
+  - Org-babel evaluation languages
+    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
+      (org-babel-do-load-languages
+       'org-babel-load-languages
+       '((dot . t)))
+    #+END_SRC
 # ;; Fichier de configuration géré par customize
 # ;; (setq custom-file "~/.emacs-custom.el")
 # ;; ;; (setq custom-file "~/.emacs.d/ob-plantuml.el")
