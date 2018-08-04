@@ -16,7 +16,8 @@
    #+END_SRC
 ** Default packages
    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/package-config.el
-   (defvar adam/packages '(ox-reveal auctex markdown-mode ledger-mode elpy htmlize) "Default packages")
+     (defvar adam/packages '(;; ox-reveal commented because is not compatible with newest version of orgmode
+                             auctex markdown-mode ledger-mode elpy htmlize) "Default packages")
    #+END_SRC
 ** Install packages
    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/package-config.el
@@ -76,10 +77,10 @@
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
     (setq org-log-done 'time)
     #+END_SRC
-  - Ajouter export vers reveal.js
+  - Ajouter export avec +reveal.js et+ beamer
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
-    (require 'ox-reveal)
-    (require 'ox-beamer)
+      ;; (require 'ox-reveal)
+      (require 'ox-beamer)
     #+END_SRC
   - Line Wrapping même dans orgmode
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
