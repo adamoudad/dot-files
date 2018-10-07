@@ -163,6 +163,11 @@
    ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
    )
    #+END_SRC
+** Custom templates
+   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
+     (add-to-list 'org-structure-template-alist
+		  '("fig" "#+CAPTION: ?\n#+LABEL: fig:\n#+ATTR_LATEX: \n[[]]"))
+   #+END_SRC
 * Python
   :PROPERTIES:
   :CUSTOM_ID: python
