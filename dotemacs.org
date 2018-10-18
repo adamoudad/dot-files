@@ -17,7 +17,7 @@
 ** Default packages
    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/package-config.el
      (defvar adam/packages '(;; ox-reveal commented because is not compatible with newest version of orgmode
-                             auctex markdown-mode ledger-mode elpy htmlize) "Default packages")
+                             auctex markdown-mode ledger-mode elpy htmlize edit-server) "Default packages")
    #+END_SRC
 ** Install packages
    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/package-config.el
@@ -186,6 +186,12 @@
   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/python-config.el
   (elpy-enable)
   #+END_SRC
+* Firefox
+  Edit textarea thanks to the /Edit with Emacs/[fn:2] extension
+  #+BEGIN_SRC  emacs-lisp :tangle ~/.emacs.d/firefox-config.el
+  (require 'edit-server)
+  ;; (edit-server-start) ;; For starting the edit server (disabled)
+  #+END_SRC
 * Init
   The content of the init.el file.
   This is at the end of this document so that all other .el files are created before trying to load them.
@@ -205,6 +211,8 @@
   - http://doc.norang.ca/org-mode.html
   - http://kychoi.org/blog/2014/07/09/Dotemacs-In-Org
 * Footnotes
+
+[fn:2] https://addons.mozilla.org/en-US/firefox/addon/edit-with-emacs1/?src=search
 
 [fn:1] https://github.com/jorgenschaefer/elpy
 
