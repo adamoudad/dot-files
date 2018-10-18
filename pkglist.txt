@@ -1,23 +1,26 @@
-emacs
-zsh
-i3
-dmenu
-xorg-xrandr
-xorg-xprop
-xorg-xev
-arandr
-screenfetch
-otf-font-awesome
-pulseaudio
-pavucontrol
-pasystray
-feh
-i3lock-fancy-git
-scrot
-networkmanager
+emacs				# Text editor
+gnome-terminal			# Terminal emulator
+nautilus			# File browser
+zsh				# Shell interpreter
+i3				# Window manager
+dmenu				# Application launcher
+xorg-xrandr			# Monitor configuration
+xorg-xprop			# Display window properties (for configuring i3)
+xorg-xev			# Display input events (for configuring i3)
+arandr				# GUI for xrandr
+screenfetch			# Display information on the system
+xfce4-clipman-plugin		# Clipboard manager
+otf-font-awesome		# Iconic font
+pulseaudio			# Sound system
+pavucontrol			# GUI for pulseaudio
+pasystray			# Tray icon for pulseaudio
+feh				# Set wallpaper
+i3lock-fancy-git		# Lock screen
+scrot				# Screenshot (for i3lock-fancy)
+networkmanager			# Network
 network-manager-applet
-nm-connection-editor
-gpointing-device-settings
-fcitx
-fcitx-mozc
-fcitx-configtool
+nm-connection-editor		# GUI for Network Manager
+gpointing-device-settings	# Mouse and touchpad settings
+fcitx				# Input method framework
+fcitx-mozc			# Input method
+fcitx-configtool		# GUI configuration for fcitx
