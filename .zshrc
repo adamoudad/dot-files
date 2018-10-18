@@ -1,6 +1,7 @@
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/.local/bin:/usr/local/bin:$HOME/.gem/ruby/2.4.0/bin:$HOME/.gem/bin:$PATH
 export GEM_HOME=$HOME/.gem
+export VISUAL=emacs
 # Path to your oh-my-zsh installation.
 ZSH=/usr/share/oh-my-zsh/
 
