@@ -21,3 +21,5 @@ gpointing-device-settings
 fcitx
 fcitx-mozc
 fcitx-configtool
+trash-cli
+ranger
