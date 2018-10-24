@@ -1,6 +1,8 @@
 emacs				# Text editor
 gnome-terminal			# Terminal emulator
 nautilus			# File browser
+rhythmbox			# Music player
+libgpod				# Manage IPods with Rhythmbox
 zsh				# Shell interpreter
 i3-gaps				# Window manager
 dmenu				# Application launcher
