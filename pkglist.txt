@@ -27,3 +27,4 @@ fcitx				# Input method framework
 fcitx-mozc			# Input method
 fcitx-configtool		# GUI configuration for fcitx
 trash-cli			# Command-line trash
+asciinema			# Terminal session recorder
