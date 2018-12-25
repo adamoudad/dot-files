@@ -75,6 +75,16 @@
   (global-set-key (kbd "C-x <left>") 'windmove-left)
   #+END_SRC
 * Edit settings
+  - Backward transpose
+    #+BEGIN_SRC  emacs-lisp :tangle ~/.emacs.d/edit-config.el
+      (global-set-key (kbd "C-S-t")
+		      (lambda () (interactive)
+			(transpose-chars -1)))
+      ;; Sadly this one does not work...
+      ;; (global-set-key (kbd "M-S-t")
+      ;; 		(lambda () (interactive)
+      ;; 		  (transpose-words -1)))
+    #+END_SRC
   - Auto-paired characters
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/edit-config.el
     (electric-pair-mode 1)
