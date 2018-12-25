@@ -182,6 +182,6 @@ exec_always xrandr --output LVDS1 --primary --auto --right-of HDMI1 --output HDM
 exec --no-startup-id fcitx
 exec --no-startup-id nm-applet
 exec --no-startup-id pasystray
-exec --no-startup-id xfce4-clipman
+# exec --no-startup-id xfce4-clipman # Problem with emacs: hangs at "saving clipboard to x clipboard"
 exec_always feh --bg-fill --randomize $wallpaper --bg-fill --randomize $wallpaper
 
