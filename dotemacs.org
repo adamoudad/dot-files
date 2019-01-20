@@ -94,6 +94,10 @@
   ;; (require 'edit-server)
   ;; (edit-server-start) ;; For starting the edit server (disabled)
   #+END_SRC
+  - Emacs server, for continuing emacs session using ssh
+    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/edit-config.el
+    (server-start)
+    #+END_SRC
   - Replace annoying /beep/ sound by visual bell
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/edit-config.el
       (setq visible-bell 1)    
