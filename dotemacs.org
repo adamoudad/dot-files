@@ -17,7 +17,8 @@
 ** Default packages
    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/package-config.el
      (defvar adam/packages '(;; ox-reveal commented because is not compatible with newest version of orgmode
-                             auctex markdown-mode ledger-mode elpy htmlize edit-server yaml-mode) "Default packages")
+			     auctex markdown-mode ;; ledger-mode
+				    elpy htmlize edit-server yaml-mode ein org-ref magit) "Default packages")
    #+END_SRC
 ** Install packages
    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/package-config.el
