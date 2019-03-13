@@ -79,6 +79,10 @@
   (global-set-key (kbd "C-x <right>") 'windmove-right)
   (global-set-key (kbd "C-x <left>") 'windmove-left)
   #+END_SRC
+  - Winner mode
+    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/windmove-config.el
+    (winner-mode 1)
+    #+END_SRC
 * Edit settings
   - Backward transpose
     #+BEGIN_SRC  emacs-lisp :tangle ~/.emacs.d/edit-config.el
