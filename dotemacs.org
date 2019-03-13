@@ -147,6 +147,10 @@
        'org-babel-load-languages
        '((dot . t)))
     #+END_SRC
+  - Speed keys
+    #+BEGIN_SRC elisp :tangle ~/.emacs.d/orgmode-config.el 
+    (setq org-use-speed-commands t)
+    #+END_SRC
 # ;; Fichier de configuration géré par customize
 # ;; (setq custom-file "~/.emacs-custom.el")
 # ;; ;; (setq custom-file "~/.emacs.d/ob-plantuml.el")
