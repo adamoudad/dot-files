@@ -108,6 +108,12 @@
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/edit-config.el
       (setq visible-bell 1)    
     #+END_SRC
+  - Ido mode
+    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/edit-config.el
+      (setq ido-enable-flex-matching t)
+      (setq ido-everywhere t)
+      (ido-mode 1)
+    #+END_SRC
 * Orgmode
   - Ajouter date lors de la l'achèvement d'une tâche
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
