@@ -92,7 +92,8 @@
     #+END_SRC
   - Auto-paired characters
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/edit-config.el
-    (electric-pair-mode 1)
+      (show-paren-mode)
+      (electric-pair-mode 1)
     #+END_SRC
   - Enable editing of textarea with Emacs thanks to the /Edit with Emacs/[fn:2] Firefox extension
   #+BEGIN_SRC  emacs-lisp :tangle ~/.emacs.d/firefox-config.el
