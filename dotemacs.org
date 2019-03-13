@@ -33,11 +33,13 @@
    #+END_SRC
 * Theme
   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/theme-config.el
-    (custom-set-variables
-     '(ansi-color-faces-vector
-       [default default default italic underline success warning error])
-     '(custom-enabled-themes (quote (tango-dark))))
-    (custom-set-faces)
+    (load-theme 'material t)
+    ;; My old theme
+    ;; (custom-set-variables
+    ;;  '(ansi-color-faces-vector
+    ;;    [default default default italic underline success warning error])
+    ;;  '(custom-enabled-themes (quote (tango-dark))))
+    ;; (custom-set-faces)
   #+END_SRC
   Fonts [fn:fonts]
   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/theme-config.el
