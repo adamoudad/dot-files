@@ -151,6 +151,14 @@
     #+BEGIN_SRC elisp :tangle ~/.emacs.d/orgmode-config.el 
     (setq org-use-speed-commands t)
     #+END_SRC
+  - Use minted package for listings in Latex
+    #+BEGIN_SRC elisp :tangle ~/.emacs.d/orgmode-config.el 
+      (setq org-latex-listings 'minted
+	    org-latex-packages-alist '(("" "minted"))
+	    org-latex-pdf-process
+	    '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+	      "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+    #+END_SRC
 # ;; Fichier de configuration géré par customize
 # ;; (setq custom-file "~/.emacs-custom.el")
 # ;; ;; (setq custom-file "~/.emacs.d/ob-plantuml.el")
