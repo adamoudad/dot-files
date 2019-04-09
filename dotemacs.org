@@ -159,6 +159,10 @@
 	    '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
 	      "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
     #+END_SRC
+  - Org-ref
+    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
+    (require 'org-ref)
+    #+END_SRC
 # ;; Fichier de configuration géré par customize
 # ;; (setq custom-file "~/.emacs-custom.el")
 # ;; ;; (setq custom-file "~/.emacs.d/ob-plantuml.el")
