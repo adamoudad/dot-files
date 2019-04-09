@@ -25,6 +25,7 @@ bindsym $mod+Return exec gnome-terminal
 bindsym $mod+Shift+Return exec emacs
 bindsym $mod+Escape exec nautilus
 bindsym $mod+Tab exec firefox
+bindsym $mod+F11 exec rhythmbox
 # start dmenu (a program launcher)
 bindsym $mod+d exec dmenu_run
 # There also is the (new) i3-dmenu-desktop which only displays applications
@@ -89,15 +90,15 @@ bindsym $mod+a focus parent
 #bindsym $mod+d focus child
 
 # set workspace title
-set $workspace1 "1: "
 set $workspace2 "2: "
+set $workspace1 "1: "
 set $workspace3 "3: "
 set $workspace4 "4: "
 set $workspace5 "5: "
 
 # switch to workspace
-bindsym $mod+1 workspace $workspace1
 bindsym $mod+2 workspace $workspace2
+bindsym $mod+1 workspace $workspace1
 bindsym $mod+3 workspace $workspace3
 bindsym $mod+4 workspace $workspace4
 bindsym $mod+5 workspace $workspace5
@@ -108,8 +109,8 @@ bindsym $mod+9 workspace $workspace9
 bindsym $mod+0 workspace $workspace10
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace $workspace1
 bindsym $mod+Shift+2 move container to workspace $workspace2
+bindsym $mod+Shift+1 move container to workspace $workspace1
 bindsym $mod+Shift+3 move container to workspace $workspace3
 bindsym $mod+Shift+4 move container to workspace $workspace4
 bindsym $mod+Shift+5 move container to workspace $workspace5
