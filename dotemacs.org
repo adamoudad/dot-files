@@ -251,6 +251,11 @@
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/dired-config.el
     (setq dired-move-to-trash t)
     #+END_SRC
+* Docview
+  - Auto revert files in Docview
+    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/docview-config.el
+    (add-hook 'doc-view-mode-hook 'auto-revert-mode)
+    #+END_SRC
 * Init
   The content of the init.el file.
   This is at the end of this document so that all other .el files are created before trying to load them.
