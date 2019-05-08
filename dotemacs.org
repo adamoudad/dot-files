@@ -138,8 +138,10 @@
     '((sequence "TODO(t)" "|" "DONE(d)")
     (sequence "|" "CANCELED(c)")))
     #+END_SRC
+    - Use latexmk for latex export. ~-shell-escape~ option is required for =minted= package, though it is not very safe
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
-    (setq org-latex-pdf-process (list "latexmk -pdf %f"))
+      (setq org-latex-pdf-process (list "latexmk -pdf -shell-escape %f"))
+      ;; Add -interaction nonstopmode -output-directory %o %f
     #+END_SRC
   - Org-babel evaluation languages
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
@@ -151,13 +153,10 @@
     #+BEGIN_SRC elisp :tangle ~/.emacs.d/orgmode-config.el 
     (setq org-use-speed-commands t)
     #+END_SRC
-  - Use minted package for listings in Latex
+  - Use minted package for listings in Latex. You need to install pygmentize (python package)
     #+BEGIN_SRC elisp :tangle ~/.emacs.d/orgmode-config.el 
       (setq org-latex-listings 'minted
-	    org-latex-packages-alist '(("" "minted"))
-	    org-latex-pdf-process
-	    '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-	      "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+	    org-latex-packages-alist '(("" "minted")))
     #+END_SRC
   - Org-ref
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
