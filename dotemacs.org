@@ -162,6 +162,10 @@
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
     (require 'org-ref)
     #+END_SRC
+  - Size of preview latex fragments
+    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
+      (setq org-format-latex-options (plist-put org-format-latex-options :scale 3.0))
+    #+END_SRC    
 # ;; Fichier de configuration géré par customize
 # ;; (setq custom-file "~/.emacs-custom.el")
 # ;; ;; (setq custom-file "~/.emacs.d/ob-plantuml.el")
@@ -268,6 +272,7 @@
   (load-file "~/.emacs.d/windmove-config.el")
   (load-file "~/.emacs.d/python-config.el")
   (load-file "~/.emacs.d/dired-config.el")
+  (load-file "~/.emacs.d/docview-config.el")
   #+END_SRC
 * More
   More information on orgmode.
