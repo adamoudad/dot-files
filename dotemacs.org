@@ -163,6 +163,10 @@
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
     (require 'org-ref)
     #+END_SRC
+  - Size of preview latex fragments
+    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
+      (setq org-format-latex-options (plist-put org-format-latex-options :scale 3.0))
+    #+END_SRC    
 # ;; Fichier de configuration géré par customize
 # ;; (setq custom-file "~/.emacs-custom.el")
 # ;; ;; (setq custom-file "~/.emacs.d/ob-plantuml.el")
