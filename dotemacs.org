@@ -18,7 +18,7 @@
    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/package-config.el
      (defvar adam/packages '(;; ox-reveal commented because is not compatible with newest version of orgmode
 			     auctex markdown-mode ;; ledger-mode
-				    elpy htmlize edit-server yaml-mode ein org-ref magit material-theme) "Default packages")
+				    elpy htmlize edit-server yaml-mode ein org-ref magit material-theme easy-jekyll easy-hugo) "Default packages")
    #+END_SRC
 ** Install packages
    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/package-config.el
@@ -259,6 +259,16 @@
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/docview-config.el
     (add-hook 'doc-view-mode-hook 'auto-revert-mode)
     #+END_SRC
+* Executables path
+  - Add ruby gem (easy-jekyll) to ~exec-path~
+    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/path-config.el
+    (setq exec-path (append exec-path '("/home/adam/.gem/ruby/2.6.0/bin")))
+    #+END_SRC
+* Blog
+  - Easy-hugo configuration
+    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/path-config.el
+    (setq easy-hugo-basedir "~/Personal/research-log/")
+    #+END_SRC
 * Init
   The content of the init.el file.
   This is at the end of this document so that all other .el files are created before trying to load them.
@@ -273,6 +283,7 @@
   (load-file "~/.emacs.d/python-config.el")
   (load-file "~/.emacs.d/dired-config.el")
   (load-file "~/.emacs.d/docview-config.el")
+  (load-file "~/.emacs.d/path-config.el")
   #+END_SRC
 * More
   More information on orgmode.
