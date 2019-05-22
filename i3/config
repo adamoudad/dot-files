@@ -187,7 +187,7 @@ for_window [class="Gnome-terminal"] border pixel 1
 for_window [class="Emacs"] border pixel 1
 
 # Gaps
-gaps inner 2
+workspace $workspace3 gaps inner 2
 
 # startup
 exec_always xrandr --output LVDS1 --primary --auto --right-of HDMI1 --output HDMI1 --auto
