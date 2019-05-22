@@ -21,7 +21,7 @@ font pango:DejaVu Sans Mono, Font Awesome 5 Free 9
 floating_modifier $mod
 
 # start a program
-bindsym $mod+Return exec gnome-terminal
+bindsym $mod+Return exec xfce4-terminal
 bindsym $mod+Shift+Return exec emacs
 bindsym $mod+Escape exec nautilus
 bindsym $mod+Tab exec firefox
@@ -183,7 +183,7 @@ assign [class="obs"] $workspace5
 
 # hide window title
 for_window [class="Firefox"] border pixel 1
-for_window [class="Gnome-terminal"] border pixel 1
+for_window [class="Xfce4-terminal"] border pixel 1
 for_window [class="Emacs"] border pixel 1
 
 # Gaps
