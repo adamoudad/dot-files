@@ -266,7 +266,7 @@
 * Dired
   - Move to trash
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/dired-config.el
-    (setq dired-move-to-trash t)
+    (setq delete-by-moving-to-trash t)
     #+END_SRC
 * Docview
   - Auto revert files in Docview
