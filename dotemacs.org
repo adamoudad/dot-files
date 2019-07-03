@@ -18,7 +18,7 @@
    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/package-config.el
      (defvar adam/packages '(;; ox-reveal commented because is not compatible with newest version of orgmode
 			     auctex markdown-mode ;; ledger-mode
-				    elpy htmlize edit-server yaml-mode ein org-ref magit material-theme easy-jekyll easy-hugo) "Default packages")
+				    elpy htmlize edit-server yaml-mode ein org-ref magit material-theme easy-jekyll easy-hugo org-bullets) "Default packages")
    #+END_SRC
 ** Install packages
    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/package-config.el
@@ -165,7 +165,21 @@
   - Size of preview latex fragments
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
       (setq org-format-latex-options (plist-put org-format-latex-options :scale 3.0))
-    #+END_SRC    
+    #+END_SRC
+    - Customizations[fn:3], hide emphasis markup, org-bullets
+      #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
+      (setq org-hide-emphasis-markers t)
+      (add-hook 'org-mode-hook 'org-bullets-mode)
+      (add-hook 'org-mode-hook 'visual-line-mode)
+      #+END_SRC
+    - Activate
+      #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
+      (setq org-default-notes-file (concat org-directory "~/Notes/todo.org"))
+      #+END_SRC
+    - Turn off actual size for inline images
+      #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
+      (setq org-image-actual-width nil)
+      #+END_SRC
 # ;; Fichier de configuration géré par customize
 # ;; (setq custom-file "~/.emacs-custom.el")
 # ;; ;; (setq custom-file "~/.emacs.d/ob-plantuml.el")
