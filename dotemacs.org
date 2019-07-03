@@ -307,6 +307,8 @@
   - http://kychoi.org/blog/2014/07/09/Dotemacs-In-Org
 * Footnotes
 
+[fn:3] https://zzamboni.org/post/beautifying-org-mode-in-emacs/
+
 [fn:2] https://addons.mozilla.org/en-US/firefox/addon/edit-with-emacs1/?src=search
 
 [fn:1] https://github.com/jorgenschaefer/elpy
