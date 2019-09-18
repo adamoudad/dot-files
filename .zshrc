@@ -85,6 +85,7 @@ plugins=(git mercurial virtualenvwrapper)
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 # Switch back L_Control and Caps_Lock
 alias xmodmap-revert="xmodmap ~/Git/dot-files/.Xmodmap-revert"
+alias lineme="chromium --app=chrome-extension://ophjlpahpchlmihnnnihgmmeilfjmjjc/index.html"
 
 ZSH_CACHE_DIR=$HOME/.oh-my-zsh-cache
 if [[ ! -d $ZSH_CACHE_DIR ]]; then
