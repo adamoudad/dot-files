@@ -263,6 +263,10 @@
   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/python-config.el
   (elpy-enable)
   #+END_SRC
+  - Virtual environement setup
+    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/python-config.el
+    (setenv "WORKON_HOME" "~/.anaconda3/envs")
+    #+END_SRC
 * Dired
   - Move to trash
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/dired-config.el
