@@ -181,55 +181,7 @@
       #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
       (setq org-image-actual-width nil)
       #+END_SRC
-# ;; Fichier de configuration géré par customize
-# ;; (setq custom-file "~/.emacs-custom.el")
-# ;; ;; (setq custom-file "~/.emacs.d/ob-plantuml.el")
-# ;; (load custom-file)
 
-# ;; ;; Chargement du mode Ino
-# ;; (autoload 'arduino-mode "arduino-mode" "Arduino editing mode." t)
-# ;; (add-to-list 'auto-mode-alist '("\.ino$" . arduino-mode))
-
-# ;; ;; Chargement du mode AucTex
-# ;; (load "auctex.el" nil t t)
-
-# ;; Chargement du mode PHP
-# ;; (autoload 'php-mode "php-mode" "Major mode for editing php code." t)
-# ;; (add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
-# ;; (add-to-list 'auto-mode-alist '("\\.inc$" . php-mode))
-# ;; Instructions given after update (yaourt -Syua)
-# ;; (autoload 'php-mode "php-mode.el" "Php mode." t)
-# ;; (setq auto-mode-alist (append '(("/.*\.php[345]?\'" . php-mode)) auto-mode-alist))
-
-# ;; Affichage
-# ;;(menu-bar-mode -1) enlever barre de menu
-# ;;(tool-bar-mode -1) envelever barre d'outils
-# ;;(scroll-bar-mode -1) enlever la barre de défilement
-
-# ;;(setq truncate-partial-width-windows nil) pour les probleme de troncature lors du split vertical en mode plein écran
-# ;;(setq ring-bell-function 'ignore) pour désactiver la sonnette
-# p
-# ;; Raccourcis
-# ;;(global-set-key (kbd "C-c h") 'replace-string) placer une chaine depuis un buffer
-# ;;(global-set-key (kbd "C-c j") 'replace-regexp) pareil, mais avec les regexp
-# ;; (global-set-key (kbd "C-c o") 'bury-buffer)
-# ;; (global-set-key (kbd "C-c k") 'kill-this-buffer)
-# ;;(global-set-key (kbd "C-c c") 'compile) compile avec make
-# ;;(global-set-key (kbd "C-c g") 'gdb) lance le débogueur gdb
-
-# ;; (load-library "iso-transl")		;Permet d'utiliser les accents circonflexe entre autres
-
-# ;; ;; Auto Completion
-# ;; (add-to-list 'load-path "/usr/share/emacs/site-lisp/auto-complete")
-# ;; (require 'auto-complete-config)
-# ;; (add-to-list 'ac-dictionary-directories "/usr/share/emacs/site-lisp/auto-complete/ac-dict")
-# ;; (ac-config-default)
- 
-# ;; ;; scroll one line at a time (less "jumpy" than defaults)
-# ;; (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
-# ;; (setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
-# ;; (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
-# ;; (setq scroll-step 1) ;; keyboard scroll one line at a time
 ** LaTeX
    Custom classes latex
    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
