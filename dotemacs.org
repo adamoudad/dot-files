@@ -276,11 +276,15 @@
   (load-file "~/.emacs.d/slime-config.el")
   #+END_SRC
 * More
-  More information on orgmode.
+  Dotemacs in orgmode
   - http://mescal.imag.fr/membres/arnaud.legrand/misc/init.php
   - https://www.emacswiki.org/emacs/OrgDotemacs
   - http://doc.norang.ca/org-mode.html
   - http://kychoi.org/blog/2014/07/09/Dotemacs-In-Org
+    
+
+  Updated list of great packages
+  - https://github.com/emacs-tw/awesome-emacs
 * Footnotes
 
 [fn:3] https://zzamboni.org/post/beautifying-org-mode-in-emacs/
