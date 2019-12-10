@@ -19,6 +19,7 @@
      (defvar adam/packages '(ox-reveal auctex markdown-mode ;; ledger-mode
      elpy htmlize edit-server yaml-mode ein org-ref magit
      material-theme easy-jekyll easy-hugo org-bullets
+     cider slime
      ) "Default packages")
    #+END_SRC
 ** Install packages
@@ -240,6 +241,16 @@
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/path-config.el
     (setq easy-hugo-basedir "~/Personal/research-log/")
     #+END_SRC
+* Slime
+  :PROPERTIES:
+  :header-args: :tangle ~/.emacs.d/slime-config.el
+  :END:
+  Superior LISP Interaction Mode, Enhanced
+  - Setup
+    #+BEGIN_SRC elisp
+      (slime-setup '(slime-fancy slime-quicklisp slime-asdf))
+      (setq inferior-lisp-program "sbcl")
+    #+END_SRC
 * Init
   The content of the init.el file.
   This is at the end of this document so that all other .el files are created before trying to load them.
@@ -255,6 +266,7 @@
   (load-file "~/.emacs.d/dired-config.el")
   (load-file "~/.emacs.d/docview-config.el")
   (load-file "~/.emacs.d/path-config.el")
+  (load-file "~/.emacs.d/slime-config.el")
   #+END_SRC
 * More
   More information on orgmode.
