@@ -222,9 +222,16 @@
     (setenv "WORKON_HOME" "~/.anaconda3/envs")
     #+END_SRC
 * Dired
+  :PROPERTIES:
+  :header-args: :tangle ~/.emacs.d/dired-config.el
+  :END:
   - Move to trash
-    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/dired-config.el
+    #+BEGIN_SRC emacs-lisp
     (setq delete-by-moving-to-trash t)
+    #+END_SRC
+  - Human-readable size, and sort by size (by adding ~-hS~)
+    #+BEGIN_SRC elisp
+      (setq dired-listing-switches "-alhS")
     #+END_SRC
 * Docview
   - Auto revert files in Docview
