@@ -252,7 +252,7 @@
   :PROPERTIES:
   :header-args: :tangle ~/.emacs.d/slime-config.el
   :END:
-  Superior LISP Interaction Mode, Enhanced
+  Superior LISP Interaction Mode, Enhanced. You will need to install =sbcl= package first.
   - Setup
     #+BEGIN_SRC elisp
       (slime-setup '(slime-fancy slime-quicklisp slime-asdf))
