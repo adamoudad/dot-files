@@ -86,6 +86,9 @@ plugins=(git mercurial virtualenvwrapper)
 # Switch back L_Control and Caps_Lock
 alias xmodmap-revert="xmodmap ~/Git/dot-files/.Xmodmap-revert"
 alias lineme="chromium --app=chrome-extension://ophjlpahpchlmihnnnihgmmeilfjmjjc/index.html"
+alias cp="cp -i"		# Prompt before overwriting
+alias rm="rm -I"		# Prompt before many removals
+alias mv="mv -i"		# Prompt before overwriting
 
 ZSH_CACHE_DIR=$HOME/.oh-my-zsh-cache
 if [[ ! -d $ZSH_CACHE_DIR ]]; then
