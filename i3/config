@@ -22,7 +22,7 @@ floating_modifier $mod
 
 # start a program
 bindsym $mod+Return exec xfce4-terminal
-bindsym $mod+Shift+Return exec emacs
+bindsym $mod+Shift+Return exec emacsclient -c
 bindsym $mod+Escape exec nautilus
 bindsym $mod+Tab exec firefox
 bindsym $mod+F11 exec rhythmbox
@@ -197,6 +197,7 @@ exec --no-startup-id nm-applet
 exec --no-startup-id pasystray
 exec --no-startup-id dropbox
 exec --no-startup-id udiskie -Ans
+exec --no-startup-id emacs --daemon
 # exec --no-startup-id xfce4-clipman # Problem with emacs: hangs at "saving clipboard to x clipboard"
 exec_always feh --bg-fill --randomize $wallpaper --bg-fill --randomize $wallpaper
 
