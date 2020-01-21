@@ -229,9 +229,9 @@
     #+BEGIN_SRC emacs-lisp
     (setq delete-by-moving-to-trash t)
     #+END_SRC
-  - Human-readable size, and sort by size (by adding ~-hS~)
+  - Human-readable size with ~-h~ and group directories first
     #+BEGIN_SRC elisp
-      (setq dired-listing-switches "-alhS")
+      (setq dired-listing-switches "-alh --group-directories-first")
     #+END_SRC
 * Docview
   - Auto revert files in Docview
