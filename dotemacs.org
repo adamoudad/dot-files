@@ -258,6 +258,7 @@
       (slime-setup '(slime-fancy slime-quicklisp slime-asdf))
       (setq inferior-lisp-program "sbcl")
     #+END_SRC
+  - Run SLIME with ~M-x slime~
 * Init
   The content of the init.el file.
   This is at the end of this document so that all other .el files are created before trying to load them.
