@@ -120,6 +120,19 @@
       (setq ido-everywhere t)
       (ido-mode 1)
     #+END_SRC
+* LanguageTool
+  :PROPERTIES:
+  :header-args: :tangle ~/.emacs.d/edit-config.org
+  :END:
+  Open source spell checker. You will need the package =language-tool= installed on your system. The following configuration works for Archlinux.
+  #+BEGIN_SRC elisp 
+    (setq langtool-java-classpath
+	  "/usr/share/languagetool:/usr/share/java/languagetool/*")
+    (require 'langtool)
+    (setq langtool-default-language "en-US")
+  #+END_SRC
+  Common commands are ~langtool-check~ ~langtool-correct-buffer~. Use =C-u M-x langtool-check= to check in different language.
+
 * Orgmode
   - Ajouter date lors de la l'achèvement d'une tâche
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
