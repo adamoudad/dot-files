@@ -37,7 +37,7 @@ bindsym $mod+d exec dmenu_run
 bindsym $mod+Shift+q kill
 
 # lock screen
-bindsym $mod+Shift+x exec i3lock-fancy -gp -- scrot -z 
+bindsym $mod+Shift+x exec i3lock-fancy-rapid 15 3
 
 # change focus
 bindsym $mod+$left focus left
