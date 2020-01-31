@@ -225,6 +225,29 @@
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/python-config.el
     (setenv "WORKON_HOME" "~/.anaconda3/envs")
     #+END_SRC
+  - Docker python shell. ~docker pull ufoym/deepo~ is necessary beforehand
+    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/python-config.el
+    (setq python-shell-interpreter "~/Tests/docker-python-shell.sh")
+    #+END_SRC
+    #+BEGIN_SRC yaml :tangle ~/Tests/docker-compose.yml
+      version: '2.3'
+      services:
+	python:
+	  build:
+	    image: ufoym/deepo
+	  runtime: nvidia
+	  ports: ['8888:8888']
+	  volumes:
+	    - '/tmp:/tmp'             # https://stackoverflow.com/questions/43194627/how-to-connect-emacs-elpy-in-buffer-python-interpreter-to-docker-container
+	    - '.:/code'
+	  command: python3
+
+    #+END_SRC
+    #+BEGIN_SRC bash :tangle ~/Tests/docker-python-shell.sh
+    #!/bin/bash
+    cd ~/Tests/
+    docker-compose run python python3
+    #+END_SRC
 * Dired
   :PROPERTIES:
   :header-args: :tangle ~/.emacs.d/dired-config.el
