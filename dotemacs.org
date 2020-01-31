@@ -233,15 +233,12 @@
       version: '2.3'
       services:
 	python:
-	  build:
-	    image: ufoym/deepo
+	  image: ufoym/deepo
 	  runtime: nvidia
-	  ports: ['8888:8888']
 	  volumes:
 	    - '/tmp:/tmp'             # https://stackoverflow.com/questions/43194627/how-to-connect-emacs-elpy-in-buffer-python-interpreter-to-docker-container
 	    - '.:/code'
 	  command: python3
-
     #+END_SRC
     #+BEGIN_SRC bash :tangle ~/Tests/docker-python-shell.sh
     #!/bin/bash
