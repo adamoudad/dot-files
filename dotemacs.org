@@ -146,7 +146,7 @@
     #+END_SRC
     - Use latexmk for latex export. ~-shell-escape~ option is required for =minted= package, though it is not very safe
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
-      (setq org-latex-pdf-process (list "latexmk -pdf -shell-escape %f"))
+    (setq org-latex-pdf-process (list "latexmk -pdflatex=xelatex -pdf -shell-escape %f"))
       ;; Add -interaction nonstopmode -output-directory %o %f
     #+END_SRC
   - Org-babel evaluation languages
