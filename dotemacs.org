@@ -114,6 +114,11 @@
       (setq ido-everywhere t)
       (ido-mode 1)
     #+END_SRC
+  - Edit server for Firefox edit with emacs
+    #+BEGIN_SRC emacs-lisp
+    (require 'edit-server)
+    (edit-server-start)
+    #+END_SRC
 * LanguageTool
   :PROPERTIES:
   :header-args: :tangle ~/.emacs.d/edit-config.org
