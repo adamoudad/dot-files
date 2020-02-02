@@ -86,8 +86,11 @@
     (winner-mode 1)
     #+END_SRC
 * Edit settings
+  :PROPERTIES:
+  :header-args: :tangle ~/.emacs.d/edit-config.el
+  :END:
   - Backward transpose
-    #+BEGIN_SRC  emacs-lisp :tangle ~/.emacs.d/edit-config.el
+    #+BEGIN_SRC  emacs-lisp
       (global-set-key (kbd "C-S-t")
 		      (lambda () (interactive)
 			(transpose-chars -1)))
@@ -97,16 +100,16 @@
       ;; 		  (transpose-words -1)))
     #+END_SRC
   - Auto-paired characters
-    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/edit-config.el
+    #+BEGIN_SRC emacs-lisp
       (show-paren-mode)
       (electric-pair-mode 1)
     #+END_SRC
   - Replace annoying /beep/ sound by visual bell
-    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/edit-config.el
+    #+BEGIN_SRC emacs-lisp
       (setq visible-bell 1)    
     #+END_SRC
   - Ido mode
-    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/edit-config.el
+    #+BEGIN_SRC emacs-lisp
       (setq ido-enable-flex-matching t)
       (setq ido-everywhere t)
       (ido-mode 1)
