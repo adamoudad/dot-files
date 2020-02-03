@@ -133,71 +133,74 @@
   Common commands are ~langtool-check~ ~langtool-correct-buffer~. Use =C-u M-x langtool-check= to check in different language.
 
 * Orgmode
+  :PROPERTIES:
+  :header-args: :tangle ~/.emacs.d/orgmode-config.el
+  :END:
   - Ajouter date lors de la l'achèvement d'une tâche
-    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
+    #+BEGIN_SRC emacs-lisp
     (setq org-log-done 'time)
     #+END_SRC
   - Ajouter export avec reveal.js et beamer
-    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
+    #+BEGIN_SRC emacs-lisp
     (require 'ox-reveal)
     (require 'ox-beamer)
     #+END_SRC
   - Line Wrapping même dans orgmode
-    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
+    #+BEGIN_SRC emacs-lisp
     (setq org-startup-truncated nil)
     #+END_SRC
   - TODO states
-    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
+    #+BEGIN_SRC emacs-lisp
     (setq org-todo-keywords
     '((sequence "TODO(t)" "|" "DONE(d)")
     (sequence "|" "CANCELED(c)")))
     #+END_SRC
     - Use latexmk for latex export. ~-shell-escape~ option is required for =minted= package, though it is not very safe
-    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
+    #+BEGIN_SRC emacs-lisp 
     (setq org-latex-pdf-process (list "latexmk -pdflatex=xelatex -pdf -shell-escape %f"))
       ;; Add -interaction nonstopmode -output-directory %o %f
     #+END_SRC
   - Org-babel evaluation languages
-    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
+    #+BEGIN_SRC emacs-lisp
       (org-babel-do-load-languages
        'org-babel-load-languages
        '((dot . t)))
     #+END_SRC
   - Speed keys
-    #+BEGIN_SRC elisp :tangle ~/.emacs.d/orgmode-config.el 
+    #+BEGIN_SRC elisp
     (setq org-use-speed-commands t)
     #+END_SRC
   - Use minted package for listings in Latex. You need to install pygmentize (python package)
-    #+BEGIN_SRC elisp :tangle ~/.emacs.d/orgmode-config.el 
+    #+BEGIN_SRC elisp
       (setq org-latex-listings 'minted
 	    org-latex-packages-alist '(("" "minted")))
     #+END_SRC
   - Org-ref
-    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
+    #+BEGIN_SRC emacs-lisp
     (require 'org-ref)
     #+END_SRC
   - Size of preview latex fragments
-    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
+    #+BEGIN_SRC emacs-lisp
       (setq org-format-latex-options (plist-put org-format-latex-options :scale 3.0))
     #+END_SRC
     - Customizations[fn:3], hide emphasis markup, org-bullets
-      #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
+      #+BEGIN_SRC emacs-lisp
       (setq org-hide-emphasis-markers t)
       (add-hook 'org-mode-hook 'org-bullets-mode)
       (add-hook 'org-mode-hook 'visual-line-mode)
       #+END_SRC
     - Activate
-      #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
+      #+BEGIN_SRC emacs-lisp
       (setq org-default-notes-file (concat org-directory "~/Notes/todo.org"))
       #+END_SRC
     - Turn off actual size for inline images
-      #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
+      #+BEGIN_SRC emacs-lisp
       (setq org-image-actual-width nil)
       #+END_SRC
 
 ** LaTeX
    Custom classes latex
-   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
+   #+BEGIN_SRC emacs-lisp
    (add-to-list 'org-latex-classes
    '("keiothesis"
    "\\documentclass{keiothesis}"
@@ -209,7 +212,7 @@
    )
    #+END_SRC
 ** Custom templates
-   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
+   #+BEGIN_SRC emacs-lisp
      (add-to-list 'org-structure-template-alist
 		  '("fig" "#+CAPTION: ?\n#+LABEL: fig:\n#+ATTR_LATEX: \n[[]]"))
    #+END_SRC
