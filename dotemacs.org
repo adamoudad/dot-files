@@ -166,6 +166,10 @@
        'org-babel-load-languages
        '((dot . t)))
     #+END_SRC
+  - Preserve indentation of source blocks, else python code is messed up
+    #+BEGIN_SRC elisp
+    (setq org-src-preserve-indentation t)
+    #+END_SRC
   - Speed keys
     #+BEGIN_SRC elisp
     (setq org-use-speed-commands t)
