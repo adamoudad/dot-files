@@ -218,7 +218,9 @@
 ** Custom templates
    #+BEGIN_SRC emacs-lisp
      (add-to-list 'org-structure-template-alist
-		  '("fig" "#+CAPTION: ?\n#+LABEL: fig:\n#+ATTR_LATEX: \n[[]]"))
+		  '("fig" "#+CAPTION: ?\n#+LABEL: fig:\n#+ATTR_LATEX: :width 7cm\n"))
+     (add-to-list 'org-structure-template-alist
+		  '("math" "\\[\n?\n\\]"))
    #+END_SRC
 * Python
   :PROPERTIES:
