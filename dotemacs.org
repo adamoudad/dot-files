@@ -206,15 +206,17 @@
 ** LaTeX
    Custom classes latex
    #+BEGIN_SRC emacs-lisp
-   (add-to-list 'org-latex-classes
-   '("keiothesis"
-   "\\documentclass{keiothesis}"
-   ;; ("\\part{%s}" . "\\part*{%s}")
-   ("\\chapter{%s}" . "\\chapter*{%s}")
-   ("\\section{%s}" . "\\section*{%s}")
-   ("\\subsection{%s}" . "\\subsection*{%s}")
-   ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
-   )
+     (add-to-list 'org-latex-classes
+		  '("keiothesis" "\\documentclass{keiothesis}"
+		    ;; ("\\part{%s}" . "\\part*{%s}")
+		    ("\\chapter{%s}" . "\\chapter*{%s}")
+		    ("\\section{%s}" . "\\section*{%s}")
+		    ("\\subsection{%s}" . "\\subsection*{%s}")
+		    ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+		  )
+     (add-to-list 'org-latex-classes
+		  '("moderncv" "\\documentclass{moderncv}")
+		  )
    #+END_SRC
 ** Custom templates
    #+BEGIN_SRC emacs-lisp
