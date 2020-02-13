@@ -119,7 +119,7 @@
     (require 'edit-server)
     (edit-server-start)
     #+END_SRC
-* LanguageTool
+* Grammar checking
   :PROPERTIES:
   :header-args: :tangle ~/.emacs.d/edit-config.org
   :END:
@@ -131,7 +131,9 @@
     (setq langtool-default-language "en-US")
   #+END_SRC
   Common commands are ~langtool-check~ ~langtool-correct-buffer~. Use =C-u M-x langtool-check= to check in different language.
-
+  
+  
+  Another nice package is =ispell=. It has the advantage over =language-tool= to understand LaTeX syntax and grammar check .tex files well. It comes bundled with Emacs and uses =aspell= word dictionaries, so you will need to ~pacman -S aspell-en aspell-fr~ to install the French and English word dictionaries as an example. Change dictioanry is made via ~ispell-change-dictionary~.
 * Orgmode
   :PROPERTIES:
   :header-args: :tangle ~/.emacs.d/orgmode-config.el
