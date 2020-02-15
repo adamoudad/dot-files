@@ -89,7 +89,7 @@ alias lineme="chromium --app=chrome-extension://ophjlpahpchlmihnnnihgmmeilfjmjjc
 alias cp="cp -i"		# Prompt before overwriting
 alias rm="rm -I"		# Prompt before many removals
 alias mv="mv -i"		# Prompt before overwriting
-alias source="source ~/.zshrc"	# Source zsh config by default
+alias re="source ~/.zshrc"	# Source zsh config by default
 
 ZSH_CACHE_DIR=$HOME/.oh-my-zsh-cache
 if [[ ! -d $ZSH_CACHE_DIR ]]; then
