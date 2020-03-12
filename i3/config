@@ -182,11 +182,8 @@ assign [class="Gimp"] $workspace5
 assign [class="Shotwell"] $workspace5
 assign [class="obs"] $workspace5
 
-# hide window title ($ xprop)
-for_window [class="firefox"] border pixel 1
-for_window [class="Xfce4-terminal"] border pixel 1
-for_window [class="Emacs"] border pixel 1
-for_window [class="calibre"] border pixel 1
+# hide window title and borders ($ xprop)
+for_window [class="^.*"] border pixel 0
 
 # Gaps
 workspace $workspace3 gaps inner 2
