@@ -90,11 +90,11 @@ bindsym $mod+a focus parent
 #bindsym $mod+d focus child
 
 # set workspace title
-set $workspace2 "2: "
-set $workspace1 "1: "
-set $workspace3 "3: "
-set $workspace4 "4: "
-set $workspace5 "5: "
+set $workspace2 "2 "
+set $workspace1 "1 "
+set $workspace3 "3 "
+set $workspace4 "4 "
+set $workspace5 "5 "
 
 # switch to workspace
 bindsym $mod+2 workspace $workspace2
@@ -171,6 +171,7 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
 bar {
         status_command i3status -c ~/.config/i3/i3status.conf
 	tray_output primary
+	position top
 }
 
 # assign application to workspace
