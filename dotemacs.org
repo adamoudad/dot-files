@@ -249,7 +249,8 @@
     #+END_SRC
   - Docker python shell. ~docker pull ufoym/deepo~ is necessary beforehand
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/python-config.el
-    (setq python-shell-interpreter "~/Tests/docker-python-shell.sh")
+;; (setq python-shell-interpreter "~/Tests/docker-python-shell.sh")
+(setq python-shell-interpreter "python")
     #+END_SRC
     #+BEGIN_SRC yaml :tangle ~/Tests/docker-compose.yml
 version: '2.3'
@@ -263,10 +264,11 @@ services:
     command: python3
     #+END_SRC
     This needs a change in file permission ~chmod u+x ~/Tests/docker-python-shell.sh~
-    #+BEGIN_SRC bash :tangle ~/Tests/docker-python-shell.sh
+    #+BEGIN_SRC bash :tangle ~/Tests/docker-python-shell.sh :shebang
 #!/bin/bash
-cd ~/Tests/
-docker-compose run python python3
+# cd ~/Tests/
+# docker-compose run python python3
+docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
     #+END_SRC
 * Dired
   :PROPERTIES:
