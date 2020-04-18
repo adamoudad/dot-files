@@ -28,6 +28,7 @@ bindsym $mod+Tab exec firefox
 bindsym $mod+F11 exec rhythmbox
 # start dmenu (a program launcher)
 bindsym $mod+d exec dmenu_run
+bindsym Print exec scrot $HOME/Pictures/`date +%Y-%m-%d_%H:%M:%S`.png
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
