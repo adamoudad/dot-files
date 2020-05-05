@@ -92,6 +92,8 @@ alias rm="rm -I"		# Prompt before many removals
 alias mv="mv -i"		# Prompt before overwriting
 alias re="source ~/.zshrc"	# Source zsh config by default
 alias rsync="rsync -avP"	# Archive mode, verbose, partial mode (continue stopped sync)
+alias sed="sed -i"		# Prompt before overwriting
+alias rename="rename -i"	# Prompt before overwriting
 
 ZSH_CACHE_DIR=$HOME/.oh-my-zsh-cache
 if [[ ! -d $ZSH_CACHE_DIR ]]; then
