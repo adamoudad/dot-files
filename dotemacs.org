@@ -249,7 +249,18 @@
     #+END_SRC
   - Docker python shell. ~docker pull ufoym/deepo~ is necessary beforehand
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/python-config.el
-;; (setq python-shell-interpreter "~/Tests/docker-python-shell.sh")
+(define-key elpy-mode-map (kbd "C-c C-S-c") 'docker-elpy-shell-send-region-or-buffer)
+
+(setq docker-shell-interpreter (expand-file-name "~/Tests/docker-python-shell.sh"))
+
+(defun docker-elpy-shell-send-region-or-buffer ()
+  (interactive)
+  (let ((temp-python-shell-interpreter python-shell-interpreter))
+    (setq python-shell-interpreter docker-shell-interpreter)
+    (elpy-shell-send-region-or-buffer)
+    (setq python-shell-interpreter temp-python-shell-interpreter)
+    ))
+
 (setq python-shell-interpreter "python")
     #+END_SRC
     #+BEGIN_SRC yaml :tangle ~/Tests/docker-compose.yml
@@ -264,7 +275,7 @@ services:
     command: python3
     #+END_SRC
     This needs a change in file permission ~chmod u+x ~/Tests/docker-python-shell.sh~
-    #+BEGIN_SRC bash :tangle ~/Tests/docker-python-shell.sh :shebang
+    #+BEGIN_SRC bash :tangle ~/Tests/docker-python-shell.sh :tangle-mode (identity #o744)
 #!/bin/bash
 # cd ~/Tests/
 # docker-compose run python python3
