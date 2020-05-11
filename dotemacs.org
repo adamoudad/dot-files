@@ -138,6 +138,10 @@
   :PROPERTIES:
   :header-args: :tangle ~/.emacs.d/orgmode-config.el
   :END:
+  - Change ellipsis, to avoid problem when using three dots
+    #+BEGIN_SRC emacs-lisp
+    (setq org-ellipsis "⤵")
+    #+END_SRC
   - Ajouter date lors de la l'achèvement d'une tâche
     #+BEGIN_SRC emacs-lisp
     (setq org-log-done 'time)
