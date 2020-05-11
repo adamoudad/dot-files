@@ -256,16 +256,15 @@
 (define-key elpy-mode-map (kbd "C-c C-S-c") 'docker-elpy-shell-send-region-or-buffer)
 
 (setq docker-shell-interpreter (expand-file-name "~/Tests/docker-python-shell.sh"))
+(setq default-shell-interpreter "python")
 
 (defun docker-elpy-shell-send-region-or-buffer ()
   (interactive)
   (let ((temp-python-shell-interpreter python-shell-interpreter))
     (setq python-shell-interpreter docker-shell-interpreter)
     (elpy-shell-send-region-or-buffer)
-    (setq python-shell-interpreter temp-python-shell-interpreter)
+    (setq python-shell-interpreter default-shell-interpreter)
     ))
-
-(setq python-shell-interpreter "python")
     #+END_SRC
     #+BEGIN_SRC yaml :tangle ~/Tests/docker-compose.yml
 version: '2.3'
