@@ -183,6 +183,8 @@ assign [class="firefox"] $workspace1
 assign [class="emacs"] $workspace2
 assign [class="Rhythmbox"] $workspace4
 assign [class="Gimp"] $workspace5
+assign [class="krita"] $workspace5
+assign [class="Inkscape"] $workspace5
 assign [class="Shotwell"] $workspace5
 assign [class="obs"] $workspace5
 
