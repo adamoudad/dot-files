@@ -1,5 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/.local/bin:/usr/local/bin:$HOME/.gem/ruby/2.7.0/bin:$PATH
+export PATH=/usr/local/bin:$HOME/.gem/ruby/2.7.0/bin:$PATH
 export GEM_HOME=$HOME/.gem
 export VISUAL="emacsclient -c"
 # Path to your oh-my-zsh installation.
