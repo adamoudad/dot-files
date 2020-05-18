@@ -108,11 +108,12 @@
     #+BEGIN_SRC emacs-lisp
       (setq visible-bell 1)    
     #+END_SRC
-  - Ido mode
+  - Ido mode. Setting ~ido-auto-merge-work-directories-length~ to -1 disables this annoying auto-merge thing whenever I type something. Search and merge can still be triggered when typing M-s.
     #+BEGIN_SRC emacs-lisp
       (setq ido-enable-flex-matching t)
       (setq ido-everywhere t)
       (ido-mode 1)
+      (setq ido-auto-merge-work-directories-length -1)
     #+END_SRC
   - Edit server for Firefox edit with emacs
     #+BEGIN_SRC emacs-lisp
