@@ -139,6 +139,12 @@
   :PROPERTIES:
   :header-args: :tangle ~/.emacs.d/orgmode-config.el
   :END:
+  - Global key bindings
+    #+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c l") 'org-store-link)
+(global-set-key (kbd "C-c a") 'org-agenda)
+(global-set-key (kbd "C-c c") 'org-capture)
+    #+END_SRC
   - Change ellipsis, to avoid problem when using three dots
     #+BEGIN_SRC emacs-lisp
     (setq org-ellipsis "⤵")
