@@ -20,8 +20,9 @@ font pango:DejaVu Sans Mono, Font Awesome 5 Free 9
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-bindsym $mod+Return exec xfce4-terminal
 # start a program (use xev to get key names)
+bindsym $mod+apostrophe exec xfce4-terminal
+bindsym $mod+Return exec xfce4-terminal -x fish
 bindsym $mod+Shift+Return exec emacsclient -c
 bindsym $mod+Escape exec nautilus
 bindsym $mod+Tab exec firefox
