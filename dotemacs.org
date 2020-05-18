@@ -209,7 +209,7 @@
       #+END_SRC
     - Activate
       #+BEGIN_SRC emacs-lisp
-      (setq org-default-notes-file (concat org-directory "~/Notes/todo.org"))
+      (setq org-default-notes-file (concat org-directory "~/Notes/notes.org"))
       #+END_SRC
     - Turn off actual size for inline images
       #+BEGIN_SRC emacs-lisp
