@@ -7,6 +7,8 @@
   If you want to use it, just open it in emacs and do ~C-c C-v t~. This will export (/tangle/)) all the code blocks of this file in your =~/.emacs.d/= .
   
   Pay attention to some additional things to do, like for python ([[#python]]), you will need python packages that can be installed via ~pip~.
+  Make sure the following directories are existing
+  - ~~/Tests~, required to save a bash script running a dockerized python shell
 * Packages
 ** Package repositories
    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/package-config.el
