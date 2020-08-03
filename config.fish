@@ -1,4 +1,4 @@
-set PATH $HOME/.gem/ruby/2.7.0/bin $HOME/Scripts $PATH
+set PATH $HOME/.gem/ruby/2.7.0/bin $HOME/Scripts $HOME/.local/bin $PATH
 
 set GEM_HOME $HOME/.gem		# Ruby gem path
 set VISUAL "emacsclient -c"	# Default text editor
@@ -23,6 +23,14 @@ abbr -a -- d 'prevd -l'		# List directory history
 abbr -a -- _ 'sudo '
 # abbr -a -- afind 'ack -il'
 abbr -a -- dcs docker-compose
+abbr -a -- jekyll 'bundle exec jekyll'
+abbr -a -g -- py python
+abbr -a -g -- py3 python3
+abbr -a -g -- py2 python2
+abbr -a -g -- workon "source ~/.pyvenv/"
+abbr -a -g -- shrink "gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -dNOPAUSE -dQUIET -dBATCH -sOutputFile=output.pdf"
+abbr -a -g -- cups-start "systemctl start org.cups.cupsd"
+abbr -a -g -- cups "firefox http://localhost:631"
 # abbr -a -- egrep 'egrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox}'
 # abbr -a -- fgrep 'fgrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox}'
 # abbr -a -- g git
@@ -182,6 +190,7 @@ abbr -a -- lineme 'chromium --app=chrome-extension://ophjlpahpchlmihnnnihgmmeilf
 # abbr -a -- ll 'ls -lh'
 # abbr -a -- ls 'ls --color=tty'
 # abbr -a -- lsa 'ls -lah'
+abbr -a -- x 'exit'
 # abbr -a -- md 'mkdir -p'
 abbr -a -- mv 'mv -i'		# Prompt before overwriting
 abbr -a -- cp 'cp -i'		# Prompt before overwriting
@@ -191,6 +200,7 @@ abbr -a -- rm 'rm -I'		# Prompt before many removals
 abbr -a -- rd rmdir
 abbr -a -- re 'source'
 abbr -a -- rsync 'rsync -avP'	# Archive mode, verbose, partial mode (continue stopped sync)
+abbr -a -- l 'bat'
 # abbr -a -- run-help man
 # abbr -a -- which-command whence
 # abbr -a -- xmodmap-revert 'xmodmap ~/Git/dot-files/.Xmodmap-revert'
