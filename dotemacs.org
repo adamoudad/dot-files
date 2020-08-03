@@ -253,8 +253,13 @@
   - importmagic :: Imports automatiques
   - autopep8 :: Formattage automatique aux PEP8
   - yapf :: Formattage du code
-  #+BEGIN_SRC python
-  pip install --user jedi flake8 importmagic autopep8
+  - rope :: refactoring
+  - black :: code formatting
+  #+BEGIN_SRC bash
+  source source .emacs.d/elpy/rpc-venv/bin/activate.fish
+  curl https://bootstrap.pypa.io/get-pip.py -o ~/Tests/get-pip.py
+  python ~/Tests/get-pip.py
+  pip install jedi flake8 importmagic autopep8 rope yapf black
   #+END_SRC
   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/python-config.el
   (elpy-enable)
