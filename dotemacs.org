@@ -266,7 +266,7 @@
   #+END_SRC
   - Virtual environement setup
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/python-config.el
-    (setenv "WORKON_HOME" "~/.miniconda3/envs")
+    (setenv "WORKON_HOME" "~/.pyvenv/")
     #+END_SRC
   - Docker python shell. ~docker pull ufoym/deepo~ is necessary beforehand
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/python-config.el
