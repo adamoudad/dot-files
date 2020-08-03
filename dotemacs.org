@@ -19,7 +19,8 @@
      (defvar adam/packages '(ox-reveal auctex markdown-mode ;; ledger-mode
      elpy htmlize edit-server yaml-mode ein org-ref magit
      material-theme easy-jekyll easy-hugo org-bullets
-     cider slime
+     cider slime all-the-icons-dired inf-ruby
+     rainbow-delimiters
      ) "Default packages")
    #+END_SRC
 ** Install packages
@@ -103,6 +104,9 @@
     #+BEGIN_SRC emacs-lisp
       (show-paren-mode)
       (electric-pair-mode 1)
+      (setq show-paren-mode 'expression)
+      (require 'rainbow-delimiters)
+      (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
     #+END_SRC
   - Replace annoying /beep/ sound by visual bell
     #+BEGIN_SRC emacs-lisp
@@ -304,6 +308,15 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
     #+BEGIN_SRC elisp
       (setq dired-listing-switches "-alh --group-directories-first")
     #+END_SRC
+  - Nice icons
+    #+BEGIN_SRC elisp
+    (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+    #+END_SRC
+    Fix no refresh when dired remove or adds an entry after renaming, creating folder, etc.[fn:5]
+    #+BEGIN_SRC elisp
+    (advice-add 'dired-add-entry :around #'all-the-icons-dired--refresh-advice)
+    (advice-add 'dired-remove-entry :around #'all-the-icons-dired--refresh-advice)
+    #+END_SRC
 * Docview
   - Auto revert files in Docview
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/docview-config.el
@@ -358,6 +371,8 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
   Updated list of great packages
   - https://github.com/emacs-tw/awesome-emacs
 * Footnotes
+
+[fn:5] https://github.com/jtbm37/all-the-icons-dired/issues/34
 
 [fn:4] https://joelkuiper.eu/spellcheck_emacs
 
