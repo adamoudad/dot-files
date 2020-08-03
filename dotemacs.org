@@ -126,7 +126,7 @@
     #+END_SRC
 * Grammar checking
   :PROPERTIES:
-  :header-args: :tangle ~/.emacs.d/edit-config.org
+  :header-args: :tangle ~/.emacs.d/edit-config.el
   :END:
   Open source spell checker. You will need the package =language-tool= installed on your system. The following configuration works for Archlinux.
   #+BEGIN_SRC elisp 
