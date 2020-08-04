@@ -1,3 +1,0 @@
-#!/bin/bash
-# Run LINE as a standalone
-chromium --app=chrome-extension://ophjlpahpchlmihnnnihgmmeilfjmjjc/index.html
