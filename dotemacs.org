@@ -341,7 +341,7 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/path-config.el
     (setq easy-hugo-basedir "~/Personal/research-log/")
     #+END_SRC
-* Slime
+* LISP and Scheme
   :PROPERTIES:
   :header-args: :tangle ~/.emacs.d/slime-config.el
   :END:
@@ -352,6 +352,12 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
       (setq inferior-lisp-program "sbcl")
     #+END_SRC
   - Run SLIME with ~M-x slime~
+
+
+  Use guile as Scheme interpreter
+  #+BEGIN_SRC elisp
+  (setq scheme-program-name "guile")
+  #+END_SRC
 * Init
   The content of the init.el file.
   This is at the end of this document so that all other .el files are created before trying to load them.
