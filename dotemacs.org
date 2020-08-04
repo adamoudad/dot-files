@@ -326,6 +326,12 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
     (advice-add 'dired-add-entry :around #'all-the-icons-dired--refresh-advice)
     (advice-add 'dired-remove-entry :around #'all-the-icons-dired--refresh-advice)
     #+END_SRC
+  - Omit uninteresting files
+    #+BEGIN_SRC elisp
+    (require 'dired-x)
+    (setq-default dired-omit-files-p t) ; Buffer-local variable
+    (setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
+    #+END_SRC
 * Docview
   - Auto revert files in Docview
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/docview-config.el
