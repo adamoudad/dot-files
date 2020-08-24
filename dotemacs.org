@@ -67,7 +67,10 @@
     (add-hook 'Info-mode-hook 'set-buffer-variable-pitch)
   #+END_SRC
 * Display settings
-  #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/display-config.el
+  :PROPERTIES:
+  :header-args: :tangle ~/.emacs.d/display-config.el
+  :END:
+  #+BEGIN_SRC emacs-lisp
     ;; (set-language-environment "UTF-8")
     (setq inhibit-startup-message t)
     (column-number-mode t)
