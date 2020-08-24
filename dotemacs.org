@@ -82,6 +82,16 @@
     (when (version<= "26.0.50" emacs-version )
       (global-display-line-numbers-mode))
   #+END_SRC
+* Magit
+  :PROPERTIES:
+  :header-args: :tangle ~/.emacs.d/magit-conf.el
+  :END:
+  Add keybinding for ~magit-status~.
+  #+BEGIN_SRC elisp
+  (global-set-key (kbd "C-x g") 'magit-status)
+  (define-key ido-common-completion-map
+  (kbd \"C-x g\") 'ido-enter-magit-status)
+  #+END_SRC
 * Window moves
   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/windmove-config.el
   (global-set-key (kbd "C-x <up>") 'windmove-up)
@@ -387,6 +397,7 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
   (load-file "~/.emacs.d/docview-config.el")
   (load-file "~/.emacs.d/path-config.el")
   (load-file "~/.emacs.d/slime-config.el")
+  (load-file "~/.emacs.d/magit-conf.el")
   #+END_SRC
 * More
   Dotemacs in orgmode
