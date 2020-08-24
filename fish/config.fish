@@ -201,6 +201,9 @@ abbr -a -- rd rmdir
 abbr -a -- re 'source'
 abbr -a -- rsync 'rsync -avP'	# Archive mode, verbose, partial mode (continue stopped sync)
 abbr -a -- l 'bat'
+abbr -a -- 'vnc-spectate' 'x0vncserver -rfbauth ~/.vnc/passwd -AcceptKeyEvents=off -AcceptPointerEvents=off -AcceptCutText=off -AcceptSetDesktopSize=off'
+abbr -a -- 'vnc-control' 'x0vncserver -rfbauth ~/.vnc/passwd'
+abbr -a -- emacsd 'emacs --daemon'
 # abbr -a -- run-help man
 # abbr -a -- which-command whence
 # abbr -a -- xmodmap-revert 'xmodmap ~/Git/dot-files/.Xmodmap-revert'
