@@ -112,6 +112,8 @@ bindsym $mod+7 workspace $workspace7
 bindsym $mod+8 workspace $workspace8
 bindsym $mod+9 workspace $workspace9
 bindsym $mod+0 workspace $workspace0
+# Switch to workspace with urgency flag
+bindsym $mod+x [urgent=latest] focus
 
 # move focused container to workspace
 bindsym $mod+Shift+2 move container to workspace $workspace2
