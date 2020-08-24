@@ -4,6 +4,13 @@
   This actually constitutes my current laptop environement for daily use. Any feedback or help in improving it will be warmly welcomed!
 
   To use this file, you have to tangle all source code blocks inside their respective file, specified in the =:tangle= attributes of source blocks or of subtrees' properties. The easiest way is to open this file in emacs with org-mode, and use =C-c C-v t= key to export all code blocks at once.
+* Organization
+  - Codes/ :: main projects
+  - Hacks/ :: some minor projects
+  - Scripts/ :: useful scripts for every day use
+  - Tests/ :: temporary code, for quick tests
+  - Datasets/ :: collection of data and datasets
+
 * Random wallpaper generation
   :PROPERTIES:
   :header-args: :tangle ~/.generate_wallpaper.sh
@@ -28,3 +35,14 @@
        convert -pointsize 200  -fill "rgba(0,0,0,0.4)" -draw "text 270,460 \"${random_quote}\"" ${random_background} $OUTPUT_PATH
      #+END_SRC
   6. Finally, you can use feh for displaying the newly generated wallpaper (I use it inside my i3 configuration)
+* Applications and scripts
+** LINE messenger on desktop
+   Install chromium, chrome or brave.
+   Then install the LINE app.
+   Then find how to access it.
+   Then use this code:
+   #+BEGIN_SRC bash
+#!/bin/bash
+# Run LINE as a standalone
+brave --app=chrome-extension://ophjlpahpchlmihnnnihgmmeilfjmjjc/index.html
+   #+END_SRC
