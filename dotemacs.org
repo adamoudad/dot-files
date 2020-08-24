@@ -97,6 +97,10 @@
   :PROPERTIES:
   :header-args: :tangle ~/.emacs.d/edit-config.el
   :END:
+  - Consider sentence end by one period followed by one blank space (instead of double blank space by default)
+    #+BEGIN_SRC elisp
+    (setq sentence-end-double-space nil)
+    #+END_SRC
   - Backward transpose
     #+BEGIN_SRC  emacs-lisp
       (global-set-key (kbd "C-S-t")
