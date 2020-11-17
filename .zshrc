@@ -101,5 +101,3 @@ if [[ ! -d $ZSH_CACHE_DIR ]]; then
 fi
 
 source $ZSH/oh-my-zsh.sh
-
-eval $(thefuck --alias)
