@@ -186,7 +186,7 @@ abbr -a -g -- cups "firefox http://localhost:631"
 # abbr -a -- gupv 'git pull --rebase -v'
 # abbr -a -- gwch 'git whatchanged -p --abbrev-commit --pretty=medium'
 # abbr -a -- gwip 'git add -A; git rm $(git ls-files --deleted) 2> /dev/null; git commit --no-verify --no-gpg-sign -m "--wip-- [skip ci]"'
-abbr -a -- lineme 'chromium --app=chrome-extension://ophjlpahpchlmihnnnihgmmeilfjmjjc/index.html'
+abbr -a -- lineme 'brave --app=chrome-extension://ophjlpahpchlmihnnnihgmmeilfjmjjc/index.html'
 # abbr -a -- ll 'ls -lh'
 # abbr -a -- ls 'ls --color=tty'
 # abbr -a -- lsa 'ls -lah'
@@ -204,6 +204,7 @@ abbr -a -- l 'bat'
 abbr -a -- 'vnc-spectate' 'x0vncserver -rfbauth ~/.vnc/passwd -AcceptKeyEvents=off -AcceptPointerEvents=off -AcceptCutText=off -AcceptSetDesktopSize=off'
 abbr -a -- 'vnc-control' 'x0vncserver -rfbauth ~/.vnc/passwd'
 abbr -a -- emacsd 'emacs --daemon'
+abbr -a -- whatsmyip 'curl ifconfig.me'
 # abbr -a -- run-help man
 # abbr -a -- which-command whence
 # abbr -a -- xmodmap-revert 'xmodmap ~/Git/dot-files/.Xmodmap-revert'
