@@ -31,6 +31,7 @@ abbr -a -g -- workon "source ~/.pyvenv/"
 abbr -a -g -- shrink "gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -dNOPAUSE -dQUIET -dBATCH -sOutputFile=output.pdf"
 abbr -a -g -- cups-start "systemctl start org.cups.cupsd"
 abbr -a -g -- cups "firefox http://localhost:631"
+abbr -a -g -- untar "tar xvfz"	# https://xkcd.com/1168/
 # abbr -a -- egrep 'egrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox}'
 # abbr -a -- fgrep 'fgrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox}'
 # abbr -a -- g git
