@@ -206,6 +206,7 @@ abbr -a -- 'vnc-spectate' 'x0vncserver -rfbauth ~/.vnc/passwd -AcceptKeyEvents=o
 abbr -a -- 'vnc-control' 'x0vncserver -rfbauth ~/.vnc/passwd'
 abbr -a -- emacsd 'emacs --daemon'
 abbr -a -- whatsmyip 'curl ifconfig.me'
+abbr -a -- py 'python'
 # abbr -a -- run-help man
 # abbr -a -- which-command whence
 # abbr -a -- xmodmap-revert 'xmodmap ~/Git/dot-files/.Xmodmap-revert'
