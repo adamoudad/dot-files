@@ -17,3 +17,4 @@ ln -si ./applications ~/.local/share/
 ln -si ./gtk-3.0 ~/.config/
 ln -si ./sway ~/.config/
 ln -si ./waybar ~/.config/
+sudo ln -si ./systemd/battery-charge-threshold.service /etc/systemd/system/
