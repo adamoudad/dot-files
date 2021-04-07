@@ -86,10 +86,11 @@
   :header-args: :tangle ~/.emacs.d/magit-conf.el
   :END:
   Add keybinding for ~magit-status~.
+  There is a keybinding in ido-mode also but[fn:6] it seems not to work.
   #+BEGIN_SRC elisp
   (global-set-key (kbd "C-x g") 'magit-status)
-  (define-key ido-common-completion-map
-  (kbd \"C-x g\") 'ido-enter-magit-status)
+  ;; (define-key ido-common-completion-map
+  ;; (kbd \"C-x g\") 'ido-enter-magit-status)
   #+END_SRC
 * Window moves
   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/windmove-config.el
