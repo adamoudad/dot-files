@@ -187,7 +187,6 @@ abbr -a -g -- untar "tar xvfz"	# https://xkcd.com/1168/
 # abbr -a -- gupv 'git pull --rebase -v'
 # abbr -a -- gwch 'git whatchanged -p --abbrev-commit --pretty=medium'
 # abbr -a -- gwip 'git add -A; git rm $(git ls-files --deleted) 2> /dev/null; git commit --no-verify --no-gpg-sign -m "--wip-- [skip ci]"'
-abbr -a -- lineme 'brave --app=chrome-extension://ophjlpahpchlmihnnnihgmmeilfjmjjc/index.html'
 # abbr -a -- ll 'ls -lh'
 # abbr -a -- ls 'ls --color=tty'
 # abbr -a -- lsa 'ls -lah'
