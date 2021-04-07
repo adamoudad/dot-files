@@ -12,3 +12,8 @@ echo "Installing i3 config"
 for f in ${i3_files[@]}; do
     ln -si $(pwd)/$f ~/.config/$f 
 done
+
+ln -si ./applications ~/.local/share/
+ln -si ./gtk-3.0 ~/.config/
+ln -si ./sway ~/.config/
+ln -si ./waybar ~/.config/
