@@ -428,6 +428,7 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
   (load-file "~/.emacs.d/path-config.el")
   (load-file "~/.emacs.d/slime-config.el")
   (load-file "~/.emacs.d/magit-conf.el")
+  (load-file "~/Git/tifinagh-transliterator/tifinagh.el")
   #+END_SRC
 * More
   Dotemacs in orgmode
