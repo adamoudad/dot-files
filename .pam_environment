@@ -1,0 +1,19 @@
+# GNOME on Xorg
+# export XDG_SESSION_TYPE=x11
+# export GDK_BACKEND=x11
+# exec gnome-session
+
+XDG_CURRENT_DESKTOP sway
+
+# GTK_IM_MODULE=ibus
+# QT_IM_MODULE=ibus
+# XMODIFIERS=@im=ibus
+
+INPUT_METHOD        DEFAULT=fcitx5
+GTK_IM_MODULE       DEFAULT=fcitx5
+QT_IM_MODULE        DEFAULT=fcitx5
+XMODIFIERS          DEFAULT=\@im=fcitx5
+SDL_IM_MODULE       DEFAULT=fcitx5
+
+MOZ_ENABLE_WAYLAND  DEFAULT=1
+# MOZ_DBUS_REMOTE     DEFAULT=1
