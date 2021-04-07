@@ -81,6 +81,25 @@
     ;;(scroll-bar-mode -1)
     (global-hl-line-mode t) ;; highlight current line
   #+END_SRC
+  - Open new frames instead of new windows
+    #+BEGIN_SRC elisp
+;; (setq display-buffer-alist
+;;       '(("shell.*" (display-buffer-same-window) ())
+;; 	("completions.*" (display-buffer-same-window) ())
+;; 	("python.*" (display-buffer-reuse-window
+;;         display-buffer-pop-up-frame)
+;;          (reusable-frames . t))
+;; 	("magit.*" (display-buffer-reuse-window
+;;         display-buffer-pop-up-frame)
+;;          (reusable-frames . t))
+;; 	;; Reuse might be useful in some cases...
+;;         ;; (".*" (display-buffer-reuse-window
+;;         ;;        display-buffer-same-window
+;;         ;;        display-buffer-pop-up-frame)
+;;         ;;  (reusable-frames . t))
+;; 	))
+    #+END_SRC
+
 * Magit
   :PROPERTIES:
   :header-args: :tangle ~/.emacs.d/magit-conf.el
