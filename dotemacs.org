@@ -123,11 +123,11 @@
     #+END_SRC
   - Auto-paired characters
     #+BEGIN_SRC emacs-lisp
-      (show-paren-mode)
-      (electric-pair-mode 1)
-      (setq show-paren-mode 'expression)
-      (require 'rainbow-delimiters)
-      (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(show-paren-mode)
+(electric-pair-mode 1)
+(setq show-paren-mode 'expression)
+(require 'rainbow-delimiters)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
     #+END_SRC
   - Replace annoying /beep/ sound by visual bell
     #+BEGIN_SRC emacs-lisp
@@ -214,7 +214,7 @@
     #+BEGIN_SRC elisp
     (setq org-use-speed-commands t)
     #+END_SRC
-  - Use minted package for listings in Latex. You need to install pygmentize (python package)
+  - Use minted package for listings in Latex. You need to install pygments (python package)
     #+BEGIN_SRC elisp
       (setq org-latex-listings 'minted
 	    org-latex-packages-alist '(("" "minted")))
@@ -295,8 +295,8 @@
   - black :: code formatting
   #+BEGIN_SRC bash
   source source .emacs.d/elpy/rpc-venv/bin/activate.fish
-  curl https://bootstrap.pypa.io/get-pip.py -o ~/Tests/get-pip.py
-  python ~/Tests/get-pip.py
+  python -m ensurepip
+  python -m ensurepip --upgrade
   pip install jedi flake8 importmagic autopep8 rope yapf black
   #+END_SRC
   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/python-config.el
