@@ -242,6 +242,11 @@
       (setq org-image-actual-width nil)
       #+END_SRC
 
+** Modules
+   Since orgmode 9.2, this is needed for oldstyle template behavior, with completion for "<s" for example.[fn:8]
+   #+begin_src emacs-lisp
+   (add-to-list 'org-modules 'org-tempo t)
+   #+end_src
 ** LaTeX
    Custom classes latex
    #+BEGIN_SRC emacs-lisp
@@ -257,13 +262,25 @@
 		  '("moderncv" "\\documentclass{moderncv}")
 		  )
    #+END_SRC
+
 ** Custom templates
    #+BEGIN_SRC emacs-lisp
      (add-to-list 'org-structure-template-alist
-		  '("fig" "#+CAPTION: ?\n#+LABEL: fig:\n#+ATTR_LATEX: :width 7cm\n"))
+		  '("fig" . "#+CAPTION: ?\n#+LABEL: fig:\n#+ATTR_LATEX: :width 7cm\n"))
      (add-to-list 'org-structure-template-alist
-		  '("math" "\\[\n?\n\\]"))
+		  '("math" . "\\[\n?\n\\]"))
    #+END_SRC
+   - Disable <> auto pairing in electric-pair-mode in orgmode to avoid conflicts with org-tempo[fn:7]
+   #+begin_src emacs-lisp
+(add-hook
+ 'org-mode-hook
+ (lambda ()
+   (setq-local electric-pair-inhibit-predicate
+               `(lambda (c)
+                  (if (char-equal c ?<) t (,electric-pair-inhibit-predicate c))))
+   )
+ )
+   #+end_src
 * Python
   :PROPERTIES:
   :CUSTOM_ID: python
@@ -410,6 +427,12 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
   Updated list of great packages
   - https://github.com/emacs-tw/awesome-emacs
 * Footnotes
+
+[fn:8] https://github.com/syl20bnr/spacemacs/issues/12003#issuecomment-465686129 
+
+[fn:7]https://www.topbug.net/blog/2016/09/29/emacs-disable-certain-pairs-for-electric-pair-mode/ 
+
+[fn:6]https://magit.vc/manual/2.90.1/magit/Status-Buffer.html 
 
 [fn:5] https://github.com/jtbm37/all-the-icons-dired/issues/34
 
