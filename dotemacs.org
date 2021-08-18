@@ -273,7 +273,10 @@
       #+BEGIN_SRC emacs-lisp
       (setq org-image-actual-width nil)
       #+END_SRC
-
+    - Custom structure templates
+      #+begin_src elisp
+(add-to-list 'org-structure-template-alist '("abs" . "abstract")  )
+      #+end_src
 ** Modules
    Since orgmode 9.2, this is needed for oldstyle template behavior, with completion for "<s" for example.[fn:8]
    #+begin_src emacs-lisp
