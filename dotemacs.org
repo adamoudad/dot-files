@@ -455,6 +455,58 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
   #+BEGIN_SRC elisp
   (setq scheme-program-name "guile")
   #+END_SRC
+* Skeletons
+  :PROPERTIES:
+  :header-args: :tangle ~/.emacs.d/skeletons-config.el
+  :END:
+  Skeletons are used to define templates to insert in files.
+  #+begin_src elisp
+(define-skeleton skel-figure
+  "Insert a figure in orgmode."
+  nil
+  > "#+CAPTION: " (skeleton-read "Figure caption: ") \n
+  > "#+LABEL: " (skeleton-read "Figure label: " "fig:") \n
+  > "#+ATTR_LATEX: " (skeleton-read "Latex attributes: " ":width 7cm") \n
+  > @ _ )
+
+(define-skeleton skel-math
+  "Insert math fragment."
+  nil
+  > "\\[" \n
+  > @ _ \n
+  > "\\]")
+
+(define-skeleton skel-cjk
+  "Insert CJK packages for LaTeX in Orgmode."
+  nil
+  "#+LATEX_HEADER: \\AtBeginDocument{\\begin{CJK}{UTF8}{min}}" \n
+  "#+LATEX_HEADER: \\AtEndDocument{\\end{CJK}}" \n
+  @ _)
+
+(define-skeleton skel-beamer
+  "Insert CJK packages for LaTeX in Orgmode."
+  nil
+  "#+Title: " (skeleton-read "Title: ") \n
+  "#+Subtitle: " (skeleton-read "Subtitle: ") \n
+  "#+OPTIONS: " (skeleton-read "Options: " "H:2 ^:{} f:t toc:nil") \n
+  "#+LATEX_CLASS: beamer" \n
+  "#+LATEX_CLASS_OPTIONS: [9pt,aspectratio=1610,table]" \n
+  "#+COLUMNS: %45ITEM %10BEAMER_env(Env) %10BEAMER_act(Act) %4BEAMER_col(Col) %8BEAMER_opt(Opt)" \n
+  "#+BEAMER_THEME: CambridgeUS" \n
+  "# Madrid" \n
+  "#+BEAMER_COLOR_THEME: " \n
+  "#+BEAMER_FONT_THEME:" \n
+  "#+BEAMER_INNER_THEME:" \n
+  "#+BEAMER_OUTER_THEME:" \n
+  "#+BEAMER_HEADER: \\usepackage[backend=bibtex]{biblatex}" \n
+  "#+BEAMER_HEADER: \\usepackage{booktabs}" \n
+  "#+BEAMER_HEADER: \\addbibresource{$HOME/Bibliographies/bibliography}" \n
+  "#+BEAMER_HEADER: \\graphicspath{{$HOME/Pictures/images/}}" \n
+  "#+BEAMER_HEADER: \\usepackage{media9} " \n
+  "#+BIBLIOGRAPHY: ~/Bibliographies/bibliography" \n
+  "#+BIBLIOGRAPHY_STYLE: plain" \n
+  "#+BEAMER_HEADER: \\AtBeginSection[]{\\begin{frame}<beamer>\\frametitle{Topic}\\tableofcontents[currentsection]\\end{frame}}" \n)
+  #+end_src
 * Init
   The content of the init.el file.
   This is at the end of this document so that all other .el files are created before trying to load them.
@@ -474,6 +526,7 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
   (load-file "~/.emacs.d/slime-config.el")
   (load-file "~/.emacs.d/magit-conf.el")
   (load-file "~/Git/tifinagh-transliterator/tifinagh.el")
+  (load-file "~/.emacs.d/skeletons-config.el")
   #+END_SRC
 * More
   Dotemacs in orgmode
