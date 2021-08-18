@@ -324,6 +324,20 @@
    )
  )
    #+end_src
+* Markdown
+  :PROPERTIES:
+  :header-args: :tangle ~/.emacs.d/markdown-config.el
+  :END:
+
+  Live
+  #+begin_src elisp
+(defun markdown-html (buffer)
+  (princ (with-current-buffer buffer
+	   (format "<!DOCTYPE html><html><title>Impatient Markdown</title><xmp theme=\"united\" style=\"display:none;\"> %s  </xmp><script src=\"http://strapdownjs.com/v/0.2/strapdown.js\"></script></html>" (buffer-substring-no-properties (point-min) (point-max))))
+	 (current-buffer)))
+  #+end_src
+  Start the http server with =M-x httpd-start= and enable =impatient-mode= in the current buffer with =M-x impatient-mode=.
+  You can stop the server with =M-x httpd-stop= and disable =impatient-mode= in the current buffer with =M-x impatient-mode=.
 * Python
   :PROPERTIES:
   :CUSTOM_ID: python
@@ -451,6 +465,7 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
   (load-file "~/.emacs.d/display-config.el")
   (load-file "~/.emacs.d/edit-config.el")
   (load-file "~/.emacs.d/orgmode-config.el")
+  (load-file "~/.emacs.d/markdown-config.el")
   (load-file "~/.emacs.d/windmove-config.el")
   (load-file "~/.emacs.d/python-config.el")
   (load-file "~/.emacs.d/dired-config.el")
