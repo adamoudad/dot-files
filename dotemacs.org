@@ -22,7 +22,7 @@
      elpy htmlize edit-server yaml-mode ein org-ref magit
      material-theme easy-jekyll easy-hugo org-bullets
      cider slime all-the-icons-dired inf-ruby
-     rainbow-delimiters langtool
+     rainbow-delimiters langtool solidity-mode
      ) "Default packages")
    #+END_SRC
 ** Install packages
