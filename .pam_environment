@@ -14,6 +14,11 @@ GTK_IM_MODULE       DEFAULT=fcitx5
 QT_IM_MODULE        DEFAULT=fcitx5
 XMODIFIERS          DEFAULT=\@im=fcitx5
 SDL_IM_MODULE       DEFAULT=fcitx5
-
 MOZ_ENABLE_WAYLAND  DEFAULT=1
 # MOZ_DBUS_REMOTE     DEFAULT=1
+
+# Avoid iterating over all backends for seatd
+# Avoid the error: 00:00:00.007 [wlr] [libseat] [libseat/backend/seatd.c:70] Could not connect to socket /run/seatd.sock: No such file or directory
+LIBSEAT_BACKEND	    DEFAULT=logind
+
+
