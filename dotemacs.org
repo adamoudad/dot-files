@@ -220,11 +220,11 @@
     (sequence "|" "CANCELED(c)")))
     #+END_SRC
     - Use latexmk for latex export. ~-shell-escape~ option is required for =minted= package, though it is not very safe
-    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
-(setq org-latex-pdf-process '("%latex -interaction nonstopmode -shell-escape -output-directory %o %f" "bibtex %b" "%latex -interaction nonstopmode -shell-escape -output-directory %o %f" "%latex -interaction nonstopmode -shell-escape -output-directory %o %f"))
-;; this command breaks reference (setq org-latex-pdf-process (list "latexmk -pdf -shell-escape %f"))
-;; Add -interaction nonstopmode -output-directory %o %f
-    #+END_SRC
+	#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/orgmode-config.el
+    (setq org-latex-pdf-process '("%latex -interaction nonstopmode -shell-escape -output-directory=%o %f" "bibtex %b" "%latex -interaction nonstopmode -shell-escape -output-directory=%o %f" "%latex -interaction nonstopmode -shell-escape -output-directory=%o %f"))
+    ;; this command breaks reference (setq org-latex-pdf-process (list "latexmk -pdf -shell-escape %f"))
+    ;; Add -interaction nonstopmode -output-directory %o %f
+	#+END_SRC
   - Org-babel evaluation languages
     #+BEGIN_SRC emacs-lisp
       (org-babel-do-load-languages
@@ -243,7 +243,14 @@
     #+BEGIN_SRC elisp
       (setq org-latex-listings 'minted
 	    org-latex-packages-alist '(("" "minted")))
+      ;; (add-to-list 'org-latex-packages-alist '("newflot" "minted"))
     #+END_SRC
+  - For fixing bugs related to minted especially, activate buffer-local variable bindings.
+    #+begin_src elisp
+(setq org-export-allow-bind-keywords t)
+;; To disable minted add in header of an org file
+;; #+BIND: org-latex-listings nil
+    #+end_src
   - Org-ref
     #+BEGIN_SRC emacs-lisp
     (require 'org-ref)
