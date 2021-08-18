@@ -48,7 +48,8 @@
   #+END_SRC
   Fonts [fn:fonts]
   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/theme-config.el
-    '(variable-pitch ((t (:family "DejaVu Sans Mono" :height 160))))
+    '(variable-pitch ((t (:family "Source Sans Pro" :height 180 :weight thin))))
+    '(fixed-pitch ((t (:family "Fira Code Retina" :height 160))))
     (defun set-buffer-variable-pitch ()
       (interactive)
       (variable-pitch-mode t)
