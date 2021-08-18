@@ -205,6 +205,10 @@
     (require 'ox-beamer)
     (require 'ox-md)
     #+END_SRC
+  - Export with broken links
+    #+begin_src elisp
+(setq org-export-with-broken-links t)
+    #+end_src
   - Line Wrapping même dans orgmode
     #+BEGIN_SRC emacs-lisp
     (setq org-startup-truncated nil)
