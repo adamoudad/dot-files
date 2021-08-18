@@ -23,7 +23,7 @@ abbr -a -- d 'prevd -l'		# List directory history
 abbr -a -- _ 'sudo '
 # abbr -a -- afind 'ack -il'
 abbr -a -- dcs docker-compose
-abbr -a -- jekyll 'bundle exec jekyll'
+# abbr -a -- jekyll 'bundle exec jekyll'
 abbr -a -g -- py python
 abbr -a -g -- py3 python3
 abbr -a -g -- py2 python2
@@ -196,7 +196,8 @@ abbr -a -- mv 'mv -i'		# Prompt before overwriting
 abbr -a -- cp 'cp -i'		# Prompt before overwriting
 abbr -a -- rename 'rename -i'	# Prompt before overwriting
 abbr -a -- sed 'sed -i'		# Prompt before overwriting
-abbr -a -- rm 'rm -I'		# Prompt before many removals
+abbr -a -- rm 'trash'
+# abbr -a -- rm 'rm -I'		# Prompt before many removals
 abbr -a -- rd rmdir
 abbr -a -- re 'source'
 abbr -a -- rsync 'rsync -avP'	# Archive mode, verbose, partial mode (continue stopped sync)
@@ -207,6 +208,8 @@ abbr -a -- emacsd 'emacs --daemon'
 abbr -a -- whatsmyip 'curl ifconfig.me'
 abbr -a -- py 'python'
 abbr -a -- unsshfs 'fusermount3 -u'
+abbr -a -- handbrake 'ghb'
+abbr -a -- torrent 'deluge'
 # abbr -a -- run-help man
 # abbr -a -- which-command whence
 # abbr -a -- xmodmap-revert 'xmodmap ~/Git/dot-files/.Xmodmap-revert'
