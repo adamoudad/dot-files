@@ -1,4 +1,4 @@
-set PATH $HOME/.gem/ruby/2.7.0/bin $HOME/Scripts $HOME/.local/bin $PATH
+set PATH $HOME/.local/share/gem/ruby/3.0.0/bin $HOME/Scripts $HOME/.local/bin $HOME/node_modules/.bin/ $PATH
 
 set GEM_HOME $HOME/.gem		# Ruby gem path
 set VISUAL "emacsclient -c"	# Default text editor
