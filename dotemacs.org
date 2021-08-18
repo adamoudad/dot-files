@@ -79,6 +79,7 @@
     (menu-bar-mode -1)
     (tool-bar-mode -1)
     (setq-default display-line-numbers 'relative)
+    (add-hook 'org-mode-hook (lambda () (setq-local display-line-numbers nil)))
     ;;(scroll-bar-mode -1)
     (global-hl-line-mode t) ;; highlight current line
   #+END_SRC
