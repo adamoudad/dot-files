@@ -1,6 +1,7 @@
 set PATH $HOME/.local/share/gem/ruby/3.0.0/bin $HOME/Scripts $HOME/.local/bin $HOME/node_modules/.bin/ $PATH
 
 set GEM_HOME $HOME/.gem		# Ruby gem path
+set npm_config_prefix $HOME/.local
 set VISUAL "emacsclient -c"	# Default text editor
 set fish_greeting		# Remove the greeting
 
@@ -210,6 +211,7 @@ abbr -a -- py 'python'
 abbr -a -- unsshfs 'fusermount3 -u'
 abbr -a -- handbrake 'ghb'
 abbr -a -- torrent 'deluge'
+abbr -a -- screenshot "grim -g (slurp) screenshot.png"
 # abbr -a -- run-help man
 # abbr -a -- which-command whence
 # abbr -a -- xmodmap-revert 'xmodmap ~/Git/dot-files/.Xmodmap-revert'
