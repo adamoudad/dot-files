@@ -269,7 +269,7 @@ exec --no-startup-id udiskie -Ans --appindicator
 exec --no-startup-id emacs --daemon
 exec --no-startup-id gammastep-indicator -c ~/Git/dot-files/gammastep.ini
 # exec --no-startup-id syncthingtray
-exec --no-startup-id mako
+exec --no-startup-id mako --default-timeout 10000
 exec --no-startup-id swaynag-battery --uevent /sys/class/power_supply/BATT/uevent
 output * bg `find $wallpaper -type f | shuf -n 1` fill
 
