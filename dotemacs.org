@@ -472,6 +472,20 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/path-config.el
     (setq easy-hugo-basedir "~/Personal/research-log/")
     #+END_SRC
+* IRC
+  :PROPERTIES:
+  :header-args: :tangle ~/.emacs.d/irc-config.el
+  :END:
+  Define a nice command ~start-irc~ to connect to relevant IRC channels. Also use the ~notifications~ module to get notified of new messages.
+  #+begin_src elisp
+(setq erc-modules '(pcomplete netsplit fill button match track completion readonly networks ring autojoin noncommands irccontrols move-to-prompt stamp menu list notifications))
+;; (erc-update-modules) Must be run manually it seems... because this fails at startup
+(setq erc-autojoin-channels-alist '(("libera" "#orgmode" "#emacs")))
+(defun start-irc ()
+  "Automatically connect to IRC channels"
+  (interactive)
+  (erc-tls :server "irc.libera.chat" :port 6697 :nick "adam"))
+  #+end_src
 * LISP and Scheme
   :PROPERTIES:
   :header-args: :tangle ~/.emacs.d/slime-config.el
@@ -560,6 +574,7 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
   (load-file "~/.emacs.d/magit-conf.el")
   (load-file "~/Git/tifinagh-transliterator/tifinagh.el")
   (load-file "~/.emacs.d/skeletons-config.el")
+  (load-file "~/.emacs.d/irc-config.el")
   (load-file "~/.emacs.d/lsp-config.el")
   #+END_SRC
 * More
