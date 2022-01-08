@@ -356,7 +356,7 @@
   - yapf :: Formattage du code
   - rope :: refactoring
   - black :: code formatting
-  #+BEGIN_SRC bash :tangle nil
+  #+BEGIN_SRC bash :tangle no
   source source .emacs.d/elpy/rpc-venv/bin/activate.fish
   python -m ensurepip
   python -m ensurepip --upgrade
