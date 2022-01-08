@@ -23,6 +23,8 @@
      material-theme easy-jekyll easy-hugo org-bullets
      cider slime all-the-icons-dired inf-ruby
      rainbow-delimiters langtool solidity-mode
+     lsp-mode lsp-ui flycheck company lsp-treemacs helm-lsp dap-mode
+     lsp-haskell
      ) "Default packages")
    #+END_SRC
 ** Install packages
@@ -192,7 +194,7 @@
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c c") 'org-capture)
     #+END_SRC
-  - Change ellipsis, to avoid problem when using three dots
+  - Beautify ellipsis symbol
     #+BEGIN_SRC emacs-lisp
     (setq org-ellipsis "⤵")
     #+END_SRC
@@ -339,10 +341,13 @@
   #+end_src
   Start the http server with =M-x httpd-start= and enable =impatient-mode= in the current buffer with =M-x impatient-mode=.
   You can stop the server with =M-x httpd-stop= and disable =impatient-mode= in the current buffer with =M-x impatient-mode=.
-* Python
+* COMMENT Python with Elpy
   :PROPERTIES:
   :CUSTOM_ID: python
+    :header-args: :tangle ~/.emacs.d/python-config.el
   :END:
+  This is part is obsolete when using =lsp-mode=.
+  
   Utiliser Elpy[fn:1]. Il faut installer les paquets python suivants.
   - jedi :: Autocompletion et analyse statique
   - flake8 :: Vérification du code
@@ -351,13 +356,13 @@
   - yapf :: Formattage du code
   - rope :: refactoring
   - black :: code formatting
-  #+BEGIN_SRC bash
+  #+BEGIN_SRC bash :tangle nil
   source source .emacs.d/elpy/rpc-venv/bin/activate.fish
   python -m ensurepip
   python -m ensurepip --upgrade
   pip install jedi flake8 importmagic autopep8 rope yapf black
   #+END_SRC
-  #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/python-config.el
+  #+BEGIN_SRC emacs-lisp
   (elpy-enable)
   #+END_SRC
   - Virtual environement setup
@@ -397,6 +402,34 @@ services:
 # docker-compose run python python3
 docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
     #+END_SRC
+* Language Server Protocol
+  :PROPERTIES:
+  :header-args: :tangle ~/.emacs.d/lsp-config.el
+  :END:
+  - For python run ~pip install 'python-lsp-server[all]'~  in a terminal to install the python language server.
+  - For haskell, run ~pacman -S haskell-language-server~. Then configure the variable ~lsp-haskell-server-path~ (TODO:how?)
+  - For Go, run ~go install golang.org/x/tools/gopls@latest~ and make sure the $PATH is updated to the go binaries of ~go env~  (TODO: https://github.com/golang/tools/blob/master/gopls/doc/emacs.md)
+  #+BEGIN_SRC emacs-lisp
+(setq lsp-keymap-prefix "s-q")		;default was super-l
+(require 'lsp-mode)
+
+(add-hook 'python-mode-hook #'lsp-deferred)
+
+(require 'lsp)
+(require 'lsp-haskell)
+;; Hooks so haskell and literate haskell major modes trigger LSP setup
+(add-hook 'haskell-mode-hook #'lsp)
+(add-hook 'haskell-literate-mode-hook #'lsp)
+
+(add-hook 'go-mode-hook #'lsp-deferred)
+;; Set up before-save hooks to format buffer and add/delete imports.
+;; Make sure you don't have other gofmt/goimports hooks enabled.
+(defun lsp-go-install-save-hooks ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+  #+END_SRC
+
 * Dired
   :PROPERTIES:
   :header-args: :tangle ~/.emacs.d/dired-config.el
@@ -520,7 +553,7 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
   (load-file "~/.emacs.d/orgmode-config.el")
   (load-file "~/.emacs.d/markdown-config.el")
   (load-file "~/.emacs.d/windmove-config.el")
-  (load-file "~/.emacs.d/python-config.el")
+  ;; (load-file "~/.emacs.d/python-config.el")
   (load-file "~/.emacs.d/dired-config.el")
   (load-file "~/.emacs.d/docview-config.el")
   (load-file "~/.emacs.d/path-config.el")
@@ -528,6 +561,7 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
   (load-file "~/.emacs.d/magit-conf.el")
   (load-file "~/Git/tifinagh-transliterator/tifinagh.el")
   (load-file "~/.emacs.d/skeletons-config.el")
+  (load-file "~/.emacs.d/lsp-config.el")
   #+END_SRC
 * More
   Dotemacs in orgmode
