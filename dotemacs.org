@@ -542,8 +542,7 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
   "#+BEAMER_HEADER: \\AtBeginSection[]{\\begin{frame}<beamer>\\frametitle{Topic}\\tableofcontents[currentsection]\\end{frame}}" \n)
   #+end_src
 * Init
-  The content of the init.el file.
-  This is at the end of this document so that all other .el files are created before trying to load them.
+  The content of the init.el file will simply load all other .el files previously defined.
   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (package-initialize)
   (load-file "~/.emacs.d/package-config.el")
