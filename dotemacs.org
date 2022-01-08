@@ -554,6 +554,11 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
   "#+BIBLIOGRAPHY: ~/Bibliographies/bibliography" \n
   "#+BIBLIOGRAPHY_STYLE: plain" \n
   "#+BEAMER_HEADER: \\AtBeginSection[]{\\begin{frame}<beamer>\\frametitle{Topic}\\tableofcontents[currentsection]\\end{frame}}" \n)
+
+(define-skeleton skel-black-latex
+  "Insert packages for outputting white on black LaTeX documents"
+  nil
+  "\\usepackage{xcolor}\\usepackage{pagecolor}\\pagecolor{black}\\color{white}\n")
   #+end_src
 * Init
   The content of the init.el file will simply load all other .el files previously defined.
