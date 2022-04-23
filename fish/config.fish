@@ -212,6 +212,8 @@ abbr -a -- unsshfs 'fusermount3 -u'
 abbr -a -- handbrake 'ghb'
 abbr -a -- torrent 'deluge'
 abbr -a -- screenshot "grim -g (slurp) screenshot.png"
+abbr -a -- monitor-lab "swaymsg output HDMI-A-1 scale 1.5 pos 0 0"
+abbr -a -- monitor-home "swaymsg output HDMI-A-1 scale 1.0 pos 0 0"
 # abbr -a -- run-help man
 # abbr -a -- which-command whence
 # abbr -a -- xmodmap-revert 'xmodmap ~/Git/dot-files/.Xmodmap-revert'
