@@ -270,6 +270,7 @@ input 2131:256:Topre_Corporation_HHKB_Professional {
   xkb_layout "us"
 }
 
+Include /etc/sway/config.d/*
 
 # startup
 # exec_always xrandr --output LVDS1 --primary --auto --right-of HDMI1 --output HDMI1 --auto
