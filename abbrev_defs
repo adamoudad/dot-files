@@ -7,6 +7,11 @@
     ("repr" "representation" nil :count 1)
    ))
 
+(define-abbrev-table 'python-mode-abbrev-table
+  '(
+    ("pdb" "import pdb; pdb.set_trace()" nil :count 0)
+   ))
+
 (define-abbrev-table 'org-mode-abbrev-table
   '(
     ("fig" "#+CAPTION: 
