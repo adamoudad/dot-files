@@ -215,11 +215,14 @@ bindsym --locked XF86MonBrightnessUp exec brightnessctl set +5%
 bindsym $mod+p exec grim -g (slurp) screenshot.png
 bindsym --locked XF86TouchpadToggle exec swaymsg input 1267:12529:ELAN1206:00_04F3:30F1_Touchpad events toggle
 # Pluging-in a new monitor messes up pulseaudio sinks, so here are some keybindings to fix this
-bindsym --locked $mod+Shift+b exec --no-startup-id pactl set-default-sink 0 # Set to laptop speakers
-bindsym --locked $mod+Shift+n exec --no-startup-id pactl set-default-sink 2 # Set to headphones
+bindsym --locked $mod+Ctrl+1 exec --no-startup-id pactl set-default-sink 0 # Set to laptop speakers
+bindsym --locked $mod+Ctrl+2 exec --no-startup-id pactl set-default-sink 1 # Set to 
+bindsym --locked $mod+Ctrl+3 exec --no-startup-id pactl set-default-sink 2 # Set to headphones
+bindsym --locked $mod+Ctrl+4 exec --no-startup-id pactl set-default-sink 3 # Set to 
+bindsym --locked $mod+Ctrl+5 exec --no-startup-id pactl set-default-sink 4 # Set to 
 # Fix monitor at home or in the lab
-bindsym --locked $mod+Shift+m exec --no-startup-id swaymsg output HDMI-A-1 scale 1.0 pos 0 0 # Home monitor
-bindsym --locked $mod+Shift+v exec --no-startup-id swaymsg output HDMI-A-1 scale 1.5 pos 0 0 # Lab monitor
+bindsym --locked $mod+Shift+v exec --no-startup-id swaymsg output HDMI-A-1 scale 1.0 pos 0 0 # Home monitor
+bindsym --locked $mod+Shift+b exec --no-startup-id swaymsg output HDMI-A-1 scale 1.5 pos 0 0 # Lab monitor
 # Recording wf-recorder -a -g ""(slurp)"" -f recording.mp4
 # set player control
 # seems to be handle by default by rhythmbox
