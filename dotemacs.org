@@ -231,6 +231,24 @@
     #+begin_src elisp
 (setq default-input-method "french-postfix")
     #+end_src
+* Power saving
+:PROPERTIES:
+:header-args: :tangle ~/.emacs.d/powersave-config.el
+:END:
+#+begin_src elisp
+(defun toggle-powersave ()
+  "Disable energy-intensive things."
+  (interactive)
+  (message "Power saving is %s"
+	   (if (member #'company-tabnine company-backends)
+	       (progn
+		 (setq company-backends (remove #'company-tabnine company-backends))
+		 "ON")
+	     (progn
+	       (add-to-list 'company-backends #'company-tabnine)
+	       "OFF"))
+	   ))
+#+end_src
 * Grammar checking
   :PROPERTIES:
   :header-args: :tangle ~/.emacs.d/edit-config.el
