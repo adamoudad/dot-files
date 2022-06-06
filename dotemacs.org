@@ -26,6 +26,8 @@
      emojify org-drill
      lsp-mode lsp-ui flycheck company lsp-treemacs helm-lsp dap-mode
      lsp-haskell which-key
+     cmake-mode json-mode dockerfile-mode caml
+     treemacs org-modern ox-hugo use-package
      ) "Default packages")
    #+END_SRC
 ** Install packages
@@ -401,7 +403,7 @@
   :CUSTOM_ID: python
     :header-args: :tangle ~/.emacs.d/python-config.el
   :END:
-  This is part is obsolete when using =lsp-mode=.
+  This is part is unnecessary when using =lsp-mode=.
   
   Utiliser Elpy[fn:1]. Il faut installer les paquets python suivants.
   - jedi :: Autocompletion et analyse statique
@@ -420,12 +422,14 @@
   #+BEGIN_SRC emacs-lisp
   (elpy-enable)
   #+END_SRC
-  - Virtual environement setup
-    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/python-config.el
+* Pyvenv setup
+ - Virtual environement setup
+   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/python-config.el
     (setenv "WORKON_HOME" "~/.pyvenv/")
-    #+END_SRC
-  - Docker python shell. ~docker pull ufoym/deepo~ is necessary beforehand
-    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/python-config.el
+   #+END_SRC
+* COMMENT Docker
+ - Docker python shell. ~docker pull ufoym/deepo~ is necessary beforehand
+   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/python-config.el
 (define-key elpy-mode-map (kbd "C-c C-S-c") 'docker-elpy-shell-send-region-or-buffer)
 
 (setq docker-shell-interpreter (expand-file-name "~/Tests/docker-python-shell.sh"))
@@ -438,8 +442,8 @@
     (elpy-shell-send-region-or-buffer)
     (setq python-shell-interpreter default-shell-interpreter)
     ))
-    #+END_SRC
-    #+BEGIN_SRC yaml :tangle ~/Tests/docker-compose.yml
+   #+END_SRC
+   #+BEGIN_SRC yaml :tangle ~/Tests/docker-compose.yml
 version: '2.3'
 services:
   python:
@@ -449,14 +453,14 @@ services:
       - '/tmp:/tmp'             # https://stackoverflow.com/questions/43194627/how-to-connect-emacs-elpy-in-buffer-python-interpreter-to-docker-container
       - '.:/code'
     command: python3
-    #+END_SRC
-    This needs a change in file permission ~chmod u+x ~/Tests/docker-python-shell.sh~
-    #+BEGIN_SRC bash :tangle ~/Tests/docker-python-shell.sh :tangle-mode (identity #o744)
+   #+END_SRC
+   This needs a change in file permission ~chmod u+x ~/Tests/docker-python-shell.sh~
+   #+BEGIN_SRC bash :tangle ~/Tests/docker-python-shell.sh :tangle-mode (identity #o744)
 #!/bin/bash
 # cd ~/Tests/
 # docker-compose run python python3
 docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
-    #+END_SRC
+   #+END_SRC
 * Language Server Protocol
   :PROPERTIES:
   :header-args: :tangle ~/.emacs.d/lsp-config.el
@@ -464,6 +468,23 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
   - For python run ~pip install 'python-lsp-server[all]'~  in a terminal to install the python language server.
   - For haskell, run ~pacman -S haskell-language-server~. Then configure the variable ~lsp-haskell-server-path~ (TODO:how?)
   - For Go, run ~go install golang.org/x/tools/gopls@latest~ and make sure the $PATH is updated to the go binaries of ~go env~  (TODO: https://github.com/golang/tools/blob/master/gopls/doc/emacs.md)
+  - For CMake run ~pip install cmake-language-server~
+  - For Grammarly, run ~npm i -g @emacs-grammarly/unofficial-grammarly-language-server~. Remove the ~-g~ if you install for the current user only.
+  - For Ruby, run ~gem install solargraph~
+  - (Fails) For Markdown run ~npm i -g unified-language-server~. It seems unified LS is deprecated and remark LS is preferred but none is working right now.
+  - (Fails) For OCaml, install opam and run ~opam install ocaml-lsp-server~
+  - For other languages, try =M-x lsp-install-server= to see if an automated server install is available. Notably there is for
+    - C and C++ with =clangd=
+    - HTML with =html-ls=
+    - JSON with =json-ls=
+    - XML with =xmlls=
+    - YAML with =yamlls=
+    - CSS, SCSS, SASS, LessCSS with =css-ls=
+    - Clojure with =clojure-lsp=
+    - Dockerfile with dockerfile-ls
+
+
+  To run lsp on opening a specific extension, use ~(add-hook 'xxx-mode-hook #'lsp)~ where ~xxx~ is the language name which has a mode in emacs. 
   #+BEGIN_SRC emacs-lisp
 (setq lsp-keymap-prefix "s-q")		;default was super-l
 (require 'lsp-mode)
@@ -472,7 +493,9 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
 
 (require 'lsp)
 (require 'lsp-haskell)
+
 ;; Hooks so haskell and literate haskell major modes trigger LSP setup
+(require 'haskell)
 (add-hook 'haskell-mode-hook #'lsp)
 (add-hook 'haskell-literate-mode-hook #'lsp)
 
@@ -483,6 +506,27 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
   (add-hook 'before-save-hook #'lsp-format-buffer t t)
   (add-hook 'before-save-hook #'lsp-organize-imports t t))
 (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+
+(add-hook 'c-mode-hook #'lsp)
+(add-hook 'c++-mode-hook #'lsp)
+(add-hook 'cmake-mode-hook #'lsp)
+
+(add-hook 'html-mode-hook #'lsp)
+(add-hook 'xml-mode-hook #'lsp)
+(add-hook 'yaml-mode-hook #'lsp)
+(add-hook 'json-mode-hook #'lsp)
+(add-hook 'css-mode-hook #'lsp)
+(add-hook 'dockerfile-mode-hook #'lsp)
+;; Fails miserably, because it cannot find the executable: (add-hook 'markdown-mode-hook #'lsp)
+
+(require 'caml)
+(add-hook 'clojure-mode-hook #'lsp)
+(add-hook 'ruby-mode-hook #'lsp)
+(add-hook 'caml-mode-hook #'lsp)
+
+;; For shorthand expansions
+(yas-reload-all)
+(add-hook 'prog-mode-hook #'yas-minor-mode)
   #+END_SRC
 
 * Dired
@@ -523,10 +567,26 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
     (setq exec-path (append exec-path '("/home/adam/.gem/ruby/2.6.0/bin")))
     #+END_SRC
 * Blog
+:PROPERTIES:
+:header-args: :tangle ~/.emacs.d/path-config.el
+:END:
   - Easy-hugo configuration
-    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/path-config.el
+    #+BEGIN_SRC emacs-lisp
     (setq easy-hugo-basedir "~/Personal/research-log/")
     #+END_SRC
+  - Easy-jekyll configuration
+#+begin_src emacs-lisp
+(use-package easy-jekyll
+:init
+(setq easy-jekyll-basedir "~/Projets/Imiksimik-ighd/imiksimik")
+;; (setq easy-jekyll-url "https://yourblogdomain")
+;; (setq easy-jekyll-sshdomain "blogdomain")
+;; (setq easy-jekyll-root "/home/blog/")
+;; (setq easy-jekyll-previewtime "300")
+(setq easy-jekyll-markdown-extension "markdown")
+(setq easy-jekyll-default-ext ".markdown")
+:bind ("C-c j" . easy-jekyll))
+#+end_src
 * IRC
   :PROPERTIES:
   :header-args: :tangle ~/.emacs.d/irc-config.el
@@ -640,6 +700,12 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
   (load-file "~/.emacs.d/irc-config.el")
   (load-file "~/.emacs.d/lsp-config.el")
   #+END_SRC
+Additional custom configuration introduced by the customization UI is placed in a separate file.
+    #+begin_src elisp
+(setq custom-file (locate-user-emacs-file "custom-config.el"))
+(load custom-file'noerror 'nomessage)
+    #+end_src
+
 * More
   Dotemacs in orgmode
   - http://mescal.imag.fr/membres/arnaud.legrand/misc/init.php
@@ -651,6 +717,9 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
   Updated list of great packages
   - https://github.com/emacs-tw/awesome-emacs
 * Footnotes
+
+[fn:12]https://github.com/TommyX12/company-tabnine 
+[fn:11]https://www.tabnine.com/install/emacs 
 
 [fn:8] https://github.com/syl20bnr/spacemacs/issues/12003#issuecomment-465686129 
 
