@@ -23,6 +23,7 @@
      easy-jekyll
      cider slime all-the-icons-dired inf-ruby
      rainbow-delimiters langtool solidity-mode
+     emojify org-drill
      lsp-mode lsp-ui flycheck company lsp-treemacs helm-lsp dap-mode
      lsp-haskell which-key
      ) "Default packages")
@@ -204,6 +205,29 @@
     (require 'edit-server)
     (edit-server-start)
     #+END_SRC
+  - Emojis
+    #+begin_src elisp
+;; (add-hook 'after-init-hook #'global-emojify-mode)
+;; (require 'emojify-logos)
+;; (setq emojify-company-tooltips-p t)
+    #+end_src
+  - Company mode, with Tabnine[fn:11] backend company-tabnine[fn:12]
+    #+begin_src elisp
+(add-hook 'after-init-hook 'global-company-mode)
+
+(use-package company-tabnine :ensure t)
+(add-to-list 'company-backends #'company-tabnine)
+
+;; Trigger completion immediately.
+(setq company-idle-delay 0)
+
+;; Number the candidates (use M-1, M-2 etc to select completions).
+(setq company-show-numbers t)
+    #+end_src
+  - Default input method
+    #+begin_src elisp
+(setq default-input-method "french-postfix")
+    #+end_src
 * Grammar checking
   :PROPERTIES:
   :header-args: :tangle ~/.emacs.d/edit-config.el
@@ -228,10 +252,6 @@
 (global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c c") 'org-capture)
-    #+END_SRC
-  - Beautify ellipsis symbol
-    #+BEGIN_SRC emacs-lisp
-    (setq org-ellipsis "⤵")
     #+END_SRC
   - Ajouter date lors de la l'achèvement d'une tâche
     #+BEGIN_SRC emacs-lisp
