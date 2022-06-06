@@ -28,6 +28,7 @@
      lsp-haskell which-key
      cmake-mode json-mode dockerfile-mode caml
      treemacs org-modern ox-hugo use-package
+     org-roam  company-tabnine
      ) "Default packages")
    #+END_SRC
 ** Install packages
@@ -315,23 +316,10 @@
     #+BEGIN_SRC emacs-lisp
     (require 'org-ref)
     #+END_SRC
-  - Size of preview latex fragments
-    #+BEGIN_SRC emacs-lisp
-      (setq org-format-latex-options (plist-put org-format-latex-options :scale 3.0))
-    #+END_SRC
-    - Customizations[fn:3], hide emphasis markup, org-bullets
-      #+BEGIN_SRC emacs-lisp
-      (setq org-hide-emphasis-markers t)
-      (add-hook 'org-mode-hook 'org-bullets-mode)
-      (add-hook 'org-mode-hook 'visual-line-mode)
-      #+END_SRC
     - Activate
       #+BEGIN_SRC emacs-lisp
-      (setq org-default-notes-file (concat org-directory "~/Notes/notes.org"))
-      #+END_SRC
-    - Turn off actual size for inline images
-      #+BEGIN_SRC emacs-lisp
-      (setq org-image-actual-width nil)
+(setq org-directory "~/Notes/")
+      (setq org-default-notes-file (concat org-directory "notes.org"))
       #+END_SRC
     - Custom structure templates
       #+begin_src elisp
@@ -341,6 +329,90 @@
    Since orgmode 9.2, this is needed for oldstyle template behavior, with completion for "<s" for example.[fn:8]
    #+begin_src emacs-lisp
    (add-to-list 'org-modules 'org-tempo t)
+   #+end_src
+** Zettelcasten
+#+begin_src elisp
+;; (use-package zetteldeft
+;;   :after deft
+;;   :config
+;;   (zetteldeft-set-classic-keybindings))
+(use-package org-roam
+  :ensure t
+  :custom
+  (org-roam-directory "~/Dropbox/org-roam")
+  (org-roam-completion-everywhere t)
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+	 ("C-c n f" . org-roam-node-find)
+	 ("C-c n i" . org-roam-node-insert)
+	 :map org-mode-map
+	 ("C-M-i" . completion-at-point))
+  :config
+  (org-roam-setup))
+;; (org-roam-db-autosync-mode)
+
+#+end_src
+** Blogging with hugo
+#+begin_src elisp
+(use-package ox-hugo
+  :ensure t   ;Auto-install the package from Melpa
+  :pin melpa  ;`package-archives' should already have ("melpa" . "https://melpa.org/packages/")
+  :after ox)
+#+end_src
+** Beautify with org-modern
+   #+begin_src elisp
+;; (modus-themes-load-vivendi)
+
+;; Add all your customizations prior to loading the themes
+(setq modus-themes-italic-constructs t
+      modus-themes-bold-constructs nil
+      modus-themes-region '(bg-only no-extend))
+
+;; Load the theme of your choice:
+(load-theme 'modus-vivendi)
+(define-key global-map (kbd "<f5>") #'modus-themes-toggle)
+
+
+;; ;; Choose some fonts
+;; (set-face-attribute 'default nil :family "Fira Code")
+;; (set-face-attribute 'variable-pitch nil :family "ETBembo")
+;; (set-face-attribute 'org-modern-symbol nil :family "Iosevka")
+
+;; Add frame borders and window dividers
+;; (modify-all-frames-parameters
+;;  '((right-divider-width . 40)
+;;    (internal-border-width . 40)))
+(dolist (face '(window-divider
+                window-divider-first-pixel
+                window-divider-last-pixel))
+  (face-spec-reset-face face)
+  (set-face-foreground face (face-attribute 'default :background)))
+(set-face-background 'fringe (face-attribute 'default :background))
+
+(setq
+ ;; Edit settings
+ org-auto-align-tags nil
+ org-tags-column 0
+ org-catch-invisible-edits 'show-and-error
+ org-special-ctrl-a/e t
+ org-insert-heading-respect-content t
+
+ ;; Org styling, hide markup etc.
+ org-hide-emphasis-markers t
+ org-pretty-entities t
+ org-ellipsis "…"
+
+ ;; Agenda styling
+ org-agenda-block-separator ?─
+ org-agenda-time-grid
+ '((daily today require-timed)
+   (800 1000 1200 1400 1600 1800 2000)
+   " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
+ org-agenda-current-time-string
+ "⭠ now ─────────────────────────────────────────────────")
+
+;; Enable org-modern-mode
+(add-hook 'org-mode-hook #'org-modern-mode)
+(add-hook 'org-agenda-finalize-hook #'org-modern-agenda)
    #+end_src
 ** LaTeX
    Custom classes latex
@@ -695,7 +767,7 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
   (load-file "~/.emacs.d/path-config.el")
   (load-file "~/.emacs.d/slime-config.el")
   (load-file "~/.emacs.d/magit-conf.el")
-  (load-file "~/Git/tifinagh-transliterator/tifinagh.el")
+  (load-file "~/Maintained/tifinagh-transliterator/tifinagh.el")
   (load-file "~/.emacs.d/skeletons-config.el")
   (load-file "~/.emacs.d/irc-config.el")
   (load-file "~/.emacs.d/lsp-config.el")
