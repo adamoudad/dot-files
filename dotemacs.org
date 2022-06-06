@@ -20,7 +20,7 @@
    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/package-config.el
      (defvar adam/packages '(ox-reveal auctex markdown-mode ;; ledger-mode
      elpy htmlize edit-server yaml-mode ein org-ref magit
-     material-theme easy-jekyll easy-hugo org-bullets
+     easy-jekyll
      cider slime all-the-icons-dired inf-ruby
      rainbow-delimiters langtool solidity-mode
      lsp-mode lsp-ui flycheck company lsp-treemacs helm-lsp dap-mode
@@ -38,54 +38,72 @@
         (when (not (package-installed-p pkg))
           (package-install pkg))))
    #+END_SRC
-* Theme
+* COMMENT Theme
   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/theme-config.el
-    (load-theme 'material t)
-    ;; My old theme
-    ;; (custom-set-variables
-    ;;  '(ansi-color-faces-vector
-    ;;    [default default default italic underline success warning error])
-    ;;  '(custom-enabled-themes (quote (tango-dark))))
-    ;; (custom-set-faces)
+;; (load-theme 'material t)
+;; My old theme
+;; (custom-set-variables
+;;  '(ansi-color-faces-vector
+;;    [default default default italic underline success warning error])
+;;  '(custom-enabled-themes (quote (tango-dark))))
+;; (custom-set-faces)
+;; (set-language-environment "UTF-8")
+
+;; (setq inhibit-startup-message t)
+;; (column-number-mode t)
+;; (display-time-mode t)
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+;; (setq-default display-line-numbers 'relative)
+;; (add-hook 'org-mode-hook (lambda () (setq-local display-line-numbers nil)))
+(scroll-bar-mode -1)
+;; (global-hl-line-mode t) ;; highlight current line
+;; (setq-default frame-title-format '("%f [%m]")) ;; Display the file path and mode of the current buffer as frame title
+
   #+END_SRC
   Fonts [fn:fonts]
   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/theme-config.el
-    '(variable-pitch ((t (:family "Source Sans Pro" :height 180 :weight thin))))
-    '(fixed-pitch ((t (:family "Fira Code Retina" :height 160))))
-    (defun set-buffer-variable-pitch ()
-      (interactive)
-      (variable-pitch-mode t)
-      (setq line-spacing 2)
-      (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
-      (set-face-attribute 'org-code nil :inherit 'fixed-pitch)
-      (set-face-attribute 'org-block nil :inherit 'fixed-pitch)
-      (set-face-attribute 'org-meta-line nil :inherit 'fixed-pitch)
-      (set-face-attribute 'org-code nil :inherit 'fixed-pitch)
-      ;; (set-face-attribute 'org-block-background nil :inherit 'fixed-pitch)
-      )
+;; (when (window-system)
+;;   (set-frame-font "Fira Code"))
+;; (custom-theme-set-faces
+;;  'user
+;;  '(variable-pitch ((t (:family "ETBembo" :height 120 :weight thin))))
+;;  '(fixed-pitch ((t ( :family "Fira Code Retina" :height 100)))))
+;; (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
+;;                ;; (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
+;;                ;; (36 . ".\\(?:>\\)")
+;;                ;; (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
+;;                ;; (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
+;;                ;; (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
+;;                ;; (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
+;;                ;; (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
+;;                ;; (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
+;;                ;; (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
+;;                ;; (48 . ".\\(?:x[a-zA-Z]\\)")
+;;                ;; (58 . ".\\(?:::\\|[:=]\\)")
+;;                ;; (59 . ".\\(?:;;\\|;\\)")
+;;                ;; (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
+;;                ;; (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
+;;                ;; (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
+;;                ;; (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
+;;                ;; (91 . ".\\(?:]\\)")
+;;                ;; (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
+;;                ;; (94 . ".\\(?:=\\)")
+;;                ;; (119 . ".\\(?:ww\\)")
+;;                ;; (123 . ".\\(?:-\\)")
+;;                (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
+;;                (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
+;;                )
+;;              ))
+  ;; (dolist (char-regexp alist)
+  ;;   (set-char-table-range composition-function-table (car char-regexp)
+  ;;                         `([,(cdr char-regexp) 0 font-shape-gstring]))))
 
-    (add-hook 'org-mode-hook 'set-buffer-variable-pitch)
-    (add-hook 'eww-mode-hook 'set-buffer-variable-pitch)
-    (add-hook 'markdown-mode-hook 'set-buffer-variable-pitch)
-    (add-hook 'Info-mode-hook 'set-buffer-variable-pitch)
   #+END_SRC
-* Display settings
+* COMMENT Display settings
   :PROPERTIES:
   :header-args: :tangle ~/.emacs.d/display-config.el
   :END:
-  #+BEGIN_SRC emacs-lisp
-    ;; (set-language-environment "UTF-8")
-    (setq inhibit-startup-message t)
-    (column-number-mode t)
-    (display-time-mode t)
-    (menu-bar-mode -1)
-    (tool-bar-mode -1)
-    (setq-default display-line-numbers 'relative)
-    (add-hook 'org-mode-hook (lambda () (setq-local display-line-numbers nil)))
-    ;;(scroll-bar-mode -1)
-    (global-hl-line-mode t) ;; highlight current line
-    (setq-default frame-title-format '("%f [%m]")) ;; Display the file path and mode of the current buffer as frame title
-  #+END_SRC
   - Open new frames instead of new windows
     #+BEGIN_SRC elisp
 ;; (setq display-buffer-alist
