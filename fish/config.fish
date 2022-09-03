@@ -1,9 +1,13 @@
+if not status is-interactive
+   return
+end
+
 set GOPATH $HOME/.go
 set GEM_HOME $HOME/.gem		# Ruby gem path
 set npm_config_prefix $HOME/.local
 set VISUAL "emacsclient -c"	# Default text editor
 set fish_greeting		# Remove the greeting
-set EDITOR "vim"		#Default text editor for CLI programs
+set EDITOR "nvim"		#Default text editor for CLI programs
 
 set PATH $HOME/.local/share/gem/ruby/3.0.0/bin $HOME/Scripts $HOME/.local/bin $HOME/node_modules/.bin/ $GOPATH $PATH
 
@@ -220,6 +224,7 @@ abbr -a -- screenshot "grim -g (slurp) screenshot.png"
 abbr -a -- monitor-lab "swaymsg output HDMI-A-1 scale 1.5 pos 0 0"
 abbr -a -- monitor-home "swaymsg output HDMI-A-1 scale 1.0 pos 0 0"
 abbr -a -- fightcade "/opt/fightcade2/start.sh"
+abbr -a -- xclip "xclip -selection clipboard"
 # abbr -a -- run-help man
 # abbr -a -- which-command whence
 # abbr -a -- xmodmap-revert 'xmodmap ~/Git/dot-files/.Xmodmap-revert'
