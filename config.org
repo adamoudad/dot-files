@@ -10,6 +10,9 @@
   - Scripts/ :: useful scripts for every day use
   - Tests/ :: temporary code, for quick tests
   - Datasets/ :: collection of data and datasets
+* System-wide configuration
+=systemd= folder contains scripts which should be copied or linked to =/etc/systemd/system/=
+For example do this for =/etc/systemd/system/batttery-charge-threshold.service=
 
 * Random wallpaper generation
   :PROPERTIES:
