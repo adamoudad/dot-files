@@ -19,36 +19,141 @@
    (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
    (add-to-list 'package-archives '("elpy" . "http://jorgenschaefer.github.io/packages/"))
    #+END_SRC
-** Default packages
-- The package installation will be replaced by ~use-package~ in the future
-   #+BEGIN_SRC emacs-lisp
-     (defvar adam/packages '(ox-reveal auctex markdown-mode ;; ledger-mode
-     elpy htmlize edit-server yaml-mode ein org-ref magit forge
-     easy-jekyll
-     cider slime all-the-icons-dired inf-ruby
-     rainbow-delimiters langtool solidity-mode
-     emojify org-drill
-     lsp-mode lsp-ui flycheck company lsp-treemacs helm-lsp dap-mode
-     lsp-haskell which-key
-     cmake-mode json-mode dockerfile-mode caml
-     treemacs org-modern ox-hugo use-package
-     company-tabnine
-     emms org-journal exwm
-     org-tree-slide
-     ) "Default packages")
-   #+END_SRC
 ** Install packages
    #+BEGIN_SRC emacs-lisp
-   (defun adam/packages-installed-p ()
-     (cl-every 'package-installed-p adam/packages))
-   (unless (adam/packages-installed-p)
-     (message "%s" "Refreshing package database...")
-     (package-refresh-contents)
-     (dolist (pkg adam/packages)
-        (when (not (package-installed-p pkg))
-          (package-install pkg))))
+(defvar adam/packages-no-config
+  '(ox-reveal
+    auctex
+    markdown-mode
+    ledger-mode
+    elpy
+    htmlize
+    edit-server
+    yaml-mode
+    ein
+    org-ref
+    magit
+    forge
+    easy-jekyll
+    cider
+    slime
+    all-the-icons-dired
+    inf-ruby
+    rainbow-delimiters
+    langtool
+    solidity-mode
+    emojify
+    org-drill
+    lsp-mode
+    lsp-ui
+    flycheck
+    company
+    lsp-treemacs
+    helm-lsp dap-mode
+    lsp-haskell
+    which-key
+    cmake-mode
+    json-mode
+    dockerfile-mode
+    caml
+    treemacs
+    org-modern
+    ox-hugo
+    use-package
+    company-tabnine
+    emms
+    org-journal
+    exwm
+    org-tree-slide
+    ) "Default packages")
+
+(dolist (package adam/packages-no-config nil)
+  (use-package package
+    :ensure t))
+
+
    #+END_SRC
+** Config
+I am planning to use chezmoi to keep track of my config files.
+I would like to have something similar to make auto-backups.
+#+begin_src elisp
+;; (use-package chezmoi)
+;; (global-set-key (kbd "C-c C f")  #'chezmoi-find)
+;; (global-set-key (kbd "C-c C s")  #'chezmoi-write)
+#+end_src
+* COMMENT Startup
+- Use EXWM (emacs X window manager)
+  #+begin_src elisp
+(require 'exwm)
+;; Replace what follows with (exwm-enable) if I have my own config
+(require 'exwm-config)
+(exwm-config-default)
+  #+end_src
 * COMMENT Theme
+:PROPERTIES:
+:header-args: :tangle ~/.emacs.d/theme-config.el
+:END:
+#+begin_src elisp
+(use-package org-superstar              ; supersedes `org-bullets'
+  :ensure
+  :after org
+  :config
+  (setq org-superstar-remove-leading-stars t)
+  (setq org-superstar-headline-bullets-list '(" ")) ;; '("🞛" "◉" "○" "▷")
+  (setq org-superstar-item-bullet-alist
+        '((?+ . ?•)
+          (?* . ?➤)
+          (?- . ?–)))
+  (org-superstar-mode -1))
+
+(use-package emacs
+  :config
+  (setq window-divider-default-right-width 1)
+  (setq window-divider-default-bottom-width 1)
+  (setq window-divider-default-places t)
+  (window-divider-mode -1))
+
+(use-package olivetti
+  :ensure
+  :diminish
+  :config
+  (setq olivetti-body-width 0.65)
+  (setq olivetti-minimum-body-width 72)
+  (setq olivetti-recall-visual-line-mode-entry-state t)
+
+  (define-minor-mode prot/olivetti-mode
+    "Toggle buffer-local `olivetti-mode' with additional parameters.
+
+Fringes are disabled.  The modeline is hidden, except for
+`prog-mode' buffers (see `prot/hidden-mode-line-mode').  The
+default typeface is set to a proportionately-spaced family,
+except for programming modes (see `prot/variable-pitch-mode').
+The cursor becomes a blinking bar, per `prot/cursor-type-mode'."
+    :init-value nil
+    :global nil
+    (if prot/olivetti-mode
+        (progn
+          (olivetti-mode 1)
+          (set-window-fringes (selected-window) 0 0)
+          (prot/variable-pitch-mode 1)
+          (prot/cursor-type-mode 1)
+          (unless (derived-mode-p 'prog-mode)
+            (prot/hidden-mode-line-mode 1))
+          (window-divider-mode 1)
+          (when (eq major-mode 'org-mode)
+            (org-superstar-mode 1)))
+      (olivetti-mode -1)
+      (set-window-fringes (selected-window) nil) ; Use default width
+      (prot/variable-pitch-mode -1)
+      (prot/cursor-type-mode -1)
+      (unless (derived-mode-p 'prog-mode)
+        (prot/hidden-mode-line-mode -1))
+      (window-divider-mode -1)
+      (when (eq major-mode "org-mode")
+        (org-superstar-mode -1))))
+
+  :bind ("C-c o" . prot/olivetti-mode))
+#+end_src
   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/theme-config.el
 ;; (load-theme 'material t)
 ;; My old theme
@@ -143,6 +248,8 @@
   (global-set-key (kbd "C-x g") 'magit-status)
   ;; (define-key ido-common-completion-map
   ;; (kbd \"C-x g\") 'ido-enter-magit-status)
+(use-package forge
+  :after magit)
   #+END_SRC
 * Navigation (window moves, which-key, etc)
 :PROPERTIES:
