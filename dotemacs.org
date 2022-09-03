@@ -4,22 +4,26 @@
   Writing it in a .org file makes it easier to organize, and gives me a +20% bonus in coolness.
   Here is a useful link : [[http://thewanderingcoder.com/2015/02/literate-emacs-configuration/][Literate Emacs Configuration]]
   
-  If you want to use it, just open it in emacs and do ~C-c C-v t~. This will export (/tangle/)) all the code blocks of this file in your =~/.emacs.d/= .
+  If you want to use it, just open it in emacs and do ~C-c C-v t~. This will export (/tangle/) all the code blocks of this file in your =~/.emacs.d/= .
   
   Pay attention to some additional things to do, like for python ([[#python]]), you will need python packages that can be installed via ~pip~.
   Make sure the following directories are existing
   - ~~/Tests~, required to save a bash script running a dockerized python shell
 * Packages
+:PROPERTIES:
+:header-args: :tangle ~/.emacs.d/package-config.el
+:END:
 ** Package repositories
-   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/package-config.el
+   #+BEGIN_SRC emacs-lisp
    (require 'package)
    (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
    (add-to-list 'package-archives '("elpy" . "http://jorgenschaefer.github.io/packages/"))
    #+END_SRC
 ** Default packages
-   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/package-config.el
+- The package installation will be replaced by ~use-package~ in the future
+   #+BEGIN_SRC emacs-lisp
      (defvar adam/packages '(ox-reveal auctex markdown-mode ;; ledger-mode
-     elpy htmlize edit-server yaml-mode ein org-ref magit
+     elpy htmlize edit-server yaml-mode ein org-ref magit forge
      easy-jekyll
      cider slime all-the-icons-dired inf-ruby
      rainbow-delimiters langtool solidity-mode
@@ -28,11 +32,13 @@
      lsp-haskell which-key
      cmake-mode json-mode dockerfile-mode caml
      treemacs org-modern ox-hugo use-package
-     org-roam  company-tabnine
+     company-tabnine
+     emms org-journal exwm
+     org-tree-slide
      ) "Default packages")
    #+END_SRC
 ** Install packages
-   #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/package-config.el
+   #+BEGIN_SRC emacs-lisp
    (defun adam/packages-installed-p ()
      (cl-every 'package-installed-p adam/packages))
    (unless (adam/packages-installed-p)
