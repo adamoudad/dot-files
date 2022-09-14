@@ -20,6 +20,12 @@
    (add-to-list 'package-archives '("elpy" . "http://jorgenschaefer.github.io/packages/"))
    #+END_SRC
 ** Install packages
+First, install =use-package=.
+#+begin_src elisp
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+#+end_src
    #+BEGIN_SRC emacs-lisp
 (defvar adam/packages-no-config
   '(ox-reveal
@@ -60,7 +66,6 @@
     treemacs
     org-modern
     ox-hugo
-    use-package
     company-tabnine
     emms
     org-journal
