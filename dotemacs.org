@@ -51,6 +51,7 @@
     lsp-treemacs
     helm-lsp dap-mode
     lsp-haskell
+    haskell-mode
     which-key
     cmake-mode
     json-mode
@@ -65,7 +66,9 @@
     org-journal
     exwm
     org-tree-slide
-    ) "Default packages")
+    fish-mode
+    nix-mode
+    ) "Default packages to install that do not need any further configuration.")
 
 (dolist (package adam/packages-no-config nil)
   (use-package package
