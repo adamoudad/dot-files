@@ -245,9 +245,7 @@ The cursor becomes a blinking bar, per `prot/cursor-type-mode'."
   Add keybinding for ~magit-status~.
   There is a keybinding in ido-mode also but[fn:6] it seems not to work.
   #+BEGIN_SRC elisp
-  (global-set-key (kbd "C-x g") 'magit-status)
-  ;; (define-key ido-common-completion-map
-  ;; (kbd \"C-x g\") 'ido-enter-magit-status)
+(global-set-key (kbd "C-x g") 'magit-status)
 (use-package forge
   :after magit)
   #+END_SRC
@@ -264,6 +262,22 @@ The cursor becomes a blinking bar, per `prot/cursor-type-mode'."
   (global-set-key (kbd "C-x <right>") 'windmove-right)
   (global-set-key (kbd "C-x <left>") 'windmove-left)
 
+(setq config-file "~/dot-files/dotemacs.org")
+(defun find-config-file ()
+  "Open the config file"
+  (interactive)
+  (find-file config-file))
+(global-set-key (kbd "C-c f")  'find-config-file)
+;; Workaround for my hi-dpi screen and GNOME
+(defun hidpi () (interactive)
+       "Toggle between default font height of 100 and 140, to adapt to Hi-DPI displays manually.
+This function solely exists because GNOME won't let me specify a text scaling between 100 and 200%."
+       (let ((height (face-attribute 'default :height)))
+	 (cond ((>= height 140)
+		(set-face-attribute 'default nil :height 100))
+	       ((<= height 100)
+		(set-face-attribute 'default nil :height 140))))
+       (message (format "Default font height is now %d" (face-attribute 'default :height))))
   #+END_SRC
   - Winner mode
     #+BEGIN_SRC emacs-lisp
@@ -289,9 +303,12 @@ The cursor becomes a blinking bar, per `prot/cursor-type-mode'."
     #+END_SRC
   - Backward transpose
     #+BEGIN_SRC  emacs-lisp
-      (global-set-key (kbd "C-S-t")
-		      (lambda () (interactive)
-			(transpose-chars -1)))
+(defun transpose-chars-backward ()
+  "Backward version of transpose-chars"
+  (interactive)
+  (transpose-chars -1))
+(global-set-key (kbd "C-S-t")
+		'transpose-chars-backward)
       ;; Sadly this one does not work...
       ;; (global-set-key (kbd "M-S-t")
       ;; 		(lambda () (interactive)
@@ -334,8 +351,8 @@ The cursor becomes a blinking bar, per `prot/cursor-type-mode'."
 (use-package company-tabnine :ensure t)
 (add-to-list 'company-backends #'company-tabnine)
 
-;; Trigger completion immediately.
-(setq company-idle-delay 0)
+;; Completion triggering delay.
+(setq company-idle-delay 0.3) 
 
 ;; Number the candidates (use M-1, M-2 etc to select completions).
 (setq company-show-numbers t)
@@ -449,8 +466,8 @@ The cursor becomes a blinking bar, per `prot/cursor-type-mode'."
     #+END_SRC
     - Activate
       #+BEGIN_SRC emacs-lisp
-(setq org-directory "~/Notes/")
-      (setq org-default-notes-file (concat org-directory "notes.org"))
+(setq org-directory "~/")
+(setq org-default-notes-file (concat org-directory "notes.org"))
       #+END_SRC
     - Custom structure templates
       #+begin_src elisp
@@ -467,20 +484,37 @@ The cursor becomes a blinking bar, per `prot/cursor-type-mode'."
 ;;   :after deft
 ;;   :config
 ;;   (zetteldeft-set-classic-keybindings))
+(defun find-default-notes-file ()
+  "Edit the default notes file."
+  (interactive)
+  (find-file org-default-notes-file))
+(global-set-key (kbd "C-c n x ") 'find-default-notes-file)
+  ;; (define-key ido-common-completion-map
+  ;; (kbd \"C-x g\") 'ido-enter-magit-status)
 (use-package org-roam
   :ensure t
   :custom
-  (org-roam-directory "~/Dropbox/org-roam")
+  (org-roam-directory "~/Sync/Dropbox/org-roam")
   (org-roam-completion-everywhere t)
   :bind (("C-c n l" . org-roam-buffer-toggle)
 	 ("C-c n f" . org-roam-node-find)
 	 ("C-c n i" . org-roam-node-insert)
+	 ("C-c n n" . org-roam-dailies-capture-today)
+	 ("C-c n y" . org-roam-dailies-goto-yesterday)
+	 ("C-c n t" . org-roam-dailies-goto-today)
+	 ("C-c n d" . org-roam-dailies-goto-date)
 	 :map org-mode-map
 	 ("C-M-i" . completion-at-point))
   :config
   (org-roam-setup))
 ;; (org-roam-db-autosync-mode)
-
+(use-package org-roam-ui
+  :ensure
+  :after org-roam)
+(use-package org-roam-timestamps
+  :ensure
+  :after org-roam)
+#+end_src
 #+end_src
 ** Blogging with hugo
 #+begin_src elisp
@@ -748,11 +782,6 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
     #+BEGIN_SRC elisp
     (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
     #+END_SRC
-    Fix no refresh when dired remove or adds an entry after renaming, creating folder, etc.[fn:5]
-    #+BEGIN_SRC elisp
-    (advice-add 'dired-add-entry :around #'all-the-icons-dired--refresh-advice)
-    (advice-add 'dired-remove-entry :around #'all-the-icons-dired--refresh-advice)
-    #+END_SRC
   - Omit uninteresting files
     #+BEGIN_SRC elisp
     (require 'dired-x)
@@ -878,6 +907,58 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
   nil
   "\\usepackage{xcolor}\\usepackage{pagecolor}\\pagecolor{black}\\color{white}\n")
   #+end_src
+* Abbreviations
+:PROPERTIES:
+:header-args: :tangle ~/.emacs.d/abbrev_defs
+:END:
+#+begin_src elisp
+;;-*-coding: utf-8;-*-
+(define-abbrev-table 'global-abbrev-table
+  '(
+    ("alpha" "α" nil :count 0)
+    ("ar" "→" nil :count 0)
+    ("inf" "∞" nil :count 0)
+    ("repr" "representation" nil :count 1)
+   ))
+
+(define-abbrev-table 'python-mode-abbrev-table
+  '(
+    ("pdb" "import pdb; pdb.set_trace()" nil :count 0)
+   ))
+
+(define-abbrev-table 'org-mode-abbrev-table
+  '(
+    ("fig" "#+CAPTION: 
+#+LABEL: fig:
+#+ATTR_LATEX: :width 7cm
+" nil :count 1)
+    ("math" "\\[\n\n\\]" nil :count 0)
+    ("cjk" "#+LATEX_HEADER: \\AtBeginDocument{\\begin{CJK}{UTF8}{min}}
+#+LATEX_HEADER: \\AtEndDocument{\\end{CJK}}
+" nil :count 0)
+    ("slides" "#+Title: 
+#+Subtitle: 
+#+OPTIONS: H:2 ^:{} f:t toc:nil
+#+LATEX_CLASS: beamer
+#+LATEX_CLASS_OPTIONS: [9pt,aspectratio=1610,table]
+#+COLUMNS: %45ITEM %10BEAMER_env(Env) %10BEAMER_act(Act) %4BEAMER_col(Col) %8BEAMER_opt(Opt)
+#+BEAMER_THEME: CambridgeUS
+# Madrid
+#+BEAMER_COLOR_THEME: 
+#+BEAMER_FONT_THEME:
+#+BEAMER_INNER_THEME:
+#+BEAMER_OUTER_THEME:
+#+BEAMER_HEADER: \\usepackage[backend=bibtex]{biblatex}
+#+BEAMER_HEADER: \\usepackage{booktabs}
+#+BEAMER_HEADER: \\addbibresource{$HOME/Bibliographies/bibliography}
+#+BEAMER_HEADER: \\graphicspath{{$HOME/Pictures/images/}}
+#+BEAMER_HEADER: \\usepackage{media9} 
+#+BIBLIOGRAPHY: ~/Bibliographies/bibliography
+#+BIBLIOGRAPHY_STYLE: plain
+#+BEAMER_HEADER: \\AtBeginSection[]{\\begin{frame}<beamer>\\frametitle{Topic}\\tableofcontents[currentsection]\\end{frame}}
+" nil :count 0)
+   ))
+#+end_src
 * Init
 :PROPERTIES:
 :header-args: :tangle ~/.emacs.d/init.el
@@ -887,27 +968,34 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
   (package-initialize)
   (load-file "~/.emacs.d/package-config.el")
 ;;(load-file "~/.emacs.d/theme-config.el")
-  (load-file "~/.emacs.d/display-config.el")
+;;(load-file "~/.emacs.d/display-config.el")
   (load-file "~/.emacs.d/edit-config.el")
   (load-file "~/.emacs.d/orgmode-config.el")
   (load-file "~/.emacs.d/markdown-config.el")
   (load-file "~/.emacs.d/navigation-config.el")
-  ;; (load-file "~/.emacs.d/python-config.el")
+  (load-file "~/.emacs.d/python-config.el")
   (load-file "~/.emacs.d/dired-config.el")
   (load-file "~/.emacs.d/docview-config.el")
   (load-file "~/.emacs.d/path-config.el")
   (load-file "~/.emacs.d/slime-config.el")
   (load-file "~/.emacs.d/magit-conf.el")
-  (load-file "~/Maintained/tifinagh-transliterator/tifinagh.el")
+  (load-file "~/Tests/tifinagh.el")
   (load-file "~/.emacs.d/skeletons-config.el")
   (load-file "~/.emacs.d/irc-config.el")
   (load-file "~/.emacs.d/lsp-config.el")
+  (load-file "~/.emacs.d/emms-config.el")
+  (load-file "~/.emacs.d/powersave-config.el")
   #+END_SRC
 Additional custom configuration introduced by the customization UI is placed in a separate file.
     #+begin_src elisp
 (setq custom-file (locate-user-emacs-file "custom-config.el"))
 (load custom-file'noerror 'nomessage)
     #+end_src
+* Post-install tasks
+#+begin_src elisp
+(company-tabnine-install-binary)
+(all-the-icons-install-fonts)
+#+end_src
 
 * More
   Dotemacs in orgmode
@@ -924,13 +1012,14 @@ Additional custom configuration introduced by the customization UI is placed in 
 [fn:12]https://github.com/TommyX12/company-tabnine 
 [fn:11]https://www.tabnine.com/install/emacs 
 
+[fn:10]https://www.gnu.org/software/emms/manual/#Quickstart-Guide 
+[fn:9]https://gist.github.com/brenns10/69d39f6c46170093f73d 
+
 [fn:8] https://github.com/syl20bnr/spacemacs/issues/12003#issuecomment-465686129 
 
 [fn:7]https://www.topbug.net/blog/2016/09/29/emacs-disable-certain-pairs-for-electric-pair-mode/ 
 
 [fn:6]https://magit.vc/manual/2.90.1/magit/Status-Buffer.html 
-
-[fn:5] https://github.com/jtbm37/all-the-icons-dired/issues/34
 
 [fn:4] https://joelkuiper.eu/spellcheck_emacs
 
