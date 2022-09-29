@@ -27,7 +27,7 @@ bindsym $mod+minus scratchpad show
 
 
 # start a program (use xev to get key names)
-bindsym $mod+at exec xfce4-terminal # -x zsh
+bindsym $mod+Ctrl+Return exec xfce4-terminal # -x zsh
 bindsym $mod+Return exec $term
 bindsym $mod+Shift+Return exec emacsclient -c
 bindsym $mod+Escape exec nautilus
@@ -111,8 +111,8 @@ bindsym $mod+Shift+a focus child
 bindsym $mod+t [class="^.*"] border toggle
 
 # set workspace title
-set $workspace2 "2 "
 set $workspace1 "1 "
+set $workspace2 "2 "
 set $workspace3 "3 "
 set $workspace4 "4 "
 set $workspace5 "5 "
@@ -236,7 +236,7 @@ bindsym --locked $mod+Shift+b exec --no-startup-id swaymsg output HDMI-A-1 scale
 # }
 exec --no-startup-id waybar
 
-# assign application to workspace (use xprop to get application names)
+# assign application to workspace (run `swaymsg -t get_tree | less` and search for the app-id application)
 assign [app_id="firefox"] $workspace1
 # assign [class="Emacs"] $workspace2
 assign [app_id="rhythmbox"] $workspace4
@@ -245,9 +245,12 @@ assign [class="krita"] $workspace5
 assign [app_id="org.inkscape.Inkscape"] $workspace5
 assign [app_id="shotwell"] $workspace5
 assign [app_id="obs"] $workspace5
-for_window [app_id="gnome-calculator"] floating enable
+for_window [app_id="org.gnome.Calculator"] floating enable
 # Adjust syncthingtray popup window (with left click) otherwise inconvenient
-for_window [app_id="syncthingtray"] floating enable, move position 1025 0
+# Big thanks to Syncthing tray who does not assign any app_id property to its floating window, so the following is broken.
+# Also sway does not recognize the property name, so I cannot use the name "Syncthing Tray" of the floating window.
+# for_window [app_id="syncthingtray"] floating enable, move position 1025 0
+for_window [app_id="xfce4-terminal"] floating enable
 
 # hide window title and borders
 # for_window [app_id="."] border none
