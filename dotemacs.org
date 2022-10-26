@@ -66,13 +66,13 @@ First, install =use-package=.
     treemacs
     org-modern
     ox-hugo
-    company-tabnine
     emms
     org-journal
     exwm
-    org-tree-slide
     fish-mode
     nix-mode
+    dash-docs
+    cdlatex
     ) "Default packages to install that do not need any further configuration.")
 
 (dolist (package adam/packages-no-config nil)
@@ -173,8 +173,8 @@ The cursor becomes a blinking bar, per `prot/cursor-type-mode'."
 ;; (set-language-environment "UTF-8")
 
 ;; (setq inhibit-startup-message t)
-;; (column-number-mode t)
-;; (display-time-mode t)
+(column-number-mode t)
+(display-time-mode t)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 ;; (setq-default display-line-numbers 'relative)
@@ -270,7 +270,7 @@ The cursor becomes a blinking bar, per `prot/cursor-type-mode'."
   (global-set-key (kbd "C-x <right>") 'windmove-right)
   (global-set-key (kbd "C-x <left>") 'windmove-left)
 
-(setq config-file "~/dot-files/dotemacs.org")
+
 (defun find-config-file ()
   "Open the config file"
   (interactive)
@@ -286,6 +286,7 @@ This function solely exists because GNOME won't let me specify a text scaling be
 	       ((<= height 100)
 		(set-face-attribute 'default nil :height 140))))
        (message (format "Default font height is now %d" (face-attribute 'default :height))))
+
   #+END_SRC
   - Winner mode
     #+BEGIN_SRC emacs-lisp
@@ -301,6 +302,16 @@ This function solely exists because GNOME won't let me specify a text scaling be
 
 (add-hook 'eww-mode-hook 'scroll-lock-mode)
 
+    #+end_src
+
+Files I visit often in register.
+#+begin_src elisp
+(setq config-file "~/dot-files/dotemacs.org")
+(set-register ?c '(file .  config-file))
+(set-register ?r '(file . "~/Documents/Research/research-progress.org"))
+(set-register ?x '(file . org-default-notes-file))
+
+#+end_src
 * Edit settings
   :PROPERTIES:
   :header-args: :tangle ~/.emacs.d/edit-config.el
@@ -369,6 +380,11 @@ This function solely exists because GNOME won't let me specify a text scaling be
     #+begin_src elisp
 (setq default-input-method "french-postfix")
     #+end_src
+
+Set the register separator to the =+= key.
+#+begin_src elisp
+(setq register-separator ?+)
+#+end_src
 * Power saving
 :PROPERTIES:
 :header-args: :tangle ~/.emacs.d/powersave-config.el
@@ -462,6 +478,10 @@ This function solely exists because GNOME won't let me specify a text scaling be
 	    org-latex-packages-alist '(("" "minted")))
       ;; (add-to-list 'org-latex-packages-alist '("newflot" "minted"))
     #+END_SRC
+  - Use cdlatex package for extra editing features of \LaTeX equations
+    #+begin_src elisp
+(add-hook 'org-mode-hook #'turn-on-org-cdlatex)
+    #+end_src
   - For fixing bugs related to minted especially, activate buffer-local variable bindings.
     #+begin_src elisp
 (setq org-export-allow-bind-keywords t)
@@ -481,11 +501,59 @@ This function solely exists because GNOME won't let me specify a text scaling be
       #+begin_src elisp
 (add-to-list 'org-structure-template-alist '("abs" . "abstract")  )
       #+end_src
+    - Present slides from a tree
+      #+begin_src elisp
+(use-package org-tree-slide
+  :custom
+  (org-image-actual-width nil))
+      #+end_src
+
+Add new file associations
+#+begin_src elisp
+(setq org-file-apps '((auto-mode . emacs)
+		      (directory . emacs)
+		      ("\\.mm\\'" . default)
+		     ("\\.x?html?\\'" . default)
+		     ("\\https://\s.youtu\\.?be")
+		     ("\\.pdf\\'" . default)
+		     ("\\.mkv\\'" . "vlc %s")
+		     ("\\.midi?\\'" . "vlc %s")
+		     ("\\.webm\\'" . "vlc %s")
+		     ("\\.mp4\\'" . "vlc %s")
+		     ("\\.png\\'" . "eog %s")
+		     ("\\.[jJ][pP][eE]?[gG]\\'" . "eog %s")))
+
+#+end_src
+
+Do not ask for confirmation when executing an elisp link in orgmode.
+#+begin_src elisp
+(setq org-confirm-elisp-link-function nil)
+#+end_src
 ** Modules
    Since orgmode 9.2, this is needed for oldstyle template behavior, with completion for "<s" for example.[fn:8]
    #+begin_src emacs-lisp
    (add-to-list 'org-modules 'org-tempo t)
    #+end_src
+** Capture templates
+#+begin_src elisp
+(setq org-capture-templates
+      '(
+	("t" "Tâche" entry (file+headline "" "Tâches")
+	 "* TODO %?\n  %u\n  %a")
+	("l" "Lecture et visionnage" entry (file+headline "~/notes.org" "Lire et regarder")
+	 "* TODO %? -- %U\n  %i\n  %a")
+					; ("j" "Journal" entry (file+datetree "~/org/journal.org") "* %?\nEntered on %U\n  %i\n  %a")
+	))
+#+end_src
+
+** Slides
+Present with =org-tree-slide=
+#+begin_src elisp
+(use-package org-tree-slide
+  :ensure
+  :custom
+  (org-image-actual-width nil))
+#+end_src
 ** Zettelcasten
 #+begin_src elisp
 ;; (use-package zetteldeft
@@ -507,12 +575,15 @@ This function solely exists because GNOME won't let me specify a text scaling be
   :bind (("C-c n l" . org-roam-buffer-toggle)
 	 ("C-c n f" . org-roam-node-find)
 	 ("C-c n i" . org-roam-node-insert)
-	 ("C-c n n" . org-roam-dailies-capture-today)
+	 ("C-c n T" . org-roam-dailies-capture-today)
 	 ("C-c n y" . org-roam-dailies-goto-yesterday)
 	 ("C-c n t" . org-roam-dailies-goto-today)
 	 ("C-c n d" . org-roam-dailies-goto-date)
+	 ("M-p" . org-roam-dailies-goto-previous-note)
+	 ("M-n" . org-roam-dailies-goto-next-note)
 	 :map org-mode-map
-	 ("C-M-i" . completion-at-point))
+	 ("C-M-i" . completion-at-point)
+	 )
   :config
   (org-roam-setup))
 ;; (org-roam-db-autosync-mode)
@@ -795,7 +866,17 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
     (require 'dired-x)
     (setq-default dired-omit-files-p t) ; Buffer-local variable
     (setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
-    #+END_SRC
+ #+END_SRC
+  - Mark garbage files when using =% &= in dired. Bibliography files produced by \LaTeX are added as well.
+    #+begin_src elisp
+    (setq dired-garbage-files-regexp
+	  (concat "\\(?:"
+		  ;; extensions
+		  "\\.\\(?:aux\\|bak\\|dvi\\|log\\|orig\\|rej\\|toc\\|bbl\\)\\|"
+		  ;; more specific
+		  "blx\\.bib"
+		  "\\)\\'"))
+    #+end_src
 * Docview
   - Auto revert files in Docview
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/docview-config.el
@@ -827,7 +908,7 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
 (setq easy-jekyll-default-ext ".markdown")
 :bind ("C-c j" . easy-jekyll))
 #+end_src
-* IRC
+* IRC and newsfeed
   :PROPERTIES:
   :header-args: :tangle ~/.emacs.d/irc-config.el
   :END:
@@ -841,6 +922,12 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
   (interactive)
   (erc-tls :server "irc.libera.chat" :port 6697 :nick "adam"))
   #+end_src
+
+Newsfeed
+#+begin_src elisp
+(newsticker-start)
+(setq newsticker-url-list '(("Raspberry Pi locator" "https://rpilocator.com/feed/")))
+#+end_src
 * LISP and Scheme
   :PROPERTIES:
   :header-args: :tangle ~/.emacs.d/slime-config.el
@@ -975,8 +1062,8 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
   #+BEGIN_SRC emacs-lisp
   (package-initialize)
   (load-file "~/.emacs.d/package-config.el")
-;;(load-file "~/.emacs.d/theme-config.el")
-;;(load-file "~/.emacs.d/display-config.el")
+  ;;(load-file "~/.emacs.d/theme-config.el")
+  ;; (load-file "~/.emacs.d/display-config.el")
   (load-file "~/.emacs.d/edit-config.el")
   (load-file "~/.emacs.d/orgmode-config.el")
   (load-file "~/.emacs.d/markdown-config.el")

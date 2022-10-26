@@ -9,7 +9,8 @@ set VISUAL "emacsclient -c"	# Default text editor
 set fish_greeting		# Remove the greeting
 set EDITOR "nvim"		#Default text editor for CLI programs
 
-set PATH $HOME/.local/share/gem/ruby/3.0.0/bin $HOME/Scripts $HOME/.local/bin $HOME/node_modules/.bin/ $GOPATH $PATH
+# set PATH $HOME/.local/share/gem/ruby/3.0.0/bin $HOME/Scripts $HOME/.local/bin $HOME/node_modules/.bin/ $GOPATH $PATH
+set PATH $HOME/.local/bin $HOME/Projets/Scripts/ $PATH
 
 # OCaml
 source /home/adam/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
@@ -228,3 +229,10 @@ abbr -a -- xclip "xclip -selection clipboard"
 # abbr -a -- run-help man
 # abbr -a -- which-command whence
 # abbr -a -- xmodmap-revert 'xmodmap ~/Git/dot-files/.Xmodmap-revert'
+abbr -a -- hhkb-layout "dconf write /org/gnome/desktop/input-sources/xkb-options \"['terminate:ctrl_alt_bksp', 'lv3:ralt_switch']\""
+abbr -a -- zbkb-layout "dconf write /org/gnome/desktop/input-sources/xkb-options \"['ctrl:swapcaps', 'ctrl:nocaps', 'terminate:ctrl_alt_bksp', 'lv3:ralt_switch']\""
+# Switch between high and low DPI
+abbr -a -- hidpi "test (dconf read /org/gnome/desktop/interface/text-scaling-factor) -gt 1.1 && set NEWDPI 1.0 || set NEWDPI 1.4 ; dconf write /org/gnome/desktop/interface/text-scaling-factor \$NEWDPI && echo \"Emacs must be restarted for the changes to take place.\""
+# && emacsclient -e \"(hidpi)\""
+abbr -a -- teams "brave teams.live.com"
+starship init fish | source
