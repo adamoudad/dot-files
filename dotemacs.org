@@ -206,16 +206,6 @@ Do not display async command output in another window.
 ;; (custom-set-faces)
 ;; (set-language-environment "UTF-8")
 
-;; (setq inhibit-startup-message t)
-(column-number-mode t)
-(display-time-mode t)
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-;; (setq-default display-line-numbers 'relative)
-;; (add-hook 'org-mode-hook (lambda () (setq-local display-line-numbers nil)))
-(scroll-bar-mode -1)
-;; (global-hl-line-mode t) ;; highlight current line
-;; (setq-default frame-title-format '("%f [%m]")) ;; Display the file path and mode of the current buffer as frame title
 
   #+END_SRC
   Fonts [fn:fonts]
@@ -256,40 +246,6 @@ Do not display async command output in another window.
   ;;   (set-char-table-range composition-function-table (car char-regexp)
   ;;                         `([,(cdr char-regexp) 0 font-shape-gstring]))))
 
-  #+END_SRC
-* COMMENT Display settings
-  :PROPERTIES:
-  :header-args: :tangle ~/.emacs.d/display-config.el
-  :END:
-  - Open new frames instead of new windows
-    #+BEGIN_SRC elisp
-;; (setq display-buffer-alist
-;;       '(("shell.*" (display-buffer-same-window) ())
-;; 	("completions.*" (display-buffer-same-window) ())
-;; 	("python.*" (display-buffer-reuse-window
-;;         display-buffer-pop-up-frame)
-;;          (reusable-frames . t))
-;; 	("magit.*" (display-buffer-reuse-window
-;;         display-buffer-pop-up-frame)
-;;          (reusable-frames . t))
-;; 	;; Reuse might be useful in some cases...
-;;         ;; (".*" (display-buffer-reuse-window
-;;         ;;        display-buffer-same-window
-;;         ;;        display-buffer-pop-up-frame)
-;;         ;;  (reusable-frames . t))
-;; 	))
-    #+END_SRC
-
-* Magit
-  :PROPERTIES:
-  :header-args: :tangle ~/.emacs.d/magit-conf.el
-  :END:
-  Add keybinding for ~magit-status~.
-  There is a keybinding in ido-mode also but[fn:6] it seems not to work.
-  #+BEGIN_SRC elisp
-(global-set-key (kbd "C-x g") 'magit-status)
-(use-package forge
-  :after magit)
   #+END_SRC
 * Navigation (window moves, which-key, etc)
 :PROPERTIES:
@@ -535,6 +491,10 @@ Set the register separator to the =+= key.
       #+begin_src elisp
 (add-to-list 'org-structure-template-alist '("abs" . "abstract")  )
       #+end_src
+    - Bell sound when timer stops
+      #+begin_src elisp
+(setq org-clock-sound "~/Music/mixkit-happy-bell-alert-601.wav")
+      #+end_src
     - Present slides from a tree
       #+begin_src elisp
 (use-package org-tree-slide
@@ -548,14 +508,13 @@ Add new file associations
 		      (directory . emacs)
 		      ("\\.mm\\'" . default)
 		     ("\\.x?html?\\'" . default)
-		     ("\\https://\s.youtu\\.?be")
 		     ("\\.pdf\\'" . default)
 		     ("\\.mkv\\'" . "vlc %s")
 		     ("\\.midi?\\'" . "vlc %s")
 		     ("\\.webm\\'" . "vlc %s")
 		     ("\\.mp4\\'" . "vlc %s")
 		     ("\\.png\\'" . "eog %s")
-		     ("\\.[jJ][pP][eE]?[gG]\\'" . "eog %s")))
+		     ("\\.\\(jpe?g\\|JPE?G\\)\\'" . "eog %s")))
 
 #+end_src
 
@@ -563,6 +522,12 @@ Do not ask for confirmation when executing an elisp link in orgmode.
 #+begin_src elisp
 (setq org-confirm-elisp-link-function nil)
 #+end_src
+
+Default bibliography file
+#+begin_src elisp
+(setq org-cite-global-bibliography '("~/Sync/Dropbox/Bibliographies/bibliography.bib"))
+#+end_src
+
 ** Modules
    Since orgmode 9.2, this is needed for oldstyle template behavior, with completion for "<s" for example.[fn:8]
    #+begin_src emacs-lisp
@@ -573,10 +538,20 @@ Do not ask for confirmation when executing an elisp link in orgmode.
 (setq org-capture-templates
       '(
 	("t" "Tâche" entry (file+headline "" "Tâches")
-	 "* TODO %?\n  %u\n  %a")
-	("l" "Lecture et visionnage" entry (file+headline "~/notes.org" "Lire et regarder")
-	 "* TODO %? -- %U\n  %i\n  %a")
-					; ("j" "Journal" entry (file+datetree "~/org/journal.org") "* %?\nEntered on %U\n  %i\n  %a")
+	 "* TODO %?\n%u%a")
+	("q" "Tâche rapide" item (file+headline "" "Tâches")
+	 "- %U %?")
+	("p" "Projet" entry (file+headline "" "Projets")
+	 "* TODO %?\n%u\n%a")
+	("u" "URL à consulter plus tard" item (file+headline "" "Apprendre")
+	 "- %U %? %x")
+	("l" "Lien à consulter plus tard" item (file+headline "" "Apprendre")
+	 "- %U %?")
+	("a" "Sujet d'article à écrire" item (file+headline "" "Articles")
+	 "- %U %? %a")
+	("r" "Travail/recherche" entry (file+headline "~/Documents/Research/research-progress.org" "Tasks")
+	 "* TODO %?\n%u\n%a")
+	("j" "Journal, écrits" entry (file+datetree "~/journal.org") "* %?\nÉcrit le %U\n\n")
 	))
 #+end_src
 
@@ -594,6 +569,10 @@ Present with =org-tree-slide=
 ;;   :after deft
 ;;   :config
 ;;   (zetteldeft-set-classic-keybindings))
+(defun find-research-progress ()
+  (interactive)
+  (find-file "~/Documents/Research/research-progress.org"))
+(global-set-key (kbd "C-c n r") 'find-research-progress)
 (defun find-default-notes-file ()
   "Edit the default notes file."
   (interactive)
@@ -628,6 +607,10 @@ Present with =org-tree-slide=
   :ensure
   :after org-roam)
 #+end_src
+** Journal
+#+begin_src elisp
+(require 'org-journal)
+;; default (setq org-journal-dir "~/Documents/journal/")
 #+end_src
 ** Blogging with hugo
 #+begin_src elisp
@@ -691,6 +674,12 @@ Present with =org-tree-slide=
 ;; Enable org-modern-mode
 (add-hook 'org-mode-hook #'org-modern-mode)
 (add-hook 'org-agenda-finalize-hook #'org-modern-agenda)
+
+;; Scale up preview of latex fragments
+(setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
+
+;; Inline image width will default to 500px.
+(setq org-image-actual-width '(500))
    #+end_src
 ** LaTeX
    Custom classes latex
@@ -723,7 +712,7 @@ Present with =org-tree-slide=
 
    #+END_SRC
 ** Fixes
-   - Disable <> auto pairing in electric-pair-mode in orgmode to avoid conflicts with org-tempo[fn:7]
+   - Disable <> and [] auto pairing in electric-pair-mode in orgmode to avoid conflicts with org-tempo and internal link completion[fn:7].
    #+begin_src emacs-lisp
 (add-hook
  'org-mode-hook
@@ -734,6 +723,17 @@ Present with =org-tree-slide=
    )
  )
    #+end_src
+* EMMS
+:PROPERTIES:
+:header-args: :tangle ~/.emacs.d/emms-config.el
+:END:
+The media player for Emacs[fn:10]
+#+begin_src elisp
+(require 'emms-setup)
+(emms-all)
+(emms-default-players)
+(setq emms-source-file-default-directory "~/Musique/")
+#+end_src
 * Markdown
   :PROPERTIES:
   :header-args: :tangle ~/.emacs.d/markdown-config.el
@@ -867,6 +867,7 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
 (add-hook 'json-mode-hook #'lsp)
 (add-hook 'css-mode-hook #'lsp)
 (add-hook 'dockerfile-mode-hook #'lsp)
+(add-hook 'javascript-mode-hook #'lsp)
 ;; Fails miserably, because it cannot find the executable: (add-hook 'markdown-mode-hook #'lsp)
 
 (require 'caml)
@@ -879,6 +880,11 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
 (add-hook 'prog-mode-hook #'yas-minor-mode)
   #+END_SRC
 
+
+Some hooks
+#+begin_src elisp
+(add-hook 'python-mode-hook 'hs-minor-mode)
+#+end_src
 * Dired
   :PROPERTIES:
   :header-args: :tangle ~/.emacs.d/dired-config.el
@@ -911,15 +917,21 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
 		  "blx\\.bib"
 		  "\\)\\'"))
     #+end_src
+* Magit
+  :PROPERTIES:
+  :header-args: :tangle ~/.emacs.d/magit-conf.el
+  :END:
+  Add keybinding for ~magit-status~.
+  There is a keybinding in ido-mode also but[fn:6] it seems not to work.
+  #+BEGIN_SRC elisp
+(global-set-key (kbd "C-x g") 'magit-status)
+(use-package forge
+  :after magit)
+  #+END_SRC
 * Docview
   - Auto revert files in Docview
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/docview-config.el
     (add-hook 'doc-view-mode-hook 'auto-revert-mode)
-    #+END_SRC
-* Executables path
-  - Add ruby gem (easy-jekyll) to ~exec-path~
-    #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/path-config.el
-    (setq exec-path (append exec-path '("/home/adam/.gem/ruby/2.6.0/bin")))
     #+END_SRC
 * Blog
 :PROPERTIES:
@@ -1096,8 +1108,8 @@ Newsfeed
   #+BEGIN_SRC emacs-lisp
   (package-initialize)
   (load-file "~/.emacs.d/package-config.el")
-  ;;(load-file "~/.emacs.d/theme-config.el")
-  ;; (load-file "~/.emacs.d/display-config.el")
+  ;; (load-file "~/.emacs.d/theme-config.el")
+  (load-file "~/.emacs.d/display-config.el")
   (load-file "~/.emacs.d/edit-config.el")
   (load-file "~/.emacs.d/orgmode-config.el")
   (load-file "~/.emacs.d/markdown-config.el")
