@@ -9,6 +9,8 @@
   Pay attention to some additional things to do, like for python ([[#python]]), you will need python packages that can be installed via ~pip~.
   Make sure the following directories are existing
   - ~~/Tests~, required to save a bash script running a dockerized python shell
+* Recommended Firefox extensions
+- [[https://addons.mozilla.org/en-US/firefox/addon/copy-as-org-mode/][Copy as Org-Mode]] lets you copy the URL of a web page in orgmode format.
 * Packages
 :PROPERTIES:
 :header-args: :tangle ~/.emacs.d/package-config.el
