@@ -19,7 +19,7 @@
    #+BEGIN_SRC emacs-lisp
    (require 'package)
    (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-   (add-to-list 'package-archives '("elpy" . "http://jorgenschaefer.github.io/packages/"))
+;; (add-to-list 'package-archives '("elpy" . "http://jorgenschaefer.github.io/packages/"))
    #+END_SRC
 ** Install packages
 First, install =use-package=.
@@ -34,7 +34,7 @@ First, install =use-package=.
     auctex
     markdown-mode
     ledger-mode
-    elpy
+    ;; elpy
     htmlize
     edit-server
     yaml-mode
@@ -91,80 +91,112 @@ I would like to have something similar to make auto-backups.
 ;; (global-set-key (kbd "C-c C f")  #'chezmoi-find)
 ;; (global-set-key (kbd "C-c C s")  #'chezmoi-write)
 #+end_src
-* COMMENT Startup
-- Use EXWM (emacs X window manager)
+* COMMENT EXWM (emacs X window manager)
   #+begin_src elisp
 (require 'exwm)
 ;; Replace what follows with (exwm-enable) if I have my own config
 (require 'exwm-config)
 (exwm-config-default)
   #+end_src
-* COMMENT Theme
-:PROPERTIES:
-:header-args: :tangle ~/.emacs.d/theme-config.el
-:END:
+* Display settings
+  :PROPERTIES:
+  :header-args: :tangle ~/.emacs.d/display-config.el
+  :END:
+#  - Open new frames instead of new windows
+    #+BEGIN_SRC elisp
+;; (setq display-buffer-alist
+;;       '(("shell.*" (display-buffer-same-window) ())
+;; 	("completions.*" (display-buffer-same-window) ())
+;; 	("python.*" (display-buffer-reuse-window
+;;         display-buffer-pop-up-frame)
+;;          (reusable-frames . t))
+;; 	("magit.*" (display-buffer-reuse-window
+;;         display-buffer-pop-up-frame)
+;;          (reusable-frames . t))
+;; 	;; Reuse might be useful in some cases...
+;;         ;; (".*" (display-buffer-reuse-window
+;;         ;;        display-buffer-same-window
+;;         ;;        display-buffer-pop-up-frame)
+;;         ;;  (reusable-frames . t))
+;; 	))
+    #+END_SRC
+Do not display async command output in another window.
 #+begin_src elisp
-(use-package org-superstar              ; supersedes `org-bullets'
-  :ensure
-  :after org
-  :config
-  (setq org-superstar-remove-leading-stars t)
-  (setq org-superstar-headline-bullets-list '(" ")) ;; '("🞛" "◉" "○" "▷")
-  (setq org-superstar-item-bullet-alist
-        '((?+ . ?•)
-          (?* . ?➤)
-          (?- . ?–)))
-  (org-superstar-mode -1))
+(setq display-buffer-alist (list
+			    (list shell-command-buffer-name-async 'display-buffer-no-window '(nil))))
+#+end_src
+#+begin_src elisp
+;; (use-package org-superstar              ; supersedes `org-bullets'
+;;   :ensure
+;;   :after org
+;;   :config
+;;   (setq org-superstar-remove-leading-stars t)
+;;   (setq org-superstar-headline-bullets-list '(" ")) ;; '("🞛" "◉" "○" "▷")
+;;   (setq org-superstar-item-bullet-alist
+;;         '((?+ . ?•)
+;;           (?* . ?➤)
+;;           (?- . ?–)))
+;;   (org-superstar-mode -1))
 
 (use-package emacs
   :config
   (setq window-divider-default-right-width 1)
   (setq window-divider-default-bottom-width 1)
   (setq window-divider-default-places t)
+  ;; (setq inhibit-startup-message t)
+  (column-number-mode t)
+  (display-time-mode t)
+  (menu-bar-mode t)
+  (tool-bar-mode t)
+  (setq-default display-line-numbers nil)
+  (add-hook 'prog-mode-hook (lambda () (setq-local display-line-numbers 'relative)))
+  ;; (add-hook 'org-mode-hook (lambda () (setq-local display-line-numbers nil)))
+  (scroll-bar-mode t)
+  (global-hl-line-mode t) ;; highlight current line
+  ;; (setq-default frame-title-format '("%b [%m]"))
   (window-divider-mode -1))
 
-(use-package olivetti
-  :ensure
-  :diminish
-  :config
-  (setq olivetti-body-width 0.65)
-  (setq olivetti-minimum-body-width 72)
-  (setq olivetti-recall-visual-line-mode-entry-state t)
+;; (use-package olivetti
+;;   :ensure
+;;   :diminish
+;;   :config
+;;   (setq olivetti-body-width 0.65)
+;;   (setq olivetti-minimum-body-width 72)
+;;   (setq olivetti-recall-visual-line-mode-entry-state t)
 
-  (define-minor-mode prot/olivetti-mode
-    "Toggle buffer-local `olivetti-mode' with additional parameters.
+;;   (define-minor-mode prot/olivetti-mode
+;;     "Toggle buffer-local `olivetti-mode' with additional parameters.
 
-Fringes are disabled.  The modeline is hidden, except for
-`prog-mode' buffers (see `prot/hidden-mode-line-mode').  The
-default typeface is set to a proportionately-spaced family,
-except for programming modes (see `prot/variable-pitch-mode').
-The cursor becomes a blinking bar, per `prot/cursor-type-mode'."
-    :init-value nil
-    :global nil
-    (if prot/olivetti-mode
-        (progn
-          (olivetti-mode 1)
-          (set-window-fringes (selected-window) 0 0)
-          (prot/variable-pitch-mode 1)
-          (prot/cursor-type-mode 1)
-          (unless (derived-mode-p 'prog-mode)
-            (prot/hidden-mode-line-mode 1))
-          (window-divider-mode 1)
-          (when (eq major-mode 'org-mode)
-            (org-superstar-mode 1)))
-      (olivetti-mode -1)
-      (set-window-fringes (selected-window) nil) ; Use default width
-      (prot/variable-pitch-mode -1)
-      (prot/cursor-type-mode -1)
-      (unless (derived-mode-p 'prog-mode)
-        (prot/hidden-mode-line-mode -1))
-      (window-divider-mode -1)
-      (when (eq major-mode "org-mode")
-        (org-superstar-mode -1))))
+;; Fringes are disabled.  The modeline is hidden, except for
+;; `prog-mode' buffers (see `prot/hidden-mode-line-mode').  The
+;; default typeface is set to a proportionately-spaced family,
+;; except for programming modes (see `prot/variable-pitch-mode').
+;; The cursor becomes a blinking bar, per `prot/cursor-type-mode'."
+;;     :init-value nil
+;;     :global nil
+;;     (if prot/olivetti-mode
+;;         (progn
+;;           (olivetti-mode 1)
+;;           (set-window-fringes (selected-window) 0 0)
+;;           (prot/variable-pitch-mode 1)
+;;           (prot/cursor-type-mode 1)
+;;           (unless (derived-mode-p 'prog-mode)
+;;             (prot/hidden-mode-line-mode 1))
+;;           (window-divider-mode 1)
+;;           (when (eq major-mode 'org-mode)
+;;             (org-superstar-mode 1)))
+;;       (olivetti-mode -1)
+;;       (set-window-fringes (selected-window) nil) ; Use default width
+;;       (prot/variable-pitch-mode -1)
+;;       (prot/cursor-type-mode -1)
+;;       (unless (derived-mode-p 'prog-mode)
+;;         (prot/hidden-mode-line-mode -1))
+;;       (window-divider-mode -1)
+;;       (when (eq major-mode "org-mode")
+;;         (org-superstar-mode -1))))
 
-  :bind ("C-c o" . prot/olivetti-mode))
-#+end_src
-  #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/theme-config.el
+;;   :bind ("C-c o" . prot/olivetti-mode))
+
 ;; (load-theme 'material t)
 ;; My old theme
 ;; (custom-set-variables
