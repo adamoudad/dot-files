@@ -11,6 +11,48 @@
   - ~~/Tests~, required to save a bash script running a dockerized python shell
 * Recommended Firefox extensions
 - [[https://addons.mozilla.org/en-US/firefox/addon/copy-as-org-mode/][Copy as Org-Mode]] lets you copy the URL of a web page in orgmode format.
+* Init
+:PROPERTIES:
+:header-args: :tangle ~/.emacs.d/init.el
+:END:
+The content of the init.el file will simply load all other .el files defined hereinafter.
+  #+BEGIN_SRC emacs-lisp
+(package-initialize)
+(load-file "~/.emacs.d/package-config.el")
+;; (load-file "~/.emacs.d/theme-config.el")
+(load-file "~/.emacs.d/display-config.el")
+(load-file "~/.emacs.d/edit-config.el")
+(load-file "~/.emacs.d/orgmode-config.el")
+(load-file "~/.emacs.d/markdown-config.el")
+(load-file "~/.emacs.d/navigation-config.el")
+(load-file "~/.emacs.d/python-config.el")
+(load-file "~/.emacs.d/dired-config.el")
+(load-file "~/.emacs.d/docview-config.el")
+(load-file "~/.emacs.d/path-config.el")
+(load-file "~/.emacs.d/slime-config.el")
+(load-file "~/.emacs.d/magit-conf.el")
+(load-file "~/.emacs.d/skeletons-config.el")
+(load-file "~/.emacs.d/irc-config.el")
+(load-file "~/.emacs.d/lsp-config.el")
+(load-file "~/.emacs.d/emms-config.el")
+(load-file "~/.emacs.d/powersave-config.el")
+(load-file "~/.emacs.d/nixos-config.el")
+(condition-case nil
+    ;; The following files are loaded only if available
+    (progn
+      (load-file "~/Codes/emacs-lisp/lipsum-retrieve.el")
+      (load-file "~/Codes/emacs-lisp/vidr.el")
+      (load-file "~/Codes/emacs-lisp/channels.el")
+      (load-file "~/Codes/tifinagh-tools/tifinagh.el")
+      (load-file "~/Codes/emacs-lisp/jisho.el")
+      (load-file "~/Codes/emacs-lisp/lab.el")
+  (error nil))
+  #+END_SRC
+Additional custom configuration introduced by the customization UI is placed in a separate file.
+    #+begin_src elisp
+(setq custom-file (locate-user-emacs-file "custom-config.el"))
+(load custom-file'noerror 'nomessage)
+    #+end_src
 * Packages
 :PROPERTIES:
 :header-args: :tangle ~/.emacs.d/package-config.el
@@ -266,6 +308,7 @@ Do not display async command output in another window.
   (interactive)
   (find-file config-file))
 (global-set-key (kbd "C-c f")  'find-config-file)
+(global-set-key (kbd "C-c v")  'vidr)
 ;; Workaround for my hi-dpi screen and GNOME
 (defun hidpi () (interactive)
        "Toggle between default font height of 100 and 140, to adapt to Hi-DPI displays manually.
@@ -287,25 +330,35 @@ This function solely exists because GNOME won't let me specify a text scaling be
 (setq history-length 50)
 (savehist-mode 1)
     #+end_src
-  - Scroll lock in eww
+  - Scroll lock and line wrap in eww.
     #+begin_src elisp
-
 (add-hook 'eww-mode-hook 'scroll-lock-mode)
-
+(defun wrap-lines-in-eww ()
+  (toggle-truncate-lines 1)
+  (toggle-word-wrap 1))
+(add-hook 'eww-after-render-hook 'wrap-lines-in-eww)
     #+end_src
 
 Files I visit often in register.
 #+begin_src elisp
 (setq config-file "~/dot-files/dotemacs.org")
-(set-register ?c '(file .  config-file))
+(set-register ?c (cons 'file  config-file))
 (set-register ?r '(file . "~/Documents/Research/research-progress.org"))
-(set-register ?x '(file . org-default-notes-file))
+(set-register ?x (cons 'file org-default-notes-file))
+(set-register ?p (cons 'file "~/Sync/Dropbox/Notes/pratique.org"))
+(set-register ?e (cons 'file "~/Sync/Dropbox/Notes/etudes.org"))
+(set-register ?w (cons 'file "~/Sync/Dropbox/org-roam/20221023111150-ecrits.org"))
+(set-register ?f (cons 'file "~/Sync/Dropbox/org-roam/20220818233439-finances.org"))
 
 #+end_src
 * Edit settings
   :PROPERTIES:
   :header-args: :tangle ~/.emacs.d/edit-config.el
   :END:
+  - Add ruby gem (easy-jekyll) to ~exec-path~
+    #+BEGIN_SRC emacs-lisp
+    (setq exec-path (append exec-path '("/home/adam/.gem/ruby/2.6.0/bin" "~/.local/bin")))
+    #+END_SRC
   - Consider sentence end by one period followed by one blank space (instead of double blank space by default)
     #+BEGIN_SRC elisp
     (setq sentence-end-double-space nil)
@@ -337,10 +390,12 @@ Files I visit often in register.
     #+END_SRC
   - Ido mode. Setting ~ido-auto-merge-work-directories-length~ to -1 disables this annoying auto-merge thing whenever I type something. Search and merge can still be triggered when typing M-s.
     #+BEGIN_SRC emacs-lisp
-      (setq ido-enable-flex-matching t)
-      (setq ido-everywhere t)
-      (ido-mode 1)
-      (setq ido-auto-merge-work-directories-length -1)
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(setq ido-auto-merge-work-directories-length -1)
+(ido-mode t)
+(define-key ido-common-completion-map
+  (kbd "C-x g") 'ido-enter-magit-status)
     #+END_SRC
   - Edit server for Firefox edit with emacs
     #+BEGIN_SRC emacs-lisp
@@ -502,6 +557,12 @@ Set the register separator to the =+= key.
   (org-image-actual-width nil))
       #+end_src
 
+#+begin_src elisp
+(setq org-agenda-files
+      '("~/notes.org" "~/Sync/Dropbox/Keio/research-progress.org"))
+(setq org-attach-id-dir "~/Documents/Attachments/")
+#+end_src
+
 Add new file associations
 #+begin_src elisp
 (setq org-file-apps '((auto-mode . emacs)
@@ -578,8 +639,6 @@ Present with =org-tree-slide=
   (interactive)
   (find-file org-default-notes-file))
 (global-set-key (kbd "C-c n x ") 'find-default-notes-file)
-  ;; (define-key ido-common-completion-map
-  ;; (kbd \"C-x g\") 'ido-enter-magit-status)
 (use-package org-roam
   :ensure t
   :custom
@@ -719,7 +778,7 @@ Present with =org-tree-slide=
  (lambda ()
    (setq-local electric-pair-inhibit-predicate
                `(lambda (c)
-                  (if (char-equal c ?<) t (,electric-pair-inhibit-predicate c))))
+                  (if (or (char-equal c ?< ) (char-equal c ?\[ )) t (,electric-pair-inhibit-predicate c))))
    )
  )
    #+end_src
@@ -815,6 +874,10 @@ docker run -it -v /tmp:/tmp -v $(pwd):/code ufoym/deepo python3
   :PROPERTIES:
   :header-args: :tangle ~/.emacs.d/lsp-config.el
   :END:
+#+begin_quote
+If you use NixOS, refer to the [[*NixOS specific settings][next section]] for installing each language server. Using =M-x lsp-install-server= will fail. If you entered the command by mistake, just clear the content of =~/.emacs.d/.cache/lsp/=.
+#+end_quote
+
   - For python run ~pip install 'python-lsp-server[all]'~  in a terminal to install the python language server.
   - For haskell, run ~pacman -S haskell-language-server~. Then configure the variable ~lsp-haskell-server-path~ (TODO:how?)
   - For Go, run ~go install golang.org/x/tools/gopls@latest~ and make sure the $PATH is updated to the go binaries of ~go env~  (TODO: https://github.com/golang/tools/blob/master/gopls/doc/emacs.md)
@@ -885,6 +948,28 @@ Some hooks
 #+begin_src elisp
 (add-hook 'python-mode-hook 'hs-minor-mode)
 #+end_src
+* NixOS specific settings
+:PROPERTIES:
+:header-args: :tangle ~/.emacs.d/nixos-config.el
+:END:
+
+Use nix to install language server packages.
+#+begin_src nix :tangle nil
+packages = with pkgs; [
+    python310Packages.python-lsp-server
+    clang-tools
+    rnix-lsp
+  ]
+#+end_src
+
+
+#+begin_src elisp
+(setq lsp-clangd-binary-path "~/.nix-profile/bin/clangd")
+#+end_src
+
+Known issues and limitations:
+- cannot link to installed C++ libraries
+- cannot link to installed Python libraries
 * Dired
   :PROPERTIES:
   :header-args: :tangle ~/.emacs.d/dired-config.el
@@ -921,8 +1006,7 @@ Some hooks
   :PROPERTIES:
   :header-args: :tangle ~/.emacs.d/magit-conf.el
   :END:
-  Add keybinding for ~magit-status~.
-  There is a keybinding in ido-mode also but[fn:6] it seems not to work.
+  Keybinding for ~magit-status~[fn:6].
   #+BEGIN_SRC elisp
 (global-set-key (kbd "C-x g") 'magit-status)
 (use-package forge
@@ -945,7 +1029,7 @@ Some hooks
 #+begin_src emacs-lisp
 (use-package easy-jekyll
 :init
-(setq easy-jekyll-basedir "~/Projets/Imiksimik-ighd/imiksimik")
+(setq easy-jekyll-basedir "~/Codes/Imiksimik-ighd/imiksimik")
 ;; (setq easy-jekyll-url "https://yourblogdomain")
 ;; (setq easy-jekyll-sshdomain "blogdomain")
 ;; (setq easy-jekyll-root "/home/blog/")
@@ -1100,44 +1184,11 @@ Newsfeed
 " nil :count 0)
    ))
 #+end_src
-* Init
-:PROPERTIES:
-:header-args: :tangle ~/.emacs.d/init.el
-:END:
-  The content of the init.el file will simply load all other .el files previously defined.
-  #+BEGIN_SRC emacs-lisp
-  (package-initialize)
-  (load-file "~/.emacs.d/package-config.el")
-  ;; (load-file "~/.emacs.d/theme-config.el")
-  (load-file "~/.emacs.d/display-config.el")
-  (load-file "~/.emacs.d/edit-config.el")
-  (load-file "~/.emacs.d/orgmode-config.el")
-  (load-file "~/.emacs.d/markdown-config.el")
-  (load-file "~/.emacs.d/navigation-config.el")
-  (load-file "~/.emacs.d/python-config.el")
-  (load-file "~/.emacs.d/dired-config.el")
-  (load-file "~/.emacs.d/docview-config.el")
-  (load-file "~/.emacs.d/path-config.el")
-  (load-file "~/.emacs.d/slime-config.el")
-  (load-file "~/.emacs.d/magit-conf.el")
-  (load-file "~/Tests/tifinagh.el")
-  (load-file "~/.emacs.d/skeletons-config.el")
-  (load-file "~/.emacs.d/irc-config.el")
-  (load-file "~/.emacs.d/lsp-config.el")
-  (load-file "~/.emacs.d/emms-config.el")
-  (load-file "~/.emacs.d/powersave-config.el")
-  #+END_SRC
-Additional custom configuration introduced by the customization UI is placed in a separate file.
-    #+begin_src elisp
-(setq custom-file (locate-user-emacs-file "custom-config.el"))
-(load custom-file'noerror 'nomessage)
-    #+end_src
 * Post-install tasks
 #+begin_src elisp
 (company-tabnine-install-binary)
 (all-the-icons-install-fonts)
 #+end_src
-
 * More
   Dotemacs in orgmode
   - http://mescal.imag.fr/membres/arnaud.legrand/misc/init.php
@@ -1154,7 +1205,6 @@ Additional custom configuration introduced by the customization UI is placed in 
 [fn:11]https://www.tabnine.com/install/emacs 
 
 [fn:10]https://www.gnu.org/software/emms/manual/#Quickstart-Guide 
-[fn:9]https://gist.github.com/brenns10/69d39f6c46170093f73d 
 
 [fn:8] https://github.com/syl20bnr/spacemacs/issues/12003#issuecomment-465686129 
 
