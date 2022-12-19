@@ -1,24 +1,23 @@
-* About
-  This file is a collection of configurations and scripts for Emacs, i3, zsh.
+This file is a collection of configurations and scripts for Emacs, GNOME, SwayWM, i3wm, zsh, and others.
   
-  This actually constitutes my current laptop environement for daily use. Any feedback or help in improving it will be warmly welcomed!
+This actually constitutes my everyday laptop environement. Any feedback or help in improving it will be warmly welcomed!
 
-  To use this file, you have to tangle all source code blocks inside their respective file, specified in the =:tangle= attributes of source blocks or of subtrees' properties. The easiest way is to open this file in emacs with org-mode, and use =C-c C-v t= key to export all code blocks at once.
-* Organization
-  - Codes/ :: main projects
-  - Hacks/ :: some minor projects
-  - Scripts/ :: useful scripts for every day use
-  - Tests/ :: temporary code, for quick tests
-  - Datasets/ :: collection of data and datasets
-* System-wide configuration
 =systemd= folder contains scripts which should be copied or linked to =/etc/systemd/system/=
 For example do this for =/etc/systemd/system/batttery-charge-threshold.service=
 
-* Random wallpaper generation
+* Current environment [2022-12-19 Mon]
+- OS :: NixOS.
+- Graphical environment :: GNOME desktop.
+- Editor :: Emacs. I use vim sometimes for editing certain config files.
+
+* Picking random wallpaper and displaying random quotes
   :PROPERTIES:
   :header-args: :tangle ~/.generate_wallpaper.sh
   :END:
-  Bash script for generating wallpaper with random quotes appearing with transparency on a random background image. The quotes should be inside a file, separated by line breaks.
+Bash script for generating wallpaper with random quotes appearing with transparency on a random background image. The quotes should be inside a file, separated by line breaks.
+
+Note that if you are reading this file inside Emacs, you can tangle all the source code blocks to the file =~/.generate_wallpaper.sh= by typing =C-c C-v t=, thanks to the =:header-args= attributes in this subtree's properties.
+
   1. Script settings
      #+BEGIN_SRC bash
        WALLPAPERS_PATH="~/.wallpapers/"
@@ -29,7 +28,7 @@ For example do this for =/etc/systemd/system/batttery-charge-threshold.service=
      #+BEGIN_SRC bash
        random_background=$WALLPAPERS$(ls $WALLPAPERS_PATH | sort -R | head -1)
      #+END_SRC
-  3. Choose random text from list of aphorisms
+  3. Choose random text from list of aphorisms or famous quotes.
      #+BEGIN_SRC bash
        random_quote=$(cat $QUOTE_PATH | sort -R | head -1)
      #+END_SRC
@@ -37,15 +36,13 @@ For example do this for =/etc/systemd/system/batttery-charge-threshold.service=
      #+BEGIN_SRC bash
        convert -pointsize 200  -fill "rgba(0,0,0,0.4)" -draw "text 270,460 \"${random_quote}\"" ${random_background} $OUTPUT_PATH
      #+END_SRC
-  6. Finally, you can use feh for displaying the newly generated wallpaper (I use it inside my i3 configuration)
-* Applications and scripts
-** LINE messenger on desktop
-   Install chromium, chrome or brave.
-   Then install the LINE app.
-   Then find how to access it.
-   Then use this code:
+  6. Finally, you can use feh for displaying the newly generated wallpaper. It works for i3wm. If you use SwayWM, you can refer to my configuration in =sway/= folder.
+* LINE messenger as a standalone desktop application
+1. Install chromium, chrome or brave.
+2. Install the LINE app.
+3. Find its extension id, by navigating to =brave://extensions/= (for Brave), then clicking on =Details=, then reading the extension id from the URL in the top bar. It should be =ophjlpahpchlmihnnnihgmmeilfjmjjc=.
+4. Use this script to run LINE as a standalone application.
    #+BEGIN_SRC bash
-#!/bin/bash
-# Run LINE as a standalone
+#!/usr/bin/env bash
 brave --app=chrome-extension://ophjlpahpchlmihnnnihgmmeilfjmjjc/index.html
    #+END_SRC
