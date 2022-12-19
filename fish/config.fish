@@ -7,10 +7,10 @@ set GEM_HOME $HOME/.gem		# Ruby gem path
 set npm_config_prefix $HOME/.local
 set VISUAL "emacsclient -c"	# Default text editor
 set fish_greeting		# Remove the greeting
-set EDITOR "nvim"		#Default text editor for CLI programs
+set EDITOR "nvim"		# Default text editor for CLI programs
 
 # set PATH $HOME/.local/share/gem/ruby/3.0.0/bin $HOME/Scripts $HOME/.local/bin $HOME/node_modules/.bin/ $GOPATH $PATH
-set PATH $HOME/.local/bin $HOME/Projets/Scripts/ $PATH
+set PATH $HOME/.local/bin $HOME/Codes/Scripts/ $PATH
 
 # OCaml
 source /home/adam/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
@@ -235,4 +235,8 @@ abbr -a -- zbkb-layout "dconf write /org/gnome/desktop/input-sources/xkb-options
 abbr -a -- hidpi "test (dconf read /org/gnome/desktop/interface/text-scaling-factor) -gt 1.1 && set NEWDPI 1.0 || set NEWDPI 1.4 ; dconf write /org/gnome/desktop/interface/text-scaling-factor \$NEWDPI && echo \"Emacs must be restarted for the changes to take place.\""
 # && emacsclient -e \"(hidpi)\""
 abbr -a -- teams "brave teams.live.com"
+abbr -a -- ytaudio "download-yt-audio"
+abbr -a -- ytvideo "download-yt-video"
+abbr -a -- ytpod "download-yt-to-podcast"
+abbr -a -- v "nvim"
 starship init fish | source
