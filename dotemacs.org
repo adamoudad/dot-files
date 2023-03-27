@@ -118,10 +118,11 @@ First, install =use-package=.
     ) "Default packages to install that do not need any further configuration.")
 
 (dolist (package adam/packages-no-config nil)
-  (use-package package
-    :ensure t))
+  (eval `(use-package ,package
+    :ensure t) t))
 
 
+;; Add tex with auctex
    #+END_SRC
 ** Config
 I am planning to use chezmoi to keep track of my config files.
