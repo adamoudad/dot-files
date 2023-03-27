@@ -347,7 +347,7 @@ Files I visit often in register.
 (set-register ?e (cons 'file "~/Sync/Dropbox/Notes/etudes.org"))
 (set-register ?w (cons 'file "~/Sync/Dropbox/org-roam/20221023111150-ecrits.org"))
 (set-register ?f (cons 'file "~/Sync/Dropbox/org-roam/20220818233439-finances.org"))
-
+(set-register ?j (cons 'file "~/journal.org"))
 #+end_src
 * Edit settings
   :PROPERTIES:
@@ -418,7 +418,7 @@ Files I visit often in register.
     #+end_src
   - Default input method
     #+begin_src elisp
-(setq default-input-method "french-postfix")
+(setq default-input-method "latin-1-postfix")
     #+end_src
 
 Set the register separator to the =+= key.
@@ -472,6 +472,12 @@ Set the register separator to the =+= key.
     #+BEGIN_SRC emacs-lisp
     (setq org-log-done 'time)
     #+END_SRC
+
+  - Setup emacs calendar with start of week on monday
+#+begin_src elisp
+(setq calendar-week-start-day 1)
+#+end_src
+
   - Ajouter export avec reveal.js et beamer
     #+BEGIN_SRC emacs-lisp
     (require 'ox-reveal)
@@ -608,6 +614,7 @@ Default bibliography file
 	("r" "Travail/recherche" entry (file+headline "~/Documents/Research/research-progress.org" "Tasks")
 	 "* TODO %?\n%u\n%a")
 	("j" "Journal, écrits" entry (file+datetree "~/journal.org") "* %?\nÉcrit le %U\n\n")
+	("c" "BASH command with a description." entry (file+headline "~/Codes/musasabi/dictionary.org" "bash") "*")
 	))
 #+end_src
 
