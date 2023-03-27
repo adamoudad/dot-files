@@ -1,14 +1,12 @@
-* About
-  This is my emacs config file.
+This config should work with =GNU Emacs 28.2 (build 1, x86_64-pc-linux-gnu, X toolkit, cairo version 1.16.0, Xaw3d scroll bars)=.
   
-  Writing it in a .org file makes it easier to organize, and gives me a +20% bonus in coolness.
-  Here is a useful link : [[http://thewanderingcoder.com/2015/02/literate-emacs-configuration/][Literate Emacs Configuration]]
+Writing it in a .org file makes it easier to organize, and gives me a +20% bonus in coolness. I got started after reading [[http://thewanderingcoder.com/2015/02/literate-emacs-configuration/][Literate Emacs Configuration]].
+
+To use it, just open it in emacs and do ~C-c C-v t~. This will export (/tangle/) all the code blocks of this file in your =~/.emacs.d/= .
   
-  If you want to use it, just open it in emacs and do ~C-c C-v t~. This will export (/tangle/) all the code blocks of this file in your =~/.emacs.d/= .
-  
-  Pay attention to some additional things to do, like for python ([[#python]]), you will need python packages that can be installed via ~pip~.
-  Make sure the following directories are existing
-  - ~~/Tests~, required to save a bash script running a dockerized python shell
+Pay attention to some additional things to do, like for python ([[#python]]), you will need python packages that can be installed via ~pip~. Also, make sure the following directories exist on your machine.
+- ~~/Tests~, required to save a bash script running a dockerized python shell
+
 * Recommended Firefox extensions
 - [[https://addons.mozilla.org/en-US/firefox/addon/copy-as-org-mode/][Copy as Org-Mode]] lets you copy the URL of a web page in orgmode format.
 * Init
@@ -947,6 +945,8 @@ Some hooks
 :PROPERTIES:
 :header-args: :tangle ~/.emacs.d/nixos-config.el
 :END:
+
+It is better to install Emacs as a system package in NixOS to avoid some issues like overheating. This issue happened to me especially when I install emacs with home-manager. This might be due to some specific emacs packages rather than Emacs itself.
 
 Use nix to install language server packages.
 #+begin_src nix :tangle nil
