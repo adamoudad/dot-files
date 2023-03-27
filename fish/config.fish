@@ -239,4 +239,5 @@ abbr -a -- ytaudio "download-yt-audio"
 abbr -a -- ytvideo "download-yt-video"
 abbr -a -- ytpod "download-yt-to-podcast"
 abbr -a -- v "nvim"
+abbr -a -- xwld "env XDG_SESSION_TYPE=x11 GDK_BACKEND=x11"
 starship init fish | source
