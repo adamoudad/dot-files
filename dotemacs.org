@@ -15,36 +15,37 @@ Pay attention to some additional things to do, like for python ([[#python]]), yo
 :END:
 The content of the init.el file will simply load all other .el files defined hereinafter.
   #+BEGIN_SRC emacs-lisp
-(package-initialize)
-(load-file "~/.emacs.d/package-config.el")
-;; (load-file "~/.emacs.d/theme-config.el")
-(load-file "~/.emacs.d/display-config.el")
-(load-file "~/.emacs.d/edit-config.el")
-(load-file "~/.emacs.d/orgmode-config.el")
-(load-file "~/.emacs.d/markdown-config.el")
-(load-file "~/.emacs.d/navigation-config.el")
-(load-file "~/.emacs.d/python-config.el")
-(load-file "~/.emacs.d/dired-config.el")
-(load-file "~/.emacs.d/docview-config.el")
-(load-file "~/.emacs.d/path-config.el")
-(load-file "~/.emacs.d/slime-config.el")
-(load-file "~/.emacs.d/magit-conf.el")
-(load-file "~/.emacs.d/skeletons-config.el")
-(load-file "~/.emacs.d/irc-config.el")
-(load-file "~/.emacs.d/lsp-config.el")
-(load-file "~/.emacs.d/emms-config.el")
-(load-file "~/.emacs.d/powersave-config.el")
-(load-file "~/.emacs.d/nixos-config.el")
-(condition-case nil
-    ;; The following files are loaded only if available
-    (progn
-      (load-file "~/Codes/emacs-lisp/lipsum-retrieve.el")
-      (load-file "~/Codes/emacs-lisp/vidr.el")
-      (load-file "~/Codes/emacs-lisp/channels.el")
-      (load-file "~/Codes/tifinagh-tools/tifinagh.el")
-      (load-file "~/Codes/emacs-lisp/jisho.el")
-      (load-file "~/Codes/emacs-lisp/lab.el")
-  (error nil))
+    (package-initialize)
+    (load-file "~/.emacs.d/package-config.el")
+    (load-file "~/.emacs.d/theme-config.el")
+    (load-file "~/.emacs.d/display-config.el")
+    (load-file "~/.emacs.d/edit-config.el")
+    (load-file "~/.emacs.d/orgmode-config.el")
+    ;; (load-file "~/.emacs.d/markdown-config.el")
+    (load-file "~/.emacs.d/navigation-config.el")
+    ;; (load-file "~/.emacs.d/python-config.el")
+    ;; (load-file "~/.emacs.d/dired-config.el")
+    ;; (load-file "~/.emacs.d/docview-config.el")
+    ;; (load-file "~/.emacs.d/path-config.el")
+    ;; (load-file "~/.emacs.d/slime-config.el")
+    ;; (load-file "~/.emacs.d/magit-conf.el")
+    ;; (load-file "~/.emacs.d/skeletons-config.el")
+    ;; (load-file "~/.emacs.d/irc-config.el")
+    ;; (load-file "~/.emacs.d/lsp-config.el")
+    ;; (load-file "~/.emacs.d/emms-config.el")
+    ;; (load-file "~/.emacs.d/powersave-config.el")
+    ;; (load-file "~/.emacs.d/nixos-config.el")
+    (condition-case nil
+	;; The following files are loaded only if available
+	(progn
+	  (load-file "~/Codes/emacs-lisp/lipsum-retrieve.el")
+	  (load-file "~/Codes/emacs-lisp/vidr.el")
+	  (load-file "~/Codes/emacs-lisp/channels.el")
+	  (load-file "~/Codes/tifinagh-tools/tifinagh.el")
+	  (load-file "~/Codes/emacs-lisp/jisho.el")
+	  (load-file "~/Codes/emacs-lisp/lab.el")
+	  )
+      (error nil))
   #+END_SRC
 Additional custom configuration introduced by the customization UI is placed in a separate file.
     #+begin_src elisp
@@ -71,7 +72,6 @@ First, install =use-package=.
    #+BEGIN_SRC emacs-lisp
 (defvar adam/packages-no-config
   '(ox-reveal
-    auctex
     markdown-mode
     ledger-mode
     ;; elpy
@@ -96,7 +96,7 @@ First, install =use-package=.
     lsp-ui
     flycheck
     company
-    lsp-treemacs
+    ;; lsp-treemacs
     helm-lsp dap-mode
     lsp-haskell
     haskell-mode
@@ -105,7 +105,7 @@ First, install =use-package=.
     json-mode
     dockerfile-mode
     caml
-    treemacs
+    ;; treemacs
     org-modern
     ox-hugo
     emms
