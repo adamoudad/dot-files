@@ -38,7 +38,7 @@ abbr -a -- dcs docker-compose
 abbr -a -g -- py python
 abbr -a -g -- py3 python3
 abbr -a -g -- py2 python2
-abbr -a -g -- workon "source ~/.pyvenv/"
+abbr -a -g -- workon "source ~/.pyvenv/bin/activate.fish"
 abbr -a -g -- shrink "gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -dNOPAUSE -dQUIET -dBATCH -sOutputFile=output.pdf"
 abbr -a -g -- cups-start "systemctl start org.cups.cupsd"
 abbr -a -g -- cups "firefox http://localhost:631"
