@@ -416,23 +416,9 @@ Files I visit often in register.
 
 ;; Number the candidates (use M-1, M-2 etc to select completions).
 (setq company-show-numbers t)
-    #+end_src
-  - Default input method
-    #+begin_src elisp
-(setq default-input-method "latin-1-postfix")
-    #+end_src
 
-Set the register separator to the =+= key.
-#+begin_src elisp
-(setq register-separator ?+)
-#+end_src
-* Power saving
-:PROPERTIES:
-:header-args: :tangle ~/.emacs.d/powersave-config.el
-:END:
-#+begin_src elisp
 (defun toggle-powersave ()
-  "Disable energy-intensive things."
+  "Disable energy-intensive company Tabnine."
   (interactive)
   (message "Power saving is %s"
 	   (if (member #'company-tabnine company-backends)
@@ -443,6 +429,15 @@ Set the register separator to the =+= key.
 	       (add-to-list 'company-backends #'company-tabnine)
 	       "OFF"))
 	   ))
+    #+end_src
+  - Default input method
+    #+begin_src elisp
+(setq default-input-method "latin-1-postfix")
+    #+end_src
+
+Set the register separator to the =+= key.
+#+begin_src elisp
+(setq register-separator ?+)
 #+end_src
 * Grammar checking
   :PROPERTIES:
@@ -957,7 +952,7 @@ Some hooks
 It is better to install Emacs as a system package in NixOS to avoid some issues like overheating. This issue happened to me especially when I install emacs with home-manager. This might be due to some specific emacs packages rather than Emacs itself.
 
 Use nix to install language server packages.
-#+begin_src nix :tangle nil
+#+begin_src nix :tangle no
 packages = with pkgs; [
     python310Packages.python-lsp-server
     clang-tools
