@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Name=Firefox (private)
+GenericName=Private web browser
+Comment=Surf the web without keeping the cache.
+Exec=firefox --private-window %F
+Icon=firefox
+Type=Application
+Terminal=false
+Categories=Web;
+StartupWMClass=Firefox
