@@ -22,7 +22,7 @@ The content of the init.el file will simply load all other .el files defined her
 Additional custom configuration introduced by the customization UI is placed in a separate file.
     #+begin_src emacs-lisp
 (setq custom-file (locate-user-emacs-file "custom-config.el"))
-(load custom-file'noerror 'nomessage)
+(load custom-file 'noerror 'nomessage)
     #+end_src
 * Packages
 ** Package repositories
@@ -39,61 +39,69 @@ First, install =use-package=.
   (package-install 'use-package))
 #+end_src
    #+BEGIN_SRC emacs-lisp
-(defvar adam/packages-no-config
-  '(ox-reveal
-    markdown-mode
-    ledger-mode
-    ;; elpy
-    htmlize
-    edit-server
-    yaml-mode
-    ein
-    org-ref
-    magit
-    forge
-    easy-jekyll
-    cider
-    slime
-    all-the-icons-dired
-    inf-ruby
-    rainbow-delimiters
-    langtool
-    solidity-mode
-    emojify
-    org-drill
-    lsp-mode
-    lsp-ui
-    flycheck
-    company
-    ;; lsp-treemacs
-    helm-lsp dap-mode
-    lsp-haskell
-    haskell-mode
-    which-key
-    cmake-mode
-    json-mode
-    dockerfile-mode
-    caml
-    ;; treemacs
-    org-modern
-    ox-hugo
-    emms
-    org-journal
-    exwm
-    fish-mode
-    nix-mode
-    dash-docs
-    cdlatex
-    ) "Default packages to install that do not need any further configuration.")
+     (defvar adam/packages-no-config
+       '(
+	 ;; htmlize
+	 ;; edit-server
+	 ;; ein
+	 ;; org-ref
+	 magit
+	 ;; forge
+	 ;; easy-jekyll
+	 ;; cider
+	 ;; slime
+	 ;; all-the-icons-dired
+	 ;; inf-ruby
+	 ;; rainbow-delimiters
+	 ;; langtool
+	 ;; emojify
+	 ;; org-drill
+	 ;; lsp-ui
+	 ;; flycheck
+	 ;; company
+	 ;; lsp-treemacs
+	 ;; helm-lsp
+	 ;; dap-mode
+	 ;; lsp-haskell
+	 which-key
+	 ;; caml
+	 ;; treemacs
+	 ;; Orgmode improvements
+	 org-modern
+	 modus-themes
+	 ;; ox-hugo
+	 ox-reveal
+	 ;; emms
+	 org-journal
+	 ;; exwm
 
-(dolist (package adam/packages-no-config nil)
-  (eval `(use-package ,package
-    :ensure t) t))
+	 ligature
+
+	 ;; Modes for editing
+	 fish-mode
+	 nix-mode
+	 markdown-mode
+	 solidity-mode
+	 ledger-mode
+	 lsp-mode
+	 yaml-mode
+	 cmake-mode
+	 json-mode
+	 dockerfile-mode
+	 haskell-mode
+
+	 ;; dash-docs
+	 cdlatex
+	 ) "Default packages to install that do not need any further configuration.")
+
+     (dolist (package adam/packages-no-config nil)
+       (eval `(use-package ,package
+	 :ensure t) t))
 
 
-;; Add tex with auctex
+     ;; Add tex with auctex
    #+END_SRC
-** Config
+** Manage config across multiple machines
 I am planning to use chezmoi to keep track of my config files.
 I would like to have something similar to make auto-backups.
 #+begin_src emacs-lisp
@@ -101,14 +109,458 @@ I would like to have something similar to make auto-backups.
 ;; (global-set-key (kbd "C-c C f")  #'chezmoi-find)
 ;; (global-set-key (kbd "C-c C s")  #'chezmoi-write)
 #+end_src
-* COMMENT EXWM (emacs X window manager)
-  #+begin_src emacs-lisp
-(require 'exwm)
-;; Replace what follows with (exwm-enable) if I have my own config
-(require 'exwm-config)
-(exwm-config-default)
-  #+end_src
-* Display settings
+
+* Navigation
+
+#+begin_src emacs-lisp
+(require 'which-key)
+(which-key-mode)
+
+(global-set-key (kbd "C-x <up>") 'windmove-up)
+(global-set-key (kbd "C-x <down>") 'windmove-down)
+(global-set-key (kbd "C-x <right>") 'windmove-right)
+(global-set-key (kbd "C-x <left>") 'windmove-left)
+
+
+    (defun find-config-file ()
+      "Open the config file"
+      (interactive)
+      (find-file config-file))
+    (defun find-research-progress ()
+      (interactive)
+      (find-file "~/Documents/Research/research-progress.org"))
+    (global-set-key (kbd "C-c n r") 'find-research-progress)
+
+    (global-set-key (kbd "C-c f")  'find-config-file)
+    (global-set-key (kbd "C-c v")  'vidr)
+    ;; Workaround for my hi-dpi screen and GNOME
+    (defun hidpi () (interactive)
+	   "Toggle between default font height of 100 and 140, to adapt to Hi-DPI displays manually.
+	This function solely exists because GNOME won't let me specify a text scaling between 100 and 200%."
+	   (let ((height (face-attribute 'default :height)))
+	     (cond ((>= height 140)
+		    (set-face-attribute 'default nil :height 100))
+		   ((<= height 100)
+		    (set-face-attribute 'default nil :height 140))))
+	   (message (format "Default font height is now %d" (face-attribute 'default :height))))
+
+  #+END_SRC
+  - Winner mode
+    #+BEGIN_SRC emacs-lisp
+    ;; (winner-mode 1)
+    #+END_SRC
+  - Save history mode
+    #+begin_src emacs-lisp
+;; (setq history-length 50)
+;; (savehist-mode 1)
+    #+end_src
+
+Files I visit often in register.
+#+begin_src emacs-lisp
+(setq config-file "~/dot-files/dotemacs.org")
+(set-register ?c (cons 'file  config-file))
+(set-register ?r '(file . "~/Documents/Research/research-progress.org"))
+;; (set-register ?p (cons 'file "~/Sync/Dropbox/Notes/pratique.org"))
+;; (set-register ?e (cons 'file "~/Sync/Dropbox/Notes/etudes.org"))
+(set-register ?w (cons 'file "~/Sync/org-roam/20221023111150-ecrits.org"))
+(set-register ?f (cons 'file "~/Sync/org-roam/20220818233439-finances.org"))
+(set-register ?j (cons 'file "~/journal.org"))
+#+end_src
+
+* EWW
+Scroll lock and line wrap.
+    #+begin_src emacs-lisp
+(add-hook 'eww-mode-hook 'scroll-lock-mode)
+(defun wrap-lines-in-eww ()
+  (toggle-truncate-lines 1)
+  (toggle-word-wrap 1))
+(add-hook 'eww-after-render-hook 'wrap-lines-in-eww)
+    #+end_src
+
+* Code
+Fonts [fn:fonts]
+  #+BEGIN_SRC emacs-lisp
+    (defun my-frame-tweaks (&optional frame)
+      "Set faces for a new frame."
+      (unless frame
+	(setq frame (selected-frame)))
+      ;; (when frame
+      ;;   (with-selected-frame frame
+      ;;     (when (display-graphic-p)
+      ;; 	(tool-bar-mode -1))))
+      (setq line-spacing 4)
+      (when (member "FiraCode Nerd Font" (font-family-list))
+	(set-face-attribute 'default nil	;'org-code 'org-default
+			    :family "FiraCode Nerd Font"
+			    :height 100
+			    :weight 'regular
+			    :width 'normal))
+      (when (member "FiraCode Nerd Font" (font-family-list))
+	(set-face-attribute 'org-block nil :family "FiraCode Nerd Font" :height 100))
+      (when (member "Noto Serif" (font-family-list))
+	(set-face-attribute 'org-default nil :family "Noto Serif" :height 130))
+      (when (member "Noto Serif" (font-family-list))
+	(set-face-attribute 'variable-pitch nil :family "Noto Serif" :height 120)) ;Iosevka Nerd Font is boggy.
+      (when (member "FiraCode Nerd Font" (font-family-list))
+	(set-face-attribute 'org-modern-symbol nil :family "FiraCode Nerd Font"))
+
+      (ligature-set-ligatures 't '("www"))
+
+      ;; Enable ligatures in programming modes
+      (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
+					   ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
+					   "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
+					   "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
+					   "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
+					   "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
+					   "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
+					   "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
+					   "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
+					   "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
+
+      (global-ligature-mode 't)
+      )
+    (if (daemonp)
+	(add-hook 'server-after-make-frame-hook #'my-frame-tweaks t)
+      (my-frame-tweaks)
+      )
+
+  #+END_SRC
+
+* Edit settings
+
+  - Consider sentence end by one period followed by one blank space (instead of double blank space by default)
+    #+BEGIN_SRC emacs-lisp
+      (setq sentence-end-double-space nil)
+    #+END_SRC
+  - Backward transpose
+    #+BEGIN_SRC  emacs-lisp
+(defun transpose-chars-backward ()
+  "Backward version of transpose-chars"
+  (interactive)
+  (transpose-chars -1))
+(global-set-key (kbd "C-S-t")
+		'transpose-chars-backward)
+      ;; Sadly this one does not work...
+      ;; (global-set-key (kbd "M-S-t")
+      ;; 		(lambda () (interactive)
+      ;; 		  (transpose-words -1)))
+    #+END_SRC
+  - Auto-paired characters
+    #+BEGIN_SRC emacs-lisp
+(show-paren-mode)
+(electric-pair-mode 1)
+(setq show-paren-mode 'expression)
+    #+END_SRC
+
+  - Replace annoying /beep/ sound by visual bell
+    #+BEGIN_SRC emacs-lisp
+      (setq visible-bell 1)    
+    #+END_SRC
+  - Default input method
+    #+begin_src emacs-lisp
+;; (setq default-input-method "latin-1-postfix")
+    #+end_src
+
+Set the register separator to the =+= key.
+#+begin_src emacs-lisp
+(setq register-separator ?+)
+#+end_src
+
+
+* COMMENT Edit settings which require additional packages
+  - Beautiful rainbow parentheses
+#+begin_src emacs-lisp
+ (require 'rainbow-delimiters)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+#+end_src
+  - Add ruby gem (easy-jekyll) to ~exec-path~
+    #+BEGIN_SRC emacs-lisp
+      ;; (setq exec-path (append exec-path '("/home/adam/.gem/ruby/2.6.0/bin" "~/.local/bin")))
+    #+END_SRC
+
+  - Ido mode. Setting ~ido-auto-merge-work-directories-length~ to -1 disables this annoying auto-merge thing whenever I type something. Search and merge can still be triggered when typing M-s.
+    #+BEGIN_SRC emacs-lisp
+      ;; (setq ido-enable-flex-matching t)
+      ;; (setq ido-everywhere t)
+      ;; (setq ido-auto-merge-work-directories-length -1)
+      ;; (ido-mode t)
+      ;; (define-key ido-common-completion-map
+      ;;   (kbd "C-x g") 'ido-enter-magit-status)
+    #+END_SRC
+
+  - Edit server for Firefox edit with emacs
+    #+BEGIN_SRC emacs-lisp
+      ;; (require 'edit-server)
+      ;; (edit-server-start)
+    #+END_SRC
+  - Emojis
+    #+begin_src emacs-lisp
+;; (add-hook 'after-init-hook #'global-emojify-mode)
+;; (require 'emojify-logos)
+;; (setq emojify-company-tooltips-p t)
+    #+end_src
+  - Company mode, with Tabnine[fn:11] backend company-tabnine[fn:12]
+    #+begin_src emacs-lisp
+      ;; (add-hook 'after-init-hook 'global-company-mode)
+
+      ;; ;; Completion triggering delay.
+      ;; (setq company-idle-delay 0.3) 
+
+      ;; ;; Number the candidates (use M-1, M-2 etc to select completions).
+      ;; (setq company-show-numbers t)
+
+      ;; (defun toggle-powersave ()
+      ;;   "Disable energy-intensive company Tabnine."
+      ;;   (interactive)
+      ;;   (message "Power saving is %s"
+      ;; 	   (if (member #'company-tabnine company-backends)
+      ;; 	       (progn
+      ;; 		 (setq company-backends (remove #'company-tabnine company-backends))
+      ;; 		 "ON")
+      ;; 	     (progn
+      ;; 	       (add-to-list 'company-backends #'company-tabnine)
+      ;; 	       "OFF"))
+      ;; 	   ))
+    #+end_src
+* COMMENT Grammar checking
+  Open source spell checker. You will need the package =language-tool= installed on your system. The following configuration works for Archlinux.
+  #+BEGIN_SRC emacs-lisp 
+    (setq langtool-java-classpath
+	  "/usr/share/languagetool:/usr/share/java/languagetool/*")
+    (require 'langtool)
+    (setq langtool-default-language "en-US")
+  #+END_SRC
+  Common commands are ~langtool-check~ ~langtool-correct-buffer~. Use =C-u M-x langtool-check= to check in different language.
+  
+  
+  Another nice package is =ispell=. It has the advantage over =language-tool= to understand LaTeX syntax and grammar check .tex files well. It comes bundled with Emacs and uses =aspell= word dictionaries, so you will need to ~pacman -S aspell-en aspell-fr~ to install the French and English word dictionaries as an example. Change dictionary is made via ~ispell-change-dictionary~.[fn:4]
+* Orgmode
+#+BEGIN_SRC emacs-lisp
+  (setq org-directory "~/Notes/")
+  (setq org-default-notes-file (concat org-directory "notes-izm.org"))
+    (defun find-default-notes-file ()
+      "Edit the default notes file."
+      (interactive)
+      (find-file org-default-notes-file))
+    (global-set-key (kbd "C-c n x ") 'find-default-notes-file)
+  (set-register ?x (cons 'file org-default-notes-file))
+      #+END_SRC
+
+** Keybindings and directories
+  - Global key bindings
+    #+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c l") 'org-store-link)
+(global-set-key (kbd "C-c a") 'org-agenda)
+(global-set-key (kbd "C-c c") 'org-capture)
+    #+END_SRC
+  - Speed keys
+    #+BEGIN_SRC emacs-lisp
+    (setq org-use-speed-commands t)
+    #+END_SRC
+
+All org files except =journal.org= are agenda files.
+#+begin_src emacs-lisp
+  (setq org-agenda-files
+	(seq-remove
+	 (lambda (s) (or
+		      (string-match-p "20221023111150-ecrits\\.org$" s)
+		      (string-match-p "journal\\.org$" s)
+		      (string-match-p "trivia\\.org$" s)
+		      ))
+	 (directory-files "~/Notes/" t "\\.org$")))
+  (setq org-attach-id-dir "~/Documents/Attachments/")
+#+end_src
+
+    - Bell sound when timer stops
+      #+begin_src emacs-lisp
+	;; (setq org-clock-sound "~/Music/mixkit-happy-bell-alert-601.wav")
+      #+end_src
+
+** COMMENT Editing
+  - Add the date when a task is done.
+    #+BEGIN_SRC emacs-lisp
+    (setq org-log-done 'time)
+    #+END_SRC
+  - The calendar shows week starting on Monday.
+#+begin_src emacs-lisp
+(setq calendar-week-start-day 1)
+#+end_src
+
+  - TODO states
+    #+BEGIN_SRC emacs-lisp
+    (setq org-todo-keywords
+    '((sequence "TODO(t)" "|" "DONE(d)")
+    (sequence "|" "CANCELED(c)")))
+    #+END_SRC
+  - Org-babel evaluation languages
+    #+BEGIN_SRC emacs-lisp
+      (org-babel-do-load-languages
+       'org-babel-load-languages
+       '((dot . t)
+	 (python . t)))
+    #+END_SRC
+  - Preserve indentation of source blocks, else python code is messed up
+    #+BEGIN_SRC emacs-lisp
+    (setq org-src-preserve-indentation t)
+    #+END_SRC
+  - Use cdlatex package for extra editing features of \LaTeX equations
+    #+begin_src emacs-lisp
+(add-hook 'org-mode-hook #'turn-on-org-cdlatex)
+    #+end_src
+    - Custom structure templates
+      #+begin_src emacs-lisp
+(add-to-list 'org-structure-template-alist '("abs" . "abstract")  )
+      #+end_src
+
+Set priority tags from A (char 65) to E (char 69).
+#+begin_src emacs-lisp
+(setq org-priority-lowest 69)
+#+end_src
+
+   Since orgmode 9.2, this is needed for oldstyle template behavior, with completion for "<s" for example.[fn:8]
+   #+begin_src emacs-lisp
+   (add-to-list 'org-modules 'org-tempo t)
+   #+end_src
+
+** COMMENT Hacks
+
+Add new file associations
+#+begin_src emacs-lisp
+(setq org-file-apps '((auto-mode . emacs)
+		      (directory . emacs)
+		      ("\\.mm\\'" . default)
+		     ("\\.x?html?\\'" . default)
+		     ("\\.pdf\\'" . default)
+		     ("\\.mkv\\'" . "vlc %s")
+		     ("\\.midi?\\'" . "vlc %s")
+		     ("\\.webm\\'" . "vlc %s")
+		     ("\\.mp4\\'" . "vlc %s")
+		     ("\\.png\\'" . "eog %s")
+		     ("\\.\\(jpe?g\\|JPE?G\\)\\'" . "eog %s")))
+
+#+end_src
+
+
+Do not ask for confirmation when executing an elisp link in orgmode.
+#+begin_src emacs-lisp
+(setq org-confirm-elisp-link-function nil)
+#+end_src
+
+** Capture templates
+#+begin_src emacs-lisp
+(setq org-capture-templates
+      '(
+	("t" "Tâche" entry (file+headline "" "Tâches")
+	 "* TODO %?\n%u%a")
+	("q" "Tâche rapide" item (file+headline "" "Tâches")
+	 "- %U %?")
+	("p" "Projet" entry (file+headline "" "Projets")
+	 "* TODO %?\n%u\n%a")
+	("u" "URL à consulter plus tard" item (file+headline "" "Apprendre")
+	 "- %U %? %x")
+	("l" "Lien à consulter plus tard" item (file+headline "" "Apprendre")
+	 "- %U %?")
+	("a" "Sujet d'article à écrire" item (file+headline "" "Articles")
+	 "- %U %? %a")
+	("r" "Travail/recherche" entry (file+headline "~/Documents/Research/research-progress.org" "Tasks")
+	 "* TODO %?\n%u\n%a")
+	("j" "Journal, écrits" entry (file+datetree "~/Notes/journal.org") "* %U\n%?")
+	("c" "BASH command with a description." entry (file+headline "~/Codes/musasabi/dictionary.org" "bash") "*")
+	))
+#+end_src
+
+** COMMENT Journal
+#+begin_src emacs-lisp
+(require 'org-journal)
+;; default (setq org-journal-dir "~/Documents/journal/")
+#+end_src
+** COMMENT Blogging with hugo
+#+begin_src emacs-lisp
+(use-package ox-hugo
+  :ensure t   ;Auto-install the package from Melpa
+  :pin melpa  ;`package-archives' should already have ("melpa" . "https://melpa.org/packages/")
+  :after ox)
+#+end_src
+** Beautify with org-modern
+   #+begin_src emacs-lisp
+     ;; Minimal UI
+     (menu-bar-mode -1)
+     (tool-bar-mode -1)
+     (scroll-bar-mode -1)
+
+     (load-theme 'modus-vivendi)
+     (define-key global-map (kbd "<f5>") #'modus-themes-toggle)
+
+     ;; ;; Add all your customizations prior to loading the themes
+     ;; (setq modus-themes-italic-constructs t
+     ;;       modus-themes-bold-constructs nil
+     ;;       modus-themes-region '(bg-only no-extend))
+
+
+     ;; Enable org-modern-mode
+     ;; (add-hook 'org-mode-hook #'org-modern-mode)
+     ;; (add-hook 'org-agenda-finalize-hook #'org-modern-agenda)
+     (with-eval-after-load 'org (global-org-modern-mode))
+
+     ;; Add frame borders and window dividers
+     (modify-all-frames-parameters
+      '((right-divider-width . 40)
+	(internal-border-width . 40)))
+     (dolist (face '(window-divider
+		     window-divider-first-pixel
+		     window-divider-last-pixel))
+       (face-spec-reset-face face)
+       (set-face-foreground face (face-attribute 'default :background)))
+     (set-face-background 'fringe (face-attribute 'default :background))
+
+     (setq
+      ;; Edit settings
+      org-auto-align-tags nil
+      org-tags-column 0
+      org-catch-invisible-edits 'show-and-error
+      org-special-ctrl-a/e t
+      org-insert-heading-respect-content t
+
+      ;; Org styling, hide markup etc.
+      org-hide-emphasis-markers t
+      org-pretty-entities t
+
+      ;; Agenda styling
+      org-agenda-tags-column 0
+      org-agenda-block-separator ?─
+      org-agenda-time-grid
+      '((daily today require-timed)
+	(800 1000 1200 1400 1600 1800 2000)
+	" ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
+      org-agenda-current-time-string
+      "◀── now ─────────────────────────────────────────────────")
+
+     ;; Ellipsis styling
+     (setq org-ellipsis "…")
+     (set-face-attribute 'org-ellipsis nil :inherit 'default :box nil)
+
+     (global-org-modern-mode)
+   #+end_src
+
+Some hacks for the display of \LaTeX fragments and inline images.
+#+begin_src emacs-lisp
+  ;; Scale up preview of latex fragments
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
+
+  ;; Inline image width will default to 500px.
+  (setq org-image-actual-width '(500))
+
+
+#+end_src
+
+
+  - Line Wrapping in orgmode as well.
+    #+BEGIN_SRC emacs-lisp
+(setq org-startup-truncated nil)
+    #+END_SRC
+
+
 #  - Open new frames instead of new windows
     #+BEGIN_SRC emacs-lisp
 ;; (setq display-buffer-alist
@@ -129,571 +581,50 @@ I would like to have something similar to make auto-backups.
     #+END_SRC
 Do not display async command output in another window.
 #+begin_src emacs-lisp
-(setq display-buffer-alist (list
-			    (list shell-command-buffer-name-async 'display-buffer-no-window '(nil))))
+  ;; (setq display-buffer-alist (list
+  ;; 			    (list shell-command-buffer-name-async 'display-buffer-no-window '(nil))))
 #+end_src
 #+begin_src emacs-lisp
-;; (use-package org-superstar              ; supersedes `org-bullets'
-;;   :ensure
-;;   :after org
-;;   :config
-;;   (setq org-superstar-remove-leading-stars t)
-;;   (setq org-superstar-headline-bullets-list '(" ")) ;; '("🞛" "◉" "○" "▷")
-;;   (setq org-superstar-item-bullet-alist
-;;         '((?+ . ?•)
-;;           (?* . ?➤)
-;;           (?- . ?–)))
-;;   (org-superstar-mode -1))
+  (use-package emacs
+    :config
+    ;; (setq window-divider-default-right-width 1)
+    ;; (setq window-divider-default-bottom-width 1)
+    ;; (setq window-divider-default-places t)
+    ;; ;; (setq inhibit-startup-message t)
+    ;; (column-number-mode t)
+    ;; (display-time-mode t)
+    ;; (menu-bar-mode t)
+    ;; (tool-bar-mode t)
+    ;; (setq-default display-line-numbers nil)
+    (add-hook 'prog-mode-hook
+	      (lambda ()
+		(setq-local
+		 display-line-numbers 'relative
 
-(use-package emacs
-  :config
-  (setq window-divider-default-right-width 1)
-  (setq window-divider-default-bottom-width 1)
-  (setq window-divider-default-places t)
-  ;; (setq inhibit-startup-message t)
-  (column-number-mode t)
-  (display-time-mode t)
-  (menu-bar-mode t)
-  (tool-bar-mode t)
-  (setq-default display-line-numbers nil)
-  (add-hook 'prog-mode-hook (lambda () (setq-local display-line-numbers 'relative)))
-  ;; (add-hook 'org-mode-hook (lambda () (setq-local display-line-numbers nil)))
-  (scroll-bar-mode t)
-  (global-hl-line-mode t) ;; highlight current line
-  ;; (setq-default frame-title-format '("%b [%m]"))
-  (window-divider-mode -1))
-
-;; (use-package olivetti
-;;   :ensure
-;;   :diminish
-;;   :config
-;;   (setq olivetti-body-width 0.65)
-;;   (setq olivetti-minimum-body-width 72)
-;;   (setq olivetti-recall-visual-line-mode-entry-state t)
-
-;;   (define-minor-mode prot/olivetti-mode
-;;     "Toggle buffer-local `olivetti-mode' with additional parameters.
-
-;; Fringes are disabled.  The modeline is hidden, except for
-;; `prog-mode' buffers (see `prot/hidden-mode-line-mode').  The
-;; default typeface is set to a proportionately-spaced family,
-;; except for programming modes (see `prot/variable-pitch-mode').
-;; The cursor becomes a blinking bar, per `prot/cursor-type-mode'."
-;;     :init-value nil
-;;     :global nil
-;;     (if prot/olivetti-mode
-;;         (progn
-;;           (olivetti-mode 1)
-;;           (set-window-fringes (selected-window) 0 0)
-;;           (prot/variable-pitch-mode 1)
-;;           (prot/cursor-type-mode 1)
-;;           (unless (derived-mode-p 'prog-mode)
-;;             (prot/hidden-mode-line-mode 1))
-;;           (window-divider-mode 1)
-;;           (when (eq major-mode 'org-mode)
-;;             (org-superstar-mode 1)))
-;;       (olivetti-mode -1)
-;;       (set-window-fringes (selected-window) nil) ; Use default width
-;;       (prot/variable-pitch-mode -1)
-;;       (prot/cursor-type-mode -1)
-;;       (unless (derived-mode-p 'prog-mode)
-;;         (prot/hidden-mode-line-mode -1))
-;;       (window-divider-mode -1)
-;;       (when (eq major-mode "org-mode")
-;;         (org-superstar-mode -1))))
-
-;;   :bind ("C-c o" . prot/olivetti-mode))
-
-;; (load-theme 'material t)
-;; My old theme
-;; (custom-set-variables
-;;  '(ansi-color-faces-vector
-;;    [default default default italic underline success warning error])
-;;  '(custom-enabled-themes (quote (tango-dark))))
-;; (custom-set-faces)
-;; (set-language-environment "UTF-8")
-
-
+		 )))
+    (add-hook 'prog-mode-hook 'hl-line-mode)
+    ;; (add-hook 'org-mode-hook (lambda () (setq-local display-line-numbers nil)))
+    ;; (scroll-bar-mode t)
+    ;; (global-hl-line-mode t) ;; highlight current line
+    ;; (setq-default frame-title-format '("%b [%m]"))
+    ;; (window-divider-mode -1)
+    )
   #+END_SRC
-  Fonts [fn:fonts]
-  #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
-;; (when (window-system)
-;;   (set-frame-font "Fira Code"))
-;; (custom-theme-set-faces
-;;  'user
-;;  '(variable-pitch ((t (:family "ETBembo" :height 120 :weight thin))))
-;;  '(fixed-pitch ((t ( :family "Fira Code Retina" :height 100)))))
-;; (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
-;;                ;; (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
-;;                ;; (36 . ".\\(?:>\\)")
-;;                ;; (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
-;;                ;; (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
-;;                ;; (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
-;;                ;; (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
-;;                ;; (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
-;;                ;; (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
-;;                ;; (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
-;;                ;; (48 . ".\\(?:x[a-zA-Z]\\)")
-;;                ;; (58 . ".\\(?:::\\|[:=]\\)")
-;;                ;; (59 . ".\\(?:;;\\|;\\)")
-;;                ;; (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
-;;                ;; (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
-;;                ;; (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
-;;                ;; (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
-;;                ;; (91 . ".\\(?:]\\)")
-;;                ;; (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
-;;                ;; (94 . ".\\(?:=\\)")
-;;                ;; (119 . ".\\(?:ww\\)")
-;;                ;; (123 . ".\\(?:-\\)")
-;;                (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
-;;                (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
-;;                )
-;;              ))
-  ;; (dolist (char-regexp alist)
-  ;;   (set-char-table-range composition-function-table (car char-regexp)
-  ;;                         `([,(cdr char-regexp) 0 font-shape-gstring]))))
-
-  #+END_SRC
-* Navigation (window moves, which-key, etc)
-  #+BEGIN_SRC emacs-lisp
-(require 'which-key)
-(which-key-mode)
-
-  (global-set-key (kbd "C-x <up>") 'windmove-up)
-  (global-set-key (kbd "C-x <down>") 'windmove-down)
-  (global-set-key (kbd "C-x <right>") 'windmove-right)
-  (global-set-key (kbd "C-x <left>") 'windmove-left)
 
 
-(defun find-config-file ()
-  "Open the config file"
-  (interactive)
-  (find-file config-file))
-(global-set-key (kbd "C-c f")  'find-config-file)
-(global-set-key (kbd "C-c v")  'vidr)
-;; Workaround for my hi-dpi screen and GNOME
-(defun hidpi () (interactive)
-       "Toggle between default font height of 100 and 140, to adapt to Hi-DPI displays manually.
-This function solely exists because GNOME won't let me specify a text scaling between 100 and 200%."
-       (let ((height (face-attribute 'default :height)))
-	 (cond ((>= height 140)
-		(set-face-attribute 'default nil :height 100))
-	       ((<= height 100)
-		(set-face-attribute 'default nil :height 140))))
-       (message (format "Default font height is now %d" (face-attribute 'default :height))))
-
-  #+END_SRC
-  - Winner mode
-    #+BEGIN_SRC emacs-lisp
-    (winner-mode 1)
-    #+END_SRC
-  - Save history mode
-    #+begin_src emacs-lisp
-(setq history-length 50)
-(savehist-mode 1)
-    #+end_src
-  - Scroll lock and line wrap in eww.
-    #+begin_src emacs-lisp
-(add-hook 'eww-mode-hook 'scroll-lock-mode)
-(defun wrap-lines-in-eww ()
-  (toggle-truncate-lines 1)
-  (toggle-word-wrap 1))
-(add-hook 'eww-after-render-hook 'wrap-lines-in-eww)
-    #+end_src
-
-Files I visit often in register.
-#+begin_src emacs-lisp
-(setq config-file "~/dot-files/dotemacs.org")
-(set-register ?c (cons 'file  config-file))
-(set-register ?r '(file . "~/Documents/Research/research-progress.org"))
-(set-register ?x (cons 'file org-default-notes-file))
-(set-register ?p (cons 'file "~/Sync/Dropbox/Notes/pratique.org"))
-(set-register ?e (cons 'file "~/Sync/Dropbox/Notes/etudes.org"))
-(set-register ?w (cons 'file "~/Sync/Dropbox/org-roam/20221023111150-ecrits.org"))
-(set-register ?f (cons 'file "~/Sync/Dropbox/org-roam/20220818233439-finances.org"))
-(set-register ?j (cons 'file "~/journal.org"))
-#+end_src
-* Edit settings
-
-  - Add ruby gem (easy-jekyll) to ~exec-path~
-    #+BEGIN_SRC emacs-lisp
-    (setq exec-path (append exec-path '("/home/adam/.gem/ruby/2.6.0/bin" "~/.local/bin")))
-    #+END_SRC
-  - Consider sentence end by one period followed by one blank space (instead of double blank space by default)
-    #+BEGIN_SRC emacs-lisp
-    (setq sentence-end-double-space nil)
-    #+END_SRC
-  - Backward transpose
-    #+BEGIN_SRC  emacs-lisp
-(defun transpose-chars-backward ()
-  "Backward version of transpose-chars"
-  (interactive)
-  (transpose-chars -1))
-(global-set-key (kbd "C-S-t")
-		'transpose-chars-backward)
-      ;; Sadly this one does not work...
-      ;; (global-set-key (kbd "M-S-t")
-      ;; 		(lambda () (interactive)
-      ;; 		  (transpose-words -1)))
-    #+END_SRC
-  - Auto-paired characters
-    #+BEGIN_SRC emacs-lisp
-(show-paren-mode)
-(electric-pair-mode 1)
-(setq show-paren-mode 'expression)
-(require 'rainbow-delimiters)
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-    #+END_SRC
-  - Replace annoying /beep/ sound by visual bell
-    #+BEGIN_SRC emacs-lisp
-      (setq visible-bell 1)    
-    #+END_SRC
-  - Ido mode. Setting ~ido-auto-merge-work-directories-length~ to -1 disables this annoying auto-merge thing whenever I type something. Search and merge can still be triggered when typing M-s.
-    #+BEGIN_SRC emacs-lisp
-(setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
-(setq ido-auto-merge-work-directories-length -1)
-(ido-mode t)
-(define-key ido-common-completion-map
-  (kbd "C-x g") 'ido-enter-magit-status)
-    #+END_SRC
-  - Edit server for Firefox edit with emacs
-    #+BEGIN_SRC emacs-lisp
-    (require 'edit-server)
-    (edit-server-start)
-    #+END_SRC
-  - Emojis
-    #+begin_src emacs-lisp
-;; (add-hook 'after-init-hook #'global-emojify-mode)
-;; (require 'emojify-logos)
-;; (setq emojify-company-tooltips-p t)
-    #+end_src
-  - Company mode, with Tabnine[fn:11] backend company-tabnine[fn:12]
-    #+begin_src emacs-lisp
-(add-hook 'after-init-hook 'global-company-mode)
-
-;; Completion triggering delay.
-(setq company-idle-delay 0.3) 
-
-;; Number the candidates (use M-1, M-2 etc to select completions).
-(setq company-show-numbers t)
-
-(defun toggle-powersave ()
-  "Disable energy-intensive company Tabnine."
-  (interactive)
-  (message "Power saving is %s"
-	   (if (member #'company-tabnine company-backends)
-	       (progn
-		 (setq company-backends (remove #'company-tabnine company-backends))
-		 "ON")
-	     (progn
-	       (add-to-list 'company-backends #'company-tabnine)
-	       "OFF"))
-	   ))
-    #+end_src
-  - Default input method
-    #+begin_src emacs-lisp
-(setq default-input-method "latin-1-postfix")
-    #+end_src
-
-Set the register separator to the =+= key.
-#+begin_src emacs-lisp
-(setq register-separator ?+)
-#+end_src
-* Grammar checking
-  Open source spell checker. You will need the package =language-tool= installed on your system. The following configuration works for Archlinux.
-  #+BEGIN_SRC emacs-lisp 
-    (setq langtool-java-classpath
-	  "/usr/share/languagetool:/usr/share/java/languagetool/*")
-    (require 'langtool)
-    (setq langtool-default-language "en-US")
-  #+END_SRC
-  Common commands are ~langtool-check~ ~langtool-correct-buffer~. Use =C-u M-x langtool-check= to check in different language.
-  
-  
-  Another nice package is =ispell=. It has the advantage over =language-tool= to understand LaTeX syntax and grammar check .tex files well. It comes bundled with Emacs and uses =aspell= word dictionaries, so you will need to ~pacman -S aspell-en aspell-fr~ to install the French and English word dictionaries as an example. Change dictionary is made via ~ispell-change-dictionary~.[fn:4]
-* Orgmode
-  - Global key bindings
-    #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-c l") 'org-store-link)
-(global-set-key (kbd "C-c a") 'org-agenda)
-(global-set-key (kbd "C-c c") 'org-capture)
-    #+END_SRC
-  - Ajouter date lors de la l'achèvement d'une tâche
-    #+BEGIN_SRC emacs-lisp
-    (setq org-log-done 'time)
-    #+END_SRC
-
-  - Setup emacs calendar with start of week on monday
-#+begin_src emacs-lisp
-(setq calendar-week-start-day 1)
-#+end_src
-
-  - Ajouter export avec reveal.js et beamer
-    #+BEGIN_SRC emacs-lisp
-    (require 'ox-reveal)
-    (require 'ox-beamer)
-    (require 'ox-md)
-    #+END_SRC
-  - Export with broken links
-    #+begin_src emacs-lisp
-(setq org-export-with-broken-links t)
-    #+end_src
-  - Line Wrapping même dans orgmode
-    #+BEGIN_SRC emacs-lisp
-    (setq org-startup-truncated nil)
-    #+END_SRC
-  - TODO states
-    #+BEGIN_SRC emacs-lisp
-    (setq org-todo-keywords
-    '((sequence "TODO(t)" "|" "DONE(d)")
-    (sequence "|" "CANCELED(c)")))
-    #+END_SRC
-    - Use latexmk for latex export. ~-shell-escape~ option is required for =minted= package, though it is not very safe
-	#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
-    (setq org-latex-pdf-process '("%latex -interaction nonstopmode -shell-escape -output-directory=%o %f" "bibtex %b" "%latex -interaction nonstopmode -shell-escape -output-directory=%o %f" "%latex -interaction nonstopmode -shell-escape -output-directory=%o %f"))
-    ;; this command breaks reference (setq org-latex-pdf-process (list "latexmk -pdf -shell-escape %f"))
-    ;; Add -interaction nonstopmode -output-directory %o %f
-	#+END_SRC
-  - Org-babel evaluation languages
-    #+BEGIN_SRC emacs-lisp
-      (org-babel-do-load-languages
-       'org-babel-load-languages
-       '((dot . t)))
-    #+END_SRC
-  - Preserve indentation of source blocks, else python code is messed up
-    #+BEGIN_SRC emacs-lisp
-    (setq org-src-preserve-indentation t)
-    #+END_SRC
-  - Speed keys
-    #+BEGIN_SRC emacs-lisp
-    (setq org-use-speed-commands t)
-    #+END_SRC
-  - Use minted package for listings in Latex. You need to install pygments (python package)
-    #+BEGIN_SRC emacs-lisp
-      (setq org-latex-listings 'minted
-	    org-latex-packages-alist '(("" "minted")))
-      ;; (add-to-list 'org-latex-packages-alist '("newflot" "minted"))
-    #+END_SRC
-  - Use cdlatex package for extra editing features of \LaTeX equations
-    #+begin_src emacs-lisp
-(add-hook 'org-mode-hook #'turn-on-org-cdlatex)
-    #+end_src
-  - For fixing bugs related to minted especially, activate buffer-local variable bindings.
-    #+begin_src emacs-lisp
-(setq org-export-allow-bind-keywords t)
-;; To disable minted add in header of an org file
-;; #+BIND: org-latex-listings nil
-    #+end_src
-  - Org-ref
-    #+BEGIN_SRC emacs-lisp
-    (require 'org-ref)
-    #+END_SRC
-    - Activate
-      #+BEGIN_SRC emacs-lisp
-(setq org-directory "~/")
-(setq org-default-notes-file (concat org-directory "notes.org"))
-      #+END_SRC
-    - Custom structure templates
-      #+begin_src emacs-lisp
-(add-to-list 'org-structure-template-alist '("abs" . "abstract")  )
-      #+end_src
-    - Bell sound when timer stops
-      #+begin_src emacs-lisp
-(setq org-clock-sound "~/Music/mixkit-happy-bell-alert-601.wav")
-      #+end_src
-    - Present slides from a tree
-      #+begin_src emacs-lisp
-(use-package org-tree-slide
-  :custom
-  (org-image-actual-width nil))
-      #+end_src
-
-#+begin_src emacs-lisp
-(setq org-agenda-files
-      '("~/notes.org" "~/Sync/Dropbox/Keio/research-progress.org"))
-(setq org-attach-id-dir "~/Documents/Attachments/")
-#+end_src
-
-Add new file associations
-#+begin_src emacs-lisp
-(setq org-file-apps '((auto-mode . emacs)
-		      (directory . emacs)
-		      ("\\.mm\\'" . default)
-		     ("\\.x?html?\\'" . default)
-		     ("\\.pdf\\'" . default)
-		     ("\\.mkv\\'" . "vlc %s")
-		     ("\\.midi?\\'" . "vlc %s")
-		     ("\\.webm\\'" . "vlc %s")
-		     ("\\.mp4\\'" . "vlc %s")
-		     ("\\.png\\'" . "eog %s")
-		     ("\\.\\(jpe?g\\|JPE?G\\)\\'" . "eog %s")))
-
-#+end_src
-
-Do not ask for confirmation when executing an elisp link in orgmode.
-#+begin_src emacs-lisp
-(setq org-confirm-elisp-link-function nil)
-#+end_src
-
-Default bibliography file
-#+begin_src emacs-lisp
-(setq org-cite-global-bibliography '("~/Sync/Dropbox/Bibliographies/bibliography.bib"))
-#+end_src
-
-** Modules
-   Since orgmode 9.2, this is needed for oldstyle template behavior, with completion for "<s" for example.[fn:8]
+** COMMENT Fixes
+   - Disable <> and [] auto pairing in electric-pair-mode in orgmode to avoid conflicts with org-tempo and internal link completion[fn:7].
    #+begin_src emacs-lisp
-   (add-to-list 'org-modules 'org-tempo t)
+(add-hook
+ 'org-mode-hook
+ (lambda ()
+   (setq-local electric-pair-inhibit-predicate
+               `(lambda (c)
+                  (if (or (char-equal c ?< ) (char-equal c ?\[ )) t (,electric-pair-inhibit-predicate c))))
+   )
+ )
    #+end_src
-** Capture templates
-#+begin_src emacs-lisp
-(setq org-capture-templates
-      '(
-	("t" "Tâche" entry (file+headline "" "Tâches")
-	 "* TODO %?\n%u%a")
-	("q" "Tâche rapide" item (file+headline "" "Tâches")
-	 "- %U %?")
-	("p" "Projet" entry (file+headline "" "Projets")
-	 "* TODO %?\n%u\n%a")
-	("u" "URL à consulter plus tard" item (file+headline "" "Apprendre")
-	 "- %U %? %x")
-	("l" "Lien à consulter plus tard" item (file+headline "" "Apprendre")
-	 "- %U %?")
-	("a" "Sujet d'article à écrire" item (file+headline "" "Articles")
-	 "- %U %? %a")
-	("r" "Travail/recherche" entry (file+headline "~/Documents/Research/research-progress.org" "Tasks")
-	 "* TODO %?\n%u\n%a")
-	("j" "Journal, écrits" entry (file+datetree "~/journal.org") "* %?\nÉcrit le %U\n\n")
-	("c" "BASH command with a description." entry (file+headline "~/Codes/musasabi/dictionary.org" "bash") "*")
-	))
-#+end_src
-
-** Slides
-Present with =org-tree-slide=
-#+begin_src emacs-lisp
-(use-package org-tree-slide
-  :ensure
-  :custom
-  (org-image-actual-width nil))
-#+end_src
-** Zettelcasten
-#+begin_src emacs-lisp
-;; (use-package zetteldeft
-;;   :after deft
-;;   :config
-;;   (zetteldeft-set-classic-keybindings))
-(defun find-research-progress ()
-  (interactive)
-  (find-file "~/Documents/Research/research-progress.org"))
-(global-set-key (kbd "C-c n r") 'find-research-progress)
-(defun find-default-notes-file ()
-  "Edit the default notes file."
-  (interactive)
-  (find-file org-default-notes-file))
-(global-set-key (kbd "C-c n x ") 'find-default-notes-file)
-(use-package org-roam
-  :ensure t
-  :custom
-  (org-roam-directory "~/Sync/Dropbox/org-roam")
-  (org-roam-completion-everywhere t)
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-	 ("C-c n f" . org-roam-node-find)
-	 ("C-c n i" . org-roam-node-insert)
-	 ("C-c n T" . org-roam-dailies-capture-today)
-	 ("C-c n y" . org-roam-dailies-goto-yesterday)
-	 ("C-c n t" . org-roam-dailies-goto-today)
-	 ("C-c n d" . org-roam-dailies-goto-date)
-	 ("M-p" . org-roam-dailies-goto-previous-note)
-	 ("M-n" . org-roam-dailies-goto-next-note)
-	 :map org-mode-map
-	 ("C-M-i" . completion-at-point)
-	 )
-  :config
-  (org-roam-setup))
-;; (org-roam-db-autosync-mode)
-(use-package org-roam-ui
-  :ensure
-  :after org-roam)
-(use-package org-roam-timestamps
-  :ensure
-  :after org-roam)
-#+end_src
-** Journal
-#+begin_src emacs-lisp
-(require 'org-journal)
-;; default (setq org-journal-dir "~/Documents/journal/")
-#+end_src
-** Blogging with hugo
-#+begin_src emacs-lisp
-(use-package ox-hugo
-  :ensure t   ;Auto-install the package from Melpa
-  :pin melpa  ;`package-archives' should already have ("melpa" . "https://melpa.org/packages/")
-  :after ox)
-#+end_src
-** Beautify with org-modern
-   #+begin_src emacs-lisp
-;; (modus-themes-load-vivendi)
-
-;; Add all your customizations prior to loading the themes
-(setq modus-themes-italic-constructs t
-      modus-themes-bold-constructs nil
-      modus-themes-region '(bg-only no-extend))
-
-;; Load the theme of your choice:
-(load-theme 'modus-vivendi)
-(define-key global-map (kbd "<f5>") #'modus-themes-toggle)
-
-
-;; ;; Choose some fonts
-;; (set-face-attribute 'default nil :family "Fira Code")
-;; (set-face-attribute 'variable-pitch nil :family "ETBembo")
-;; (set-face-attribute 'org-modern-symbol nil :family "Iosevka")
-
-;; Add frame borders and window dividers
-;; (modify-all-frames-parameters
-;;  '((right-divider-width . 40)
-;;    (internal-border-width . 40)))
-(dolist (face '(window-divider
-                window-divider-first-pixel
-                window-divider-last-pixel))
-  (face-spec-reset-face face)
-  (set-face-foreground face (face-attribute 'default :background)))
-(set-face-background 'fringe (face-attribute 'default :background))
-
-(setq
- ;; Edit settings
- org-auto-align-tags nil
- org-tags-column 0
- org-catch-invisible-edits 'show-and-error
- org-special-ctrl-a/e t
- org-insert-heading-respect-content t
-
- ;; Org styling, hide markup etc.
- org-hide-emphasis-markers t
- org-pretty-entities t
- org-ellipsis "…"
-
- ;; Agenda styling
- org-agenda-block-separator ?─
- org-agenda-time-grid
- '((daily today require-timed)
-   (800 1000 1200 1400 1600 1800 2000)
-   " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
- org-agenda-current-time-string
- "⭠ now ─────────────────────────────────────────────────")
-
-;; Enable org-modern-mode
-(add-hook 'org-mode-hook #'org-modern-mode)
-(add-hook 'org-agenda-finalize-hook #'org-modern-agenda)
-
-;; Scale up preview of latex fragments
-(setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
-
-;; Inline image width will default to 500px.
-(setq org-image-actual-width '(500))
-   #+end_src
-** Export
+** COMMENT Export with \LaTeX
    Custom classes latex
    #+BEGIN_SRC emacs-lisp
 (add-to-list 'org-latex-classes
@@ -721,18 +652,211 @@ Present with =org-tree-slide=
 	       ("\\paragraph{%s}" . "\\paragraph*{%s}")
 	       ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
    #+END_SRC
-** Fixes
-   - Disable <> and [] auto pairing in electric-pair-mode in orgmode to avoid conflicts with org-tempo and internal link completion[fn:7].
-   #+begin_src emacs-lisp
-(add-hook
- 'org-mode-hook
- (lambda ()
-   (setq-local electric-pair-inhibit-predicate
-               `(lambda (c)
-                  (if (or (char-equal c ?< ) (char-equal c ?\[ )) t (,electric-pair-inhibit-predicate c))))
-   )
- )
-   #+end_src
+
+- Export with broken links, ignoring the errors.
+    #+begin_src emacs-lisp
+(setq org-export-with-broken-links t)
+    #+end_src
+
+    - Use latexmk for latex export. ~-shell-escape~ option is required for =minted= package, though it is not very safe
+	#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
+    (setq org-latex-pdf-process '("%latex -interaction nonstopmode -shell-escape -output-directory=%o %f" "bibtex %b" "%latex -interaction nonstopmode -shell-escape -output-directory=%o %f" "%latex -interaction nonstopmode -shell-escape -output-directory=%o %f"))
+    ;; this command breaks reference (setq org-latex-pdf-process (list "latexmk -pdf -shell-escape %f"))
+    ;; Add -interaction nonstopmode -output-directory %o %f
+	#+END_SRC
+  - Use minted package for listings in Latex. You need to install pygments (python package)
+    #+BEGIN_SRC emacs-lisp
+      (setq org-latex-listings 'minted
+	    org-latex-packages-alist '(("" "minted")))
+      ;; (add-to-list 'org-latex-packages-alist '("newflot" "minted"))
+    #+END_SRC
+  - For fixing bugs related to minted especially, activate buffer-local variable bindings.
+    #+begin_src emacs-lisp
+(setq org-export-allow-bind-keywords t)
+;; To disable minted add in header of an org file
+;; #+BIND: org-latex-listings nil
+    #+end_src
+
+Default bibliography file
+#+begin_src emacs-lisp
+(setq org-cite-global-bibliography '("~/Sync/Dropbox/Bibliographies/bibliography.bib"))
+#+end_src
+
+** COMMENT Export (add-ons)
+Exporting with/to reveal.js, beamer, markdown.
+#+BEGIN_SRC emacs-lisp
+  (require 'ox-reveal)
+  (require 'ox-beamer)
+  (require 'ox-md)
+#+END_SRC
+
+Present with =org-tree-slide=
+#+begin_src emacs-lisp
+(use-package org-tree-slide
+  :ensure
+  :custom
+  (org-image-actual-width nil))
+#+end_src
+
+* Org-roam
+I use a system similar to zettelcasten to manage my notes.
+#+begin_src emacs-lisp
+  (use-package org-roam
+    :ensure t
+    :custom
+    (org-roam-directory "~/Notes/")
+    (org-roam-completion-everywhere t)
+    (org-roam-file-exclude-regexp "\\.stversions");; ".*-[0-9]+-[0-9]+\\.org")
+    :bind (("C-c n l" . org-roam-buffer-toggle)
+	   ("C-c n f" . org-roam-node-find)
+	   ("C-c n i" . org-roam-node-insert)
+	   ("C-c n T" . org-roam-dailies-capture-today)
+	   ("C-c n y" . org-roam-dailies-goto-yesterday)
+	   ("C-c n t" . org-roam-dailies-goto-today)
+	   ("C-c n d" . org-roam-dailies-goto-date)
+	   ("M-p" . org-roam-dailies-goto-previous-note)
+	   ("M-n" . org-roam-dailies-goto-next-note)
+	   :map org-mode-map
+	   ("C-M-i" . completion-at-point)
+	   )
+    :config
+    (org-roam-setup))
+  (org-roam-db-autosync-mode -1)
+  (use-package org-roam-ui
+    :ensure
+    :after org-roam)
+  (use-package org-roam-timestamps
+    :ensure
+    :after org-roam)
+#+end_src
+
+* COMMENT Pyvenv setup
+ - Virtual environement setup
+   #+BEGIN_SRC emacs-lisp
+    (setenv "WORKON_HOME" "~/.pyvenv/")
+   #+END_SRC
+* COMMENT NixOS specific settings
+It is better to install Emacs as a system package in NixOS to avoid some issues like overheating. This issue happened to me especially when I install emacs with home-manager. This might be due to some specific emacs packages rather than Emacs itself.
+
+Use nix to install language server packages.
+#+begin_src nix :tangle no
+packages = with pkgs; [
+    python310Packages.python-lsp-server
+    clang-tools
+    rnix-lsp
+  ]
+#+end_src
+
+
+#+begin_src emacs-lisp
+(setq lsp-clangd-binary-path "~/.nix-profile/bin/clangd")
+#+end_src
+
+Known issues and limitations:
+- cannot link to installed C++ libraries
+- cannot link to installed Python libraries
+* COMMENT Dired
+  - Move to trash
+    #+BEGIN_SRC emacs-lisp
+    (setq delete-by-moving-to-trash t)
+    #+END_SRC
+  - Human-readable size with ~-h~ and group directories first
+    #+BEGIN_SRC emacs-lisp
+      (setq dired-listing-switches "-alh --group-directories-first")
+    #+END_SRC
+  - Nice icons
+    #+BEGIN_SRC emacs-lisp
+    (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+    #+END_SRC
+  - Omit uninteresting files
+    #+BEGIN_SRC emacs-lisp
+    (require 'dired-x)
+    (setq-default dired-omit-files-p t) ; Buffer-local variable
+    (setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
+ #+END_SRC
+  - Mark garbage files when using =% &= in dired. Bibliography files produced by \LaTeX are added as well.
+    #+begin_src emacs-lisp
+    (setq dired-garbage-files-regexp
+	  (concat "\\(?:"
+		  ;; extensions
+		  "\\.\\(?:aux\\|bak\\|dvi\\|log\\|orig\\|rej\\|toc\\|bbl\\)\\|"
+		  ;; more specific
+		  "blx\\.bib"
+		  "\\)\\'"))
+    #+end_src
+* COMMENT Abbreviations
+:PROPERTIES:
+:header-args: :tangle ~/.emacs.d/abbrev_defs
+:END:
+#+begin_src emacs-lisp
+;;-*-coding: utf-8;-*-
+(define-abbrev-table 'global-abbrev-table
+  '(
+    ("alpha" "α" nil :count 0)
+    ("ar" "→" nil :count 0)
+    ("inf" "∞" nil :count 0)
+    ("repr" "representation" nil :count 1)
+   ))
+
+(define-abbrev-table 'python-mode-abbrev-table
+  '(
+    ("pdb" "import pdb; pdb.set_trace()" nil :count 0)
+   ))
+
+(define-abbrev-table 'org-mode-abbrev-table
+  '(
+    ("fig" "#+CAPTION: 
+#+LABEL: fig:
+#+ATTR_LATEX: :width 7cm
+" nil :count 1)
+    ("math" "\\[\n\n\\]" nil :count 0)
+    ("cjk" "#+LATEX_HEADER: \\AtBeginDocument{\\begin{CJK}{UTF8}{min}}
+#+LATEX_HEADER: \\AtEndDocument{\\end{CJK}}
+" nil :count 0)
+    ("slides" "#+Title: 
+#+Subtitle: 
+#+OPTIONS: H:2 ^:{} f:t toc:nil
+#+LATEX_CLASS: beamer
+#+LATEX_CLASS_OPTIONS: [9pt,aspectratio=1610,table]
+#+COLUMNS: %45ITEM %10BEAMER_env(Env) %10BEAMER_act(Act) %4BEAMER_col(Col) %8BEAMER_opt(Opt)
+#+BEAMER_THEME: CambridgeUS
+# Madrid
+#+BEAMER_COLOR_THEME: 
+#+BEAMER_FONT_THEME:
+#+BEAMER_INNER_THEME:
+#+BEAMER_OUTER_THEME:
+#+BEAMER_HEADER: \\usepackage[backend=bibtex]{biblatex}
+#+BEAMER_HEADER: \\usepackage{booktabs}
+#+BEAMER_HEADER: \\addbibresource{$HOME/Bibliographies/bibliography}
+#+BEAMER_HEADER: \\graphicspath{{$HOME/Pictures/images/}}
+#+BEAMER_HEADER: \\usepackage{media9} 
+#+BIBLIOGRAPHY: ~/Bibliographies/bibliography
+#+BIBLIOGRAPHY_STYLE: plain
+#+BEAMER_HEADER: \\AtBeginSection[]{\\begin{frame}<beamer>\\frametitle{Topic}\\tableofcontents[currentsection]\\end{frame}}
+" nil :count 0)
+   ))
+#+end_src
+* Other modules
+#+begin_src emacs-lisp
+    (condition-case nil
+	;; The following files are loaded only if available
+	(progn
+	  (load-file "~/Codes/emacs-lisp/lipsum-retrieve.el")
+	  (load-file "~/Codes/emacs-lisp/vidr.el")
+	  (load-file "~/Codes/emacs-lisp/channels.el")
+	  (load-file "~/Codes/tifinagh-tools/tifinagh.el")
+	  (load-file "~/Codes/emacs-lisp/jisho.el")
+	  (load-file "~/Codes/emacs-lisp/lab.el")
+	  )
+      (error nil))
+#+end_src
+* COMMENT EXWM (emacs X window manager)
+  #+begin_src emacs-lisp
+(require 'exwm)
+;; Replace what follows with (exwm-enable) if I have my own config
+(require 'exwm-config)
+(exwm-config-default)
+  #+end_src
 * COMMENT EMMS
 The media player for Emacs[fn:10]
 #+begin_src emacs-lisp
@@ -774,11 +898,6 @@ The media player for Emacs[fn:10]
   #+BEGIN_SRC emacs-lisp
   (elpy-enable)
   #+END_SRC
-* Pyvenv setup
- - Virtual environement setup
-   #+BEGIN_SRC emacs-lisp
-    (setenv "WORKON_HOME" "~/.pyvenv/")
-   #+END_SRC
 * COMMENT Docker
  - Docker python shell. ~docker pull ufoym/deepo~ is necessary beforehand
    #+BEGIN_SRC emacs-lisp
@@ -888,62 +1007,6 @@ Some hooks
 #+begin_src emacs-lisp
 (add-hook 'python-mode-hook 'hs-minor-mode)
 #+end_src
-* NixOS specific settings
-It is better to install Emacs as a system package in NixOS to avoid some issues like overheating. This issue happened to me especially when I install emacs with home-manager. This might be due to some specific emacs packages rather than Emacs itself.
-
-Use nix to install language server packages.
-#+begin_src nix :tangle no
-packages = with pkgs; [
-    python310Packages.python-lsp-server
-    clang-tools
-    rnix-lsp
-  ]
-#+end_src
-
-
-#+begin_src emacs-lisp
-(setq lsp-clangd-binary-path "~/.nix-profile/bin/clangd")
-#+end_src
-
-Known issues and limitations:
-- cannot link to installed C++ libraries
-- cannot link to installed Python libraries
-* Dired
-  - Move to trash
-    #+BEGIN_SRC emacs-lisp
-    (setq delete-by-moving-to-trash t)
-    #+END_SRC
-  - Human-readable size with ~-h~ and group directories first
-    #+BEGIN_SRC emacs-lisp
-      (setq dired-listing-switches "-alh --group-directories-first")
-    #+END_SRC
-  - Nice icons
-    #+BEGIN_SRC emacs-lisp
-    (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
-    #+END_SRC
-  - Omit uninteresting files
-    #+BEGIN_SRC emacs-lisp
-    (require 'dired-x)
-    (setq-default dired-omit-files-p t) ; Buffer-local variable
-    (setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
- #+END_SRC
-  - Mark garbage files when using =% &= in dired. Bibliography files produced by \LaTeX are added as well.
-    #+begin_src emacs-lisp
-    (setq dired-garbage-files-regexp
-	  (concat "\\(?:"
-		  ;; extensions
-		  "\\.\\(?:aux\\|bak\\|dvi\\|log\\|orig\\|rej\\|toc\\|bbl\\)\\|"
-		  ;; more specific
-		  "blx\\.bib"
-		  "\\)\\'"))
-    #+end_src
-* COMMENT Magit
-  Keybinding for ~magit-status~[fn:6].
-  #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-x g") 'magit-status)
-(use-package forge
-  :after magit)
-  #+END_SRC
 * COMMENT Docview
   - Auto revert files in Docview
     #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
@@ -1052,73 +1115,7 @@ Newsfeed
   nil
   "\\usepackage{xcolor}\\usepackage{pagecolor}\\pagecolor{black}\\color{white}\n")
   #+end_src
-* Abbreviations
-:PROPERTIES:
-:header-args: :tangle ~/.emacs.d/abbrev_defs
-:END:
-#+begin_src emacs-lisp
-;;-*-coding: utf-8;-*-
-(define-abbrev-table 'global-abbrev-table
-  '(
-    ("alpha" "α" nil :count 0)
-    ("ar" "→" nil :count 0)
-    ("inf" "∞" nil :count 0)
-    ("repr" "representation" nil :count 1)
-   ))
-
-(define-abbrev-table 'python-mode-abbrev-table
-  '(
-    ("pdb" "import pdb; pdb.set_trace()" nil :count 0)
-   ))
-
-(define-abbrev-table 'org-mode-abbrev-table
-  '(
-    ("fig" "#+CAPTION: 
-#+LABEL: fig:
-#+ATTR_LATEX: :width 7cm
-" nil :count 1)
-    ("math" "\\[\n\n\\]" nil :count 0)
-    ("cjk" "#+LATEX_HEADER: \\AtBeginDocument{\\begin{CJK}{UTF8}{min}}
-#+LATEX_HEADER: \\AtEndDocument{\\end{CJK}}
-" nil :count 0)
-    ("slides" "#+Title: 
-#+Subtitle: 
-#+OPTIONS: H:2 ^:{} f:t toc:nil
-#+LATEX_CLASS: beamer
-#+LATEX_CLASS_OPTIONS: [9pt,aspectratio=1610,table]
-#+COLUMNS: %45ITEM %10BEAMER_env(Env) %10BEAMER_act(Act) %4BEAMER_col(Col) %8BEAMER_opt(Opt)
-#+BEAMER_THEME: CambridgeUS
-# Madrid
-#+BEAMER_COLOR_THEME: 
-#+BEAMER_FONT_THEME:
-#+BEAMER_INNER_THEME:
-#+BEAMER_OUTER_THEME:
-#+BEAMER_HEADER: \\usepackage[backend=bibtex]{biblatex}
-#+BEAMER_HEADER: \\usepackage{booktabs}
-#+BEAMER_HEADER: \\addbibresource{$HOME/Bibliographies/bibliography}
-#+BEAMER_HEADER: \\graphicspath{{$HOME/Pictures/images/}}
-#+BEAMER_HEADER: \\usepackage{media9} 
-#+BIBLIOGRAPHY: ~/Bibliographies/bibliography
-#+BIBLIOGRAPHY_STYLE: plain
-#+BEAMER_HEADER: \\AtBeginSection[]{\\begin{frame}<beamer>\\frametitle{Topic}\\tableofcontents[currentsection]\\end{frame}}
-" nil :count 0)
-   ))
-#+end_src
-* Other modules
-#+begin_src emacs-lisp
-    (condition-case nil
-	;; The following files are loaded only if available
-	(progn
-	  (load-file "~/Codes/emacs-lisp/lipsum-retrieve.el")
-	  (load-file "~/Codes/emacs-lisp/vidr.el")
-	  (load-file "~/Codes/emacs-lisp/channels.el")
-	  (load-file "~/Codes/tifinagh-tools/tifinagh.el")
-	  (load-file "~/Codes/emacs-lisp/jisho.el")
-	  (load-file "~/Codes/emacs-lisp/lab.el")
-	  )
-      (error nil))
-#+end_src
-* Post-install tasks
+* COMMENT Post-install tasks
 The following should be executed inside Emacs once, after the installation of the rest of the config.
 #+begin_src emacs-lisp :tangle no
 (company-tabnine-install-binary)
