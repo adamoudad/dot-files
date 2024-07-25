@@ -237,7 +237,9 @@ abbr -a -- hidpi "test (dconf read /org/gnome/desktop/interface/text-scaling-fac
 abbr -a -- teams "brave teams.live.com"
 abbr -a -- ytaudio "download-yt-audio"
 abbr -a -- ytvideo "download-yt-video"
+abbr -a -- ytdj "download-yt-audio -m"
 abbr -a -- ytpod "download-yt-to-podcast"
 abbr -a -- v "nvim"
 abbr -a -- xwld "env XDG_SESSION_TYPE=x11 GDK_BACKEND=x11"
+abbr -a -- resilio "env NIXPKGS_ALLOW_UNFREE=1 nix-shell -p resilio-sync --command \"rslsync --nodaemon\""
 starship init fish | source

@@ -1,6 +1,9 @@
-export PATH="$PATH:$HOME/Scripts:$HOME/.local/bin:$HOME/.local/share/gem/ruby/2.7.0/bin"
+PATH="$HOME/Projets/Scripts:$PATH"
+export CALIBRE_USE_DARK_PALETTE=1
 
-export DefaultImModule='fcitx'
-export GTK_IM_MODULE='fcitx'
-export QT_IM_MODULE='fcitx'
-export XMODIFIERS='@im=fcitx'
+# export PATH="$PATH:$HOME/Scripts:$HOME/.local/bin:$HOME/.local/share/gem/ruby/2.7.0/bin"
+
+# export DefaultImModule='fcitx'
+# export GTK_IM_MODULE='fcitx'
+# export QT_IM_MODULE='fcitx'
+# export XMODIFIERS='@im=fcitx'

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Install script for the config
 
-HOME_FILES=(".gitignore_global" ".gitconfig" ".zshrc" "tmux.conf" )
+HOME_FILES=(".gitignore_global" ".gitconfig" ".zshrc" ".tmux.conf" ".nix-channels" ".profile" )
 echo "Installing ~/ files: $HOME_FILES"
 for f in ${HOME_FILES[@]}; do
     ln -siv $(pwd)/$f ~/$f
