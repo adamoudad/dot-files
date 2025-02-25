@@ -10,7 +10,7 @@ set fish_greeting		# Remove the greeting
 set EDITOR "nvim"		# Default text editor for CLI programs
 
 # set PATH $HOME/.local/share/gem/ruby/3.0.0/bin $HOME/Scripts $HOME/.local/bin $HOME/node_modules/.bin/ $GOPATH $PATH
-set PATH $HOME/.local/bin $HOME/Codes/Scripts/ $PATH
+set PATH $HOME/.local/bin $HOME/Scripts/ $PATH
 
 # OCaml
 source /home/adam/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true

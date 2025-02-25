@@ -12,10 +12,34 @@ Pay attention to [[file:::*More]] section for some additional things to do outsi
 
 If you have some issues when using the full configuration here, you may comment out only the headings marked with the =extra= tag to keep the =builtin= features only.
 
+* Chatbot powered by General Purpose Transformers
+
+#+begin_src emacs-lisp
+(defun groq-get-api-key ()
+  "Read Groq API key from password-store."
+  (string-trim (shell-command-to-string "pass show groq-api-key"))
+  )
+
+(use-package gptel
+  :config
+  (setq gptel-model 'mixtral-8x7b-32768
+	gptel-backend (gptel-make-openai "Groq"
+			:host "api.groq.com"
+			:endpoint "/openai/v1/chat/completions"
+			:stream t
+			:key 'groq-get-api-key
+			:models '(llama-3.1-70b-versatile
+				  llama-3.1-8b-instant
+				  llama3-70b-8192
+				  llama3-8b-8192
+				  mixtral-8x7b-32768
+				  gemma-7b-it))))
+#+end_src
 * Init
 The content of the init.el file will simply load all other .el files defined hereinafter.
   #+BEGIN_SRC emacs-lisp
     (package-initialize)
+(setq use-short-answers t)		;Use y/n for yes-or-no-p.
   #+END_SRC
 Additional custom configuration introduced by the customization UI is placed in a separate file.
     #+begin_src emacs-lisp
@@ -115,6 +139,7 @@ I would like to have something similar to make auto-backups.
     ;; ...code run when the package is loaded...
     :config
     ;; ...code run after the package is loaded...
+    )
 #+end_src
 * Navigation :builtin:
 
@@ -437,7 +462,7 @@ Org mode has tremendous importance in my everyday use of Emacs. I use it store t
 
 I define a default file, with keybindings to open it quickly.
 #+begin_src emacs-lisp
-  (setq org-default-notes-file (concat org-directory "notes.org")) ;
+  (setq org-default-notes-file (concat org-directory "projets.org"))
   (defun find-default-notes-file ()
     "Edit the default notes file."
     (interactive)
@@ -495,6 +520,7 @@ Default tags.
 	  ("@programming" . ?p)
 	  ("@writing" . ?w)
 	  ("@creative" . ?c)
+	  ("@achat" . ?a)
 	  ))
 #+end_src
 Reference: [[https://www.youtube.com/watch?v=GP8uOU6SSyk][Never Miss a Task Again - Tagging Org Mode TODOs by Context - YouTube]].
